@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danke für deine Teilnahme – Der Architekt deines Lebens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=DM+Sans:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root { --orange: #d9682c; --navy: #00224d; --white: #fffaf1; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f6f0e3;
+    min-height: 100vh;
+    padding: 40px 16px 80px;
+  }
+
+  /* ── Card wrapper ── */
+  .card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  }
+
+  /* ── Header ── */
+  .hdr {
+    background: var(--navy);
+    padding: 40px 44px 36px;
+    position: relative;
+  }
+  .hdr::after {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 5px; background: var(--orange);
+  }
+  .hdr-logo {
+    font-family: "Fraunces", serif;
+    font-size: 1.05rem; font-weight: 600; letter-spacing: .01em; color: var(--white);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hdr-logo svg { width: 26px; height: 26px; flex: none; color: var(--orange); }
+  .hdr-sub { color: rgba(255,250,241,0.5); font-size: 13px; margin-top: 6px; }
+  .hdr-top {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  }
+  .btn-kalender {
+    flex-shrink: 0;
+    display: inline-block;
+    padding: 9px 18px;
+    background: rgba(255,250,241,0.1);
+    border: 1px solid rgba(255,250,241,0.25);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500;
+    border-radius: 2px; text-decoration: none;
+    transition: background .2s;
+    white-space: nowrap;
+  }
+  .btn-kalender:hover { background: rgba(255,250,241,0.18); }
+  .hdr-badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-top: 18px;
+    background: #13ce5e;
+    border: 1px solid #4dc47a;
+    color: var(--white);
+    box-shadow: 0 0 18px rgba(47,158,91,0.5);
+    font-family: 'Fredoka', sans-serif;
+    font-size: 20px; font-weight: 700;
+    padding: 6px 16px; border-radius: 3px;
+  }
+
+  /* ── Body ── */
+  .body { padding: 36px 44px 0; }
+  .body p { color: #2d3748; font-size: 16px; line-height: 1.75; margin: 0 0 16px; }
+
+  /* ── Divider ── */
+  .divider { border: none; border-top: 1px solid #eee; margin: 28px 44px; }
+
+  /* ── Signature ── */
+  .signature { padding: 0 44px 36px; }
+  .signature p { color: #2d3748; font-size: 16px; line-height: 1.75; margin: 0 0 6px; }
+  .signature strong { color: var(--navy); }
+
+  /* ── Footer ── */
+  .ftr { background: var(--navy); padding: 22px 44px; }
+  .ftr p { color: rgba(255,250,241,0.55); font-size: 20px; font-weight: 700; margin: 0; line-height: 1.7; }
+  .ftr strong { color: var(--orange); }
+  .ftr a { color: #d9682c; text-decoration: none; }
+  .ftr a:hover { color: var(--white); }
+
+  /* ── Mobile ── */
+  @media (max-width: 480px) {
+    body { padding: 0 0 60px; }
+    .card { border-radius: 0; }
+    .hdr, .body, .signature { padding-left: 24px; padding-right: 24px; }
+    .divider { margin: 24px 24px; }
+    .ftr { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-top">
+      <div>
+        <div class="hdr-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
+          Der Architekt deines Lebens
+        </div>
+        <div class="hdr-sub">Umfrage</div>
+      </div>
+    </div>
+    <span class="hdr-badge">Danke für deine Teilnahme ✓</span>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+    <p style="margin-top:8px;">Hallo <strong id="greeting-name">…</strong>,</p>
+    <p>
+      vielen Dank, dass du an unserer Umfrage
+      „<span id="survey-name">Was belastet dich gerade wirklich?</span>“
+      teilgenommen hast.
+    </p>
+    <p>
+      Deine Meinung ist für uns sehr wertvoll und hilft uns dabei, unsere Angebote
+      besser auf die Bedürfnisse unserer Community abzustimmen.
+    </p>
+    <p>
+      Sobald die Umfrage abgeschlossen ist, senden wir dir gerne die
+      zusammengefassten Ergebnisse zu.
+    </p>
+    <p>Vielen Dank für dein Vertrauen.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SIGNATURE -->
+  <div class="signature">
+    <p>Beste Grüße<br><strong>Sorin &amp; Lili</strong><br>Der Architekt Deines Lebens</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ftr">
+    <p><a href="https://der-architekt-deines-lebens.de">der-architekt-deines-lebens.de</a></p>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var p       = new URLSearchParams(window.location.search);
+  var vorname = (p.get('vorname') || '').trim();
+  var umfrage = (p.get('umfrage') || '').trim();
+
+  if (vorname && vorname.toLowerCase() !== 'anonymous') {
+    document.getElementById('greeting-name').textContent = vorname;
+  } else {
+    document.getElementById('greeting-name').textContent = 'du';
+  }
+  if (umfrage) document.getElementById('survey-name').textContent = umfrage;
+})();
+</script>
+</body>
+</html>
