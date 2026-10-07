@@ -120,9 +120,6 @@ serve(async (req) => {
         const optInIso = new Date().toISOString();
         if (newsletterOptIn) leadFields.wht_optinnewsletterdatetime = optInIso;
         if (emailOptIn) leadFields.wht_optinemaildatetime = optInIso;
-        // Jede Zustimmung markiert zugleich die angeforderte Double-Opt-In-Mail
-        // (wie in crm-submit).
-        leadFields.wht_doubleoptinrequested = optInIso;
       }
 
       const leadRes = await fetch(`${RESOURCE}/api/data/v9.2/wht_leads`, {

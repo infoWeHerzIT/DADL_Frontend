@@ -357,7 +357,7 @@ class DynamicsCRM {
 
   // Bestätigt die Double-Opt-In-E-Mail eines Leads: prüft, ob "token"
   // (die Lead-GUID) zu einem Lead mit der übergebenen E-Mail-Adresse
-  // gehört, und setzt bei Erfolg wht_doubleoptinam —
+  // gehört, und setzt bei Erfolg wht_doubleoptinaccepted —
   // supabase/functions/crm-lead-confirm[-dev]. Anders als die übrigen
   // Methoden hier NICHT silent-catch: verify-email.html muss das Ergebnis
   // (Erfolg/bereits bestätigt/Fehler) anzeigen.

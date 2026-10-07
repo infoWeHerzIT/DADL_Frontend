@@ -77,7 +77,7 @@ serve(async (req) => {
     const token = await getAccessToken();
 
     const getRes = await fetch(
-      `${RESOURCE}/api/data/v9.2/wht_leads(${leadId})?$select=wht_email1,wht_doubleoptinam`,
+      `${RESOURCE}/api/data/v9.2/wht_leads(${leadId})?$select=wht_email1,wht_doubleoptinaccepted`,
       { headers: dataverseHeaders(token) }
     );
     if (!getRes.ok) {
@@ -95,8 +95,8 @@ serve(async (req) => {
       return jsonResponse({ error: "Ungültiger Bestätigungslink" }, 400);
     }
 
-    if (lead.wht_doubleoptinam) {
-      // Bereits bestätigt — kein erneutes Schreiben, wht_doubleoptinam
+    if (lead.wht_doubleoptinaccepted) {
+      // Bereits bestätigt — kein erneutes Schreiben, wht_doubleoptinaccepted
       // bleibt der ursprüngliche Bestätigungszeitpunkt.
       return jsonResponse({ success: true, alreadyConfirmed: true }, 200);
     }
@@ -105,7 +105,7 @@ serve(async (req) => {
     const patchRes = await fetch(`${RESOURCE}/api/data/v9.2/wht_leads(${leadId})`, {
       method: "PATCH",
       headers: dataverseHeaders(token),
-      body: JSON.stringify({ wht_doubleoptinam: nowIso }),
+      body: JSON.stringify({ wht_doubleoptinaccepted: nowIso }),
     });
     if (!patchRes.ok) {
       console.error("Dataverse error (patch lead):", patchRes.status, await patchRes.text());
