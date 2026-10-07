@@ -46,7 +46,7 @@ async function getAccessToken(): Promise<string> {
 
 const GUID_RE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-const LEAD_SELECT = "wht_leadid,wht_vorname,wht_name,wht_leadname,wht_email1,wht_phone1,statuscode,wht_doubleoptinam,createdon";
+const LEAD_SELECT = "wht_leadid,wht_vorname,wht_name,wht_leadname,wht_email1,wht_phone1,wht_doubleoptinam,createdon";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
@@ -81,7 +81,7 @@ serve(async (req) => {
       name: l.wht_leadname ?? "",
       email: l.wht_email1 ?? "",
       phone: l.wht_phone1 ?? "",
-      active: Number(l.statuscode) === 1,
+      active: !!l.wht_doubleoptinam,
       confirmedAt: l.wht_doubleoptinam ?? null,
       createdOn: l.createdon ?? null,
     };

@@ -7,7 +7,7 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 //
 // Dient admin/admin-feedback.html: Teilnehmerliste eines Events anzeigen und
 // als Grundlage für den Massenversand des Feedback-Links (nur an "aktive",
-// d. h. per Double-Opt-In bestätigte Leads — statuscode 1, siehe
+// d. h. per Double-Opt-In bestätigte Leads — wht_doubleoptinam gesetzt, siehe
 // crm-lead-confirm).
 const TENANT_ID     = Deno.env.get("DYNAMICS_PROD_TENANT_ID")!;
 const CLIENT_ID     = Deno.env.get("DYNAMICS_PROD_CLIENT_ID")!;
@@ -49,7 +49,7 @@ async function getAccessToken(): Promise<string> {
 
 const GUID_RE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
-const LEAD_SELECT = "wht_leadid,wht_vorname,wht_name,wht_leadname,wht_email1,wht_phone1,statuscode,wht_doubleoptinam,createdon";
+const LEAD_SELECT = "wht_leadid,wht_vorname,wht_name,wht_leadname,wht_email1,wht_phone1,wht_doubleoptinam,createdon";
 
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
@@ -83,9 +83,9 @@ serve(async (req) => {
       name: l.wht_leadname ?? "",
       email: l.wht_email1 ?? "",
       phone: l.wht_phone1 ?? "",
-      // statuscode 1 = per Double-Opt-In bestätigt/aktiv (siehe crm-lead-confirm),
-      // jeder andere Wert (i. d. R. der Default) = noch nicht bestätigt.
-      active: Number(l.statuscode) === 1,
+      // wht_doubleoptinam gesetzt = per Double-Opt-In bestätigt/aktiv (siehe crm-lead-confirm),
+      // leer = noch nicht bestätigt.
+      active: !!l.wht_doubleoptinam,
       confirmedAt: l.wht_doubleoptinam ?? null,
       createdOn: l.createdon ?? null,
     }));
