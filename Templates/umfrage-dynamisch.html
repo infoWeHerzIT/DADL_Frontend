@@ -689,11 +689,12 @@
 
     var thanksPage = (emailVal || phoneVal) ? 'danke-optin.html' : 'danke-umfrage-nooptin.html';
     var thanksUrl  = thanksPage + '?' + new URLSearchParams({ vorname: vornameVal }).toString();
-    var newsletterOptIn = document.getElementById('c-newsletter').checked;
+    var doiRequested = document.getElementById('c-newsletter').checked
+      || document.getElementById('c-results-optin').checked;
     Promise.resolve(crmDone).then(function () {
-      // Bei Newsletter-Opt-in erst auf die Double-Opt-In-Mail hinweisen,
-      // Weiterleitung zur Danke-Seite dann per "Weiter".
-      if (newsletterOptIn && emailVal) {
+      // Bei Newsletter- oder Ergebnis-Opt-in erst auf die Double-Opt-In-Mail
+      // hinweisen, Weiterleitung zur Danke-Seite dann per "Weiter".
+      if (doiRequested && emailVal) {
         sendOverlay.showDoi(emailVal, { onContinue: function () { window.location.href = thanksUrl; } });
       } else {
         window.location.href = thanksUrl;
