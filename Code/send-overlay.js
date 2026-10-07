@@ -67,7 +67,7 @@
         '</div>' +
         '<div class="so-body">' +
           '<p>Vielen Dank für dein Interesse an unseren Impulsen! Wir haben dir soeben eine E-Mail an <span class="so-mail" id="so-doi-mail"></span> gesendet.</p>' +
-          '<p>Bitte öffne diese Nachricht und bestätige deine Anmeldung über den enthaltenen Link. Erst danach nehmen wir dich in unseren Newsletter auf – so stellen wir sicher, dass niemand ohne sein Einverständnis E-Mails von uns erhält.</p>' +
+          '<p>Bitte öffne diese Nachricht und <strong>bestätige deine Anmeldung über den enthaltenen Link.</strong> Erst danach nehmen wir dich in unseren Newsletter auf – so stellen wir sicher, dass niemand ohne sein Einverständnis E-Mails von uns erhält.</p>' +
           '<p class="so-hint">Keine E-Mail erhalten? Bitte wirf auch einen Blick in deinen Spam- oder Werbe-Ordner. Die Zustellung kann einige Minuten dauern.</p>' +
           '<div class="so-actions">' +
             '<a class="so-open" id="so-doi-open" href="#" target="_blank" rel="noopener" hidden></a>' +
