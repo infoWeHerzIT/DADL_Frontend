@@ -62,7 +62,7 @@ serve(async (req) => {
     };
 
     // ── Fragen dieser Umfrage (für Reihenfolge/Beschriftung je Antwort) ──
-    const questionsUrl = `${RESOURCE}/api/data/v9.2/wht_surveyquestions?$select=wht_surveyquestionid,wht_surveyquestion1,wht_order&$filter=_wht_surveyid_value eq ${surveyId} and statecode eq 0&$orderby=wht_order asc`;
+    const questionsUrl = `${RESOURCE}/api/data/v9.2/wht_surveyquestions?$select=wht_surveyquestionid,wht_surveyquestion1,wht_order,wht_type&$filter=_wht_surveyid_value eq ${surveyId} and statecode eq 0&$orderby=wht_order asc`;
     const questionsRes = await fetch(questionsUrl, { headers });
     if (!questionsRes.ok) {
       console.error("Dataverse error (questions):", questionsRes.status, await questionsRes.text());
@@ -71,8 +71,13 @@ serve(async (req) => {
     const questionsData = await questionsRes.json();
     const questionRows = (questionsData.value || []) as Record<string, unknown>[];
     const questionIds = questionRows.map((q) => String(q.wht_surveyquestionid));
+    // Fragen vom Typ E-Mail (959230003) / Phone (959230004) enthalten personenbezogene
+    // Kontaktdaten und werden nicht ausgeliefert.
+    const sensitiveQuestionIds = new Set<string>();
     const questionsById: Record<string, { order: number; label: string }> = {};
     for (const q of questionRows) {
+      const qType = Number(q.wht_type);
+      if (qType === 959230003 || qType === 959230004) { sensitiveQuestionIds.add(String(q.wht_surveyquestionid)); continue; }
       questionsById[String(q.wht_surveyquestionid)] = {
         order: Number(q.wht_order) || 0,
         label: String(q.wht_surveyquestion1 ?? ""),
@@ -83,7 +88,7 @@ serve(async (req) => {
     const responsesUrl =
       `${RESOURCE}/api/data/v9.2/wht_surveyresponses?$select=wht_surveyresponseid,wht_responsename,createdon` +
       `&$filter=_wht_surveyid_value eq ${surveyId}&$orderby=createdon desc` +
-      `&$expand=wht_Lead($select=wht_leadname,wht_vorname,wht_name,wht_email1,wht_phone1)`;
+      `&$expand=wht_Lead($select=wht_leadname,wht_vorname,wht_name)`;
     const responsesRes = await fetch(responsesUrl, { headers });
     if (!responsesRes.ok) {
       console.error("Dataverse error (responses):", responsesRes.status, await responsesRes.text());
@@ -131,6 +136,7 @@ serve(async (req) => {
       const infoByQuestion: Record<string, string[]> = {};
       for (const a of answersByResponse[respId] || []) {
         const qId = String(a["_wht_surveyquestionid_value"]);
+        if (sensitiveQuestionIds.has(qId)) continue;
         const val = String(a.wht_value ?? "").trim();
         if (!val) continue;
         if (!valuesByQuestion[qId]) valuesByQuestion[qId] = [];
@@ -159,8 +165,6 @@ serve(async (req) => {
         lead: lead
           ? {
               name: lead.wht_leadname ?? [lead.wht_vorname, lead.wht_name].filter(Boolean).join(" "),
-              email: lead.wht_email1 ?? "",
-              phone: lead.wht_phone1 ?? "",
             }
           : null,
         answers,

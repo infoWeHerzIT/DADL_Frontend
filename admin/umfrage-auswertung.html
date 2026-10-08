@@ -191,6 +191,7 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="../supabase-config.js"></script>
 <script src="../Code/dynamics-crm.js"></script>
 </head>
@@ -245,6 +246,7 @@
 
   <div class="responses-toggle-row" id="responses-toggle-row" style="display:none;">
     <button type="button" class="btn-load-responses" id="btn-load-responses">Einzelantworten anzeigen</button>
+    <button type="button" class="btn-load-responses" id="btn-export-xlsx" style="margin-left:12px;" title="Mit Name, ohne E-Mail und Telefon">Einzelantworten als Excel exportieren</button>
   </div>
   <div id="responses-section" style="display:none;">
     <div class="list-title">Einzelantworten</div>
@@ -573,6 +575,8 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     }
 
     var questions = result.questions || [];
+    exportQuestions = questions;
+    exportSlug = result.survey.slug || result.survey.title || 'umfrage';
     if (questions.length === 0) {
       elRoot.innerHTML = '<div class="state-box">Diese Umfrage hat noch keine Fragen.</div>';
       return;
@@ -620,6 +624,9 @@ document.getElementById('questions-root').addEventListener('click', function (e)
   var btnLoadResponses  = document.getElementById('btn-load-responses');
   var elResponsesSection = document.getElementById('responses-section');
   var responsesLoaded = false;
+  var cachedResponses = null;
+  var exportQuestions = [];
+  var exportSlug = 'umfrage';
 
   function renderResponses(responses) {
     var elList = document.getElementById('responses-list');
@@ -687,10 +694,109 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     btnLoadResponses.textContent = 'Wird geladen …';
     dynamicsCRM.getSurveyResponses(surveyId).then(function (responses) {
       responsesLoaded = true;
+      cachedResponses = responses;
       btnLoadResponses.disabled = false;
       btnLoadResponses.textContent = 'Einzelantworten ausblenden';
       renderResponses(responses);
       elResponsesSection.style.display = 'block';
+    });
+  });
+
+  // ── Excel-Export der Einzelantworten — OHNE personenbezogene Daten:
+  // E-Mail, Telefon, Response-ID und Fragen vom Typ E-Mail/
+  // Telefon werden bewusst nicht exportiert. Eine Zeile je Teilnehmer,
+  // eine Spalte je Frage (Mehrfachauswahl kommagetrennt). ──
+  var btnExport = document.getElementById('btn-export-xlsx');
+  var SENSITIVE_TYPES = ['email', 'telefon'];
+
+  function buildExportRows(responses) {
+    var columns = [];
+    var seen = {};
+    exportQuestions.forEach(function (q) {
+      if (SENSITIVE_TYPES.indexOf(q.type) !== -1) return;
+      columns.push({ id: q.id, label: q.label });
+      seen[q.id] = true;
+    });
+    var sensitiveIds = {};
+    exportQuestions.forEach(function (q) {
+      if (SENSITIVE_TYPES.indexOf(q.type) !== -1) sensitiveIds[q.id] = true;
+    });
+    // Fragen, die nur in den Antworten vorkommen (z. B. inzwischen deaktiviert)
+    responses.forEach(function (r) {
+      (r.answers || []).forEach(function (a) {
+        if (seen[a.questionId] || sensitiveIds[a.questionId]) return;
+        columns.push({ id: a.questionId, label: a.questionLabel });
+        seen[a.questionId] = true;
+      });
+    });
+
+    var hasInfo = {};
+    responses.forEach(function (r) {
+      (r.answers || []).forEach(function (a) {
+        if (a.additionalInfo && a.additionalInfo.length) hasInfo[a.questionId] = true;
+      });
+    });
+
+    // Doppelte Spaltenüberschriften eindeutig machen (sonst überschreiben sich die Werte)
+    var used = {};
+    function uniqueHeader(label) {
+      var base = label || 'Frage';
+      var name = base, n = 2;
+      while (used[name]) name = base + ' (' + (n++) + ')';
+      used[name] = true;
+      return name;
+    }
+    var headers = {};
+    var headerOrder = ['Nr.', 'Datum', 'Name'];
+    used['Nr.'] = true; used['Datum'] = true; used['Name'] = true;
+    columns.forEach(function (c, i) {
+      headers[c.id] = uniqueHeader((i + 1) + '. ' + c.label);
+      headerOrder.push(headers[c.id]);
+      if (hasInfo[c.id]) {
+        headers[c.id + '#info'] = uniqueHeader(headers[c.id] + ' (Details)');
+        headerOrder.push(headers[c.id + '#info']);
+      }
+    });
+
+    var rows = responses.slice().reverse().map(function (r, idx) {
+      var row = { 'Nr.': idx + 1, 'Datum': r.createdOn ? r.createdOn.slice(0, 10) : '', 'Name': (r.lead && r.lead.name) ? r.lead.name : '' };
+      (r.answers || []).forEach(function (a) {
+        if (sensitiveIds[a.questionId] || !headers[a.questionId]) return;
+        row[headers[a.questionId]] = a.value;
+        if (a.additionalInfo && a.additionalInfo.length && headers[a.questionId + '#info']) {
+          row[headers[a.questionId + '#info']] = a.additionalInfo.join(' · ');
+        }
+      });
+      return row;
+    });
+    return { rows: rows, headers: headerOrder };
+  }
+
+  function downloadXlsx(responses) {
+    var built = buildExportRows(responses);
+    var ws = XLSX.utils.json_to_sheet(built.rows, { header: built.headers });
+    ws['!cols'] = built.headers.map(function (h) { return { wch: Math.min(Math.max(h.length, 14), 50) }; });
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Einzelantworten');
+    var slug = String(exportSlug).toLowerCase().replace(/[^a-z0-9äöüß]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50) || 'umfrage';
+    XLSX.writeFile(wb, 'umfrage-' + slug + '-' + new Date().toISOString().slice(0, 10) + '.xlsx');
+  }
+
+  btnExport.addEventListener('click', function () {
+    if (typeof XLSX === 'undefined') { alert('Excel-Bibliothek konnte nicht geladen werden.'); return; }
+    var label = btnExport.textContent;
+    function done() { btnExport.disabled = false; btnExport.textContent = label; }
+    if (cachedResponses) { downloadXlsx(cachedResponses); return; }
+    btnExport.disabled = true;
+    btnExport.textContent = 'Wird geladen …';
+    dynamicsCRM.getSurveyResponses(surveyId).then(function (responses) {
+      cachedResponses = responses || [];
+      downloadXlsx(cachedResponses);
+      done();
+    }).catch(function (err) {
+      console.error('Excel export error:', err);
+      done();
+      alert('Export fehlgeschlagen.');
     });
   });
 })();
