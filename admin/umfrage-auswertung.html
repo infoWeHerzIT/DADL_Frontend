@@ -56,8 +56,16 @@
   .stat { }
   .stat-num { font-family:'Fredoka',sans-serif; font-size:28px; font-weight:700; color:var(--white); line-height:1; }
   .stat-label { font-size:12px; color:rgba(255,250,241,0.5); margin-top:4px; }
+  .admin-header-controls { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px 24px; margin-bottom:24px; }
 
   .admin-main { max-width:1000px; margin:0 auto; padding:36px 32px 0; }
+  .section-toggle { display:inline-flex; align-items:center; justify-content:space-between; gap:16px; width:100%; margin-bottom:16px; padding:14px 18px; border:1px solid rgba(0,34,77,0.14); border-radius:6px; background:var(--white); color:var(--navy); font:600 16px 'DM Sans',sans-serif; text-align:left; cursor:pointer; }
+  .section-toggle:hover { border-color:var(--orange); }
+  .section-toggle::after { content:'＋'; color:var(--orange); font-size:20px; line-height:1; }
+  .section-toggle[aria-expanded="true"]::after { content:'−'; }
+  .survey-description-component { margin-top:16px; }
+  .survey-description-component > summary { color:rgba(255,250,241,0.85); cursor:pointer; font-size:13px; }
+  .survey-description-component > summary:hover { color:var(--white); }
 
   .state-box { background:var(--white); border:1px solid rgba(0,34,77,0.1); border-radius:8px; padding:48px; text-align:center; color:rgba(0,34,77,0.45); font-size:14px; }
 
@@ -87,13 +95,13 @@
   .survey-list-item-start:hover { background:rgba(217,104,44,0.08); border-color:var(--orange); }
   .survey-list-empty { padding:24px 20px; color:rgba(0,34,77,0.4); font-size:14px; }
 
-  .responses-toggle-row { display:flex; justify-content:center; margin:8px 0 32px; }
+  .responses-toggle-row { display:flex; justify-content:flex-start; flex-wrap:wrap; gap:12px; }
   .btn-load-responses {
-    background:transparent; border:1px solid rgba(0,34,77,0.18); border-radius:2px;
-    color:var(--navy); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
+    background:transparent; border:1px solid rgba(255,250,241,0.3); border-radius:2px;
+    color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
     padding:12px 24px; cursor:pointer; transition:border-color .2s, background .2s;
   }
-  .btn-load-responses:hover { border-color:var(--orange); background:rgba(217,104,44,0.04); }
+  .btn-load-responses:hover { border-color:var(--orange); background:rgba(255,250,241,0.08); }
   .btn-load-responses:disabled { opacity:.6; cursor:not-allowed; }
 
   .resp-card { background:var(--white); border:1px solid rgba(0,34,77,0.1); border-radius:8px; margin-bottom:14px; overflow:hidden; }
@@ -116,9 +124,14 @@
   .resp-answer-info { font-size:13px; color:rgba(0,34,77,0.55); line-height:1.5; margin-top:4px; padding-left:10px; border-left:2px solid rgba(217,104,44,0.35); font-style:italic; }
   .resp-answer-info-label { font-weight:600; font-style:normal; color:rgba(0,34,77,0.7); }
   .resp-empty { padding:24px 20px; color:rgba(0,34,77,0.4); font-size:14px; text-align:center; }
+  .resp-print-button { flex-shrink:0; border:1px solid rgba(217,104,44,0.4); border-radius:2px; padding:7px 10px; background:transparent; color:var(--orange); font:600 12px 'DM Sans',sans-serif; cursor:pointer; }
+  .resp-print-button:hover { background:rgba(217,104,44,0.08); border-color:var(--orange); }
 
   .q-card { background:var(--white); border:1px solid rgba(0,34,77,0.1); border-radius:8px; padding:26px 28px; margin-bottom:18px; }
   .q-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:18px; }
+  .q-head > details { flex:1; min-width:0; }
+  .q-prompt-toggle { color:var(--navy); cursor:pointer; font-size:14px; font-weight:600; }
+  .q-prompt-content { padding-top:8px; }
   .q-label { font-family:'Fredoka',sans-serif; font-size:17px; font-weight:600; line-height:1.4; }
   .q-meta { font-size:12px; color:rgba(0,34,77,0.4); white-space:nowrap; margin-top:3px; }
   .q-req { color:var(--orange); font-size:12px; font-weight:700; margin-left:4px; }
@@ -186,8 +199,44 @@
   .cloud-word:nth-child(5n+2) { color:#0078b4; }
 
   @media(max-width:700px) {
+    nav { position:relative; padding:12px 20px; }
+    .nav-inner { flex-direction:column; align-items:stretch; gap:14px; }
+    .nav-logo { white-space:normal; }
+    .nav-links { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+    .nav-link { min-width:0; padding:8px 6px; text-align:center; font-size:12px; }
+    .admin-header { padding:36px 0 32px; }
     .admin-header-inner,.admin-main { padding-left:20px; padding-right:20px; }
+    .admin-header-controls { justify-content:space-between; gap:12px; }
+    .stat-row { gap:18px; }
+    .btn-load-responses { max-width:100%; white-space:normal; line-height:1.35; }
     .q-card { padding:20px; }
+    .q-head { flex-direction:column; gap:8px; }
+    .q-meta { white-space:normal; }
+    .resp-card-header { align-items:flex-start; flex-wrap:wrap; }
+    .resp-card-meta { flex:1 1 100%; flex-wrap:wrap; justify-content:flex-start; gap:10px; }
+    .survey-list-item { padding-left:12px; gap:8px; }
+    .survey-list-item-start { padding:8px; }
+    .state-box { padding:32px 20px; }
+    .pie-wrap { gap:18px; }
+    .pie-chart { width:120px; height:120px; }
+    .pie-legend { min-width:0; }
+  }
+
+  @media(max-width:420px) {
+    .admin-header-inner,.admin-main { padding-left:16px; padding-right:16px; }
+    .admin-header-controls { align-items:flex-start; }
+    .stat-row { gap:12px; }
+    .stat-num { font-size:24px; }
+    .stat-label { max-width:105px; font-size:11px; }
+    .responses-toggle-row { flex:0 1 140px; }
+    #btn-export-xlsx { width:100%; padding:9px 10px; font-size:12px; }
+    .section-toggle { padding:12px 14px; font-size:14px; }
+    .survey-list-item-main { gap:8px; }
+    .survey-list-item-title { font-size:13px; }
+    .chart-switcher { flex-wrap:wrap; }
+    .col-chart { gap:8px; }
+    .pie-wrap { justify-content:center; }
+    .pie-legend { flex-basis:100%; }
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -216,22 +265,30 @@
 
 <div class="admin-header">
   <div class="admin-header-inner">
+    <div class="admin-header-controls" id="admin-header-controls" style="display:none;">
+      <div class="stat-row" id="stat-row" style="display:none;">
+        <div class="stat">
+          <div class="stat-num" id="stat-responses">–</div>
+          <div class="stat-label">Teilnehmer:innen</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="stat-questions">–</div>
+          <div class="stat-label">Fragen</div>
+        </div>
+      </div>
+      <div class="responses-toggle-row" id="responses-toggle-row" style="display:none;">
+        <button type="button" class="btn-load-responses" id="btn-export-xlsx" title="Mit Name, ohne E-Mail und Telefon">Einzelantworten als Excel exportieren</button>
+      </div>
+    </div>
     <span class="admin-page-label">Auswertung</span>
     <div class="event-eyebrow" id="event-eyebrow">
       <span id="event-eyebrow-text"></span>
     </div>
     <h1 id="survey-title">Wird geladen …</h1>
-    <div id="survey-description"></div>
-    <div class="stat-row" id="stat-row" style="display:none;">
-      <div class="stat">
-        <div class="stat-num" id="stat-responses">–</div>
-        <div class="stat-label">Teilnehmer:innen</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num" id="stat-questions">–</div>
-        <div class="stat-label">Fragen</div>
-      </div>
-    </div>
+    <details class="survey-description-component" id="survey-description-component" style="display:none;">
+      <summary>Umfragebeschreibung anzeigen</summary>
+      <div id="survey-description"></div>
+    </details>
   </div>
 </div>
 
@@ -241,14 +298,14 @@
     <div class="list-title">Aktive Umfragen</div>
     <div class="survey-list" id="survey-list"></div>
   </div>
-  <p id="survey-intro"></p>
-  <div id="questions-root"></div>
-
-  <div class="responses-toggle-row" id="responses-toggle-row" style="display:none;">
-    <button type="button" class="btn-load-responses" id="btn-load-responses">Einzelantworten anzeigen</button>
-    <button type="button" class="btn-load-responses" id="btn-export-xlsx" style="margin-left:12px;" title="Mit Name, ohne E-Mail und Telefon">Einzelantworten als Excel exportieren</button>
+  <button type="button" class="section-toggle" id="btn-toggle-analysis" aria-expanded="false" aria-controls="analysis-content" style="display:none;">Fragen und Auswertungen anzeigen</button>
+  <div id="analysis-content" hidden>
+    <p id="survey-intro"></p>
+    <div id="questions-root"></div>
   </div>
-  <div id="responses-section" style="display:none;">
+
+  <button type="button" class="section-toggle" id="btn-load-responses" aria-expanded="false" aria-controls="responses-section" style="display:none;">Einzelantworten anzeigen</button>
+  <div id="responses-section" hidden role="region" aria-label="Einzelantworten">
     <div class="list-title">Einzelantworten</div>
     <div id="responses-list"></div>
   </div>
@@ -510,6 +567,15 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     loadSurveyPicker();
   }
 
+  var btnToggleAnalysis = document.getElementById('btn-toggle-analysis');
+  var elAnalysisContent = document.getElementById('analysis-content');
+  btnToggleAnalysis.addEventListener('click', function () {
+    var isExpanded = btnToggleAnalysis.getAttribute('aria-expanded') === 'true';
+    btnToggleAnalysis.setAttribute('aria-expanded', String(!isExpanded));
+    elAnalysisContent.hidden = isExpanded;
+    btnToggleAnalysis.textContent = isExpanded ? 'Fragen und Auswertungen anzeigen' : 'Fragen und Auswertungen ausblenden';
+  });
+
   // Zeigt unter der Fehlermeldung eine Auswahlliste aller aktiven Umfragen,
   // damit man sich zur richtigen ID durchklicken kann, statt sie von Hand
   // im Link nachschlagen zu müssen — aber nur im Admin-Modus (bestätigte
@@ -554,6 +620,9 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     var descEl = document.getElementById('survey-description');
     descEl.innerHTML = result.survey.description || '';
     fixDescriptionLinkTargets(descEl);
+    if (descEl.textContent.trim() || descEl.querySelector('img, video, iframe, table')) {
+      document.getElementById('survey-description-component').style.display = 'block';
+    }
     document.getElementById('survey-intro').textContent = result.survey.intro || '';
 
     if (result.survey.eventId) {
@@ -569,9 +638,12 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     document.getElementById('stat-responses').textContent = result.responseCount;
     document.getElementById('stat-questions').textContent = (result.questions || []).length;
     document.getElementById('stat-row').style.display = 'flex';
+    document.getElementById('admin-header-controls').style.display = 'flex';
+    btnToggleAnalysis.style.display = 'flex';
 
     if (result.responseCount > 0) {
       document.getElementById('responses-toggle-row').style.display = 'flex';
+      btnLoadResponses.style.display = 'flex';
     }
 
     var questions = result.questions || [];
@@ -600,10 +672,13 @@ document.getElementById('questions-root').addEventListener('click', function (e)
       return (
         '<div class="q-card">' +
           '<div class="q-head">' +
-            '<div>' +
+            '<details class="q-prompt">' +
+              '<summary class="q-prompt-toggle">Frage ' + (idx + 1) + ' und Beschreibung</summary>' +
+              '<div class="q-prompt-content">' +
               '<div class="q-label">' + (idx + 1) + '. ' + esc(q.label) + (q.required ? '<span class="q-req">Pflicht</span>' : '') + '</div>' +
               hintHtml +
-            '</div>' +
+              '</div>' +
+            '</details>' +
             '<div class="q-meta">' + (typeLabels[q.type] || q.type) + ' · ' + q.totalAnswered + ' Antworten</div>' +
           '</div>' +
           renderSwitcher(q) +
@@ -635,7 +710,26 @@ document.getElementById('questions-root').addEventListener('click', function (e)
       return;
     }
 
-    elList.innerHTML = responses.map(function (r) {
+    function renderResponseAnswers(questionLabel, answers, questionNumber) {
+      var questionTitle = (questionNumber ? questionNumber + '. ' : '') + (questionLabel || 'Frage');
+      if (!answers.length) {
+        return '<div class="resp-answer"><div class="resp-answer-q">' + esc(questionTitle) + '</div><div class="resp-answer-a">Keine Antwort</div></div>';
+      }
+      return answers.map(function (a) {
+        var infoHtml = (a.additionalInfo && a.additionalInfo.length)
+          ? '<div class="resp-answer-info"><span class="resp-answer-info-label">Zusatzinfo:</span> ' + a.additionalInfo.map(esc).join(' · ') + '</div>'
+          : '';
+        return (
+          '<div class="resp-answer">' +
+            '<div class="resp-answer-q">' + esc(questionTitle) + '</div>' +
+            '<div class="resp-answer-a">' + esc(a.value) + '</div>' +
+            infoHtml +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    elList.innerHTML = responses.map(function (r, responseIndex) {
       var hasLead = r.lead && (r.lead.name || r.lead.email || r.lead.phone);
       var who = hasLead ? esc(r.lead.name || '(ohne Name)') : 'Anonym';
       var subParts = [];
@@ -646,18 +740,24 @@ document.getElementById('questions-root').addEventListener('click', function (e)
         ? new Date(r.createdOn).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
         : '';
 
-      var answersHtml = (r.answers || []).map(function (a) {
-        var infoHtml = (a.additionalInfo && a.additionalInfo.length)
-          ? '<div class="resp-answer-info"><span class="resp-answer-info-label">Zusatzinfo:</span> ' + a.additionalInfo.map(esc).join(' · ') + '</div>'
-          : '';
-        return (
-          '<div class="resp-answer">' +
-            '<div class="resp-answer-q">' + esc(a.questionLabel) + '</div>' +
-            '<div class="resp-answer-a">' + esc(a.value) + '</div>' +
-            infoHtml +
-          '</div>'
-        );
-      }).join('') || '<div class="resp-empty">Keine Antworten.</div>';
+      var answersByQuestion = {};
+      (r.answers || []).forEach(function (a) {
+        if (!answersByQuestion[a.questionId]) answersByQuestion[a.questionId] = [];
+        answersByQuestion[a.questionId].push(a);
+      });
+      var printedQuestionIds = {};
+      var answersHtml = exportQuestions.map(function (question, questionIndex) {
+        var questionAnswers = answersByQuestion[question.id] || [];
+        printedQuestionIds[question.id] = true;
+        return renderResponseAnswers(question.label, questionAnswers, questionIndex + 1);
+      }).join('');
+      var additionalAnswersHtml = (r.answers || []).filter(function (a) {
+        return !printedQuestionIds[a.questionId];
+      }).map(function (a) {
+        return renderResponseAnswers(a.questionLabel, [a], null);
+      }).join('');
+      answersHtml += additionalAnswersHtml;
+      answersHtml = answersHtml || '<div class="resp-empty">Keine Antworten.</div>';
 
       return (
         '<div class="resp-card">' +
@@ -668,6 +768,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
             '</div>' +
             '<div class="resp-card-meta">' +
               '<span class="resp-card-date">' + esc(dateStr) + '</span>' +
+              '<button type="button" class="resp-print-button" data-response-index="' + responseIndex + '">Ergebnis drucken</button>' +
               '<span class="resp-card-chevron">▾</span>' +
             '</div>' +
           '</div>' +
@@ -677,17 +778,75 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     }).join('');
 
     elList.querySelectorAll('.resp-card-header').forEach(function (header) {
-      header.addEventListener('click', function () {
+      header.addEventListener('click', function (event) {
+        if (event.target.closest('.resp-print-button')) return;
         header.closest('.resp-card').classList.toggle('open');
+      });
+    });
+
+    elList.querySelectorAll('.resp-print-button').forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.stopPropagation();
+        printResponse(responses[Number(button.getAttribute('data-response-index'))]);
       });
     });
   }
 
+  function printResponse(response) {
+    if (!response) return;
+    var printWindow = window.open('', '_blank', 'width=800,height=600');
+    if (!printWindow) {
+      alert('Das Druckfenster wurde blockiert. Bitte erlauben Sie Pop-ups für diese Seite.');
+      return;
+    }
+
+    var answersByQuestion = {};
+    (response.answers || []).forEach(function (answer) {
+      if (!answersByQuestion[answer.questionId]) answersByQuestion[answer.questionId] = [];
+      answersByQuestion[answer.questionId].push(answer);
+    });
+    var answeredQuestionIds = {};
+    var answerRows = exportQuestions.map(function (question, index) {
+      answeredQuestionIds[question.id] = true;
+      var answers = answersByQuestion[question.id] || [];
+      var valueHtml = answers.length ? answers.map(function (answer) {
+        var infoHtml = answer.additionalInfo && answer.additionalInfo.length
+          ? '<p><strong>Zusatzinfo:</strong> ' + answer.additionalInfo.map(esc).join(' · ') + '</p>'
+          : '';
+        return '<p>' + esc(answer.value) + '</p>' + infoHtml;
+      }).join('') : '<p>Keine Antwort</p>';
+      return '<section><h2>' + (index + 1) + '. ' + esc(question.label) + '</h2>' + valueHtml + '</section>';
+    });
+    (response.answers || []).forEach(function (answer) {
+      if (answeredQuestionIds[answer.questionId]) return;
+      var infoHtml = answer.additionalInfo && answer.additionalInfo.length
+        ? '<p><strong>Zusatzinfo:</strong> ' + answer.additionalInfo.map(esc).join(' · ') + '</p>'
+        : '';
+      answerRows.push('<section><h2>' + esc(answer.questionLabel || 'Frage') + '</h2><p>' + esc(answer.value) + '</p>' + infoHtml + '</section>');
+    });
+    var name = response.lead && response.lead.name ? response.lead.name : 'Anonym';
+    var date = response.createdOn
+      ? new Date(response.createdOn).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+      : '';
+
+    printWindow.document.open();
+    printWindow.document.write(
+      '<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>Umfrageergebnis – ' + esc(name) + '</title>' +
+      '<style>body{font:14px Arial,sans-serif;color:#172b45;max-width:800px;margin:32px auto;padding:0 20px}h1{font-size:22px;margin-bottom:8px}h2{font-size:16px;margin:0 0 8px}header{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #ccc}section{margin:0 0 20px;page-break-inside:avoid}p{line-height:1.5;margin:4px 0;white-space:pre-wrap}@media print{body{margin:0 auto;padding:0 10mm}}</style>' +
+      '</head><body><header><h1>' + esc(document.getElementById('survey-title').textContent) + '</h1><p><strong>Teilnehmer:in:</strong> ' + esc(name) + (date ? ' · ' + esc(date) : '') + '</p></header>' +
+      answerRows.join('') + '</body></html>'
+    );
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+  }
+
   btnLoadResponses.addEventListener('click', function () {
     if (responsesLoaded) {
-      var nowHidden = elResponsesSection.style.display !== 'none';
-      elResponsesSection.style.display = nowHidden ? 'none' : 'block';
+      var nowHidden = elResponsesSection.hidden;
+      elResponsesSection.hidden = !nowHidden;
       btnLoadResponses.textContent = nowHidden ? 'Einzelantworten anzeigen' : 'Einzelantworten ausblenden';
+      btnLoadResponses.setAttribute('aria-expanded', String(!nowHidden));
       return;
     }
     btnLoadResponses.disabled = true;
@@ -697,8 +856,14 @@ document.getElementById('questions-root').addEventListener('click', function (e)
       cachedResponses = responses;
       btnLoadResponses.disabled = false;
       btnLoadResponses.textContent = 'Einzelantworten ausblenden';
+      btnLoadResponses.setAttribute('aria-expanded', 'true');
       renderResponses(responses);
-      elResponsesSection.style.display = 'block';
+      elResponsesSection.hidden = false;
+    }).catch(function (err) {
+      console.error('Survey responses load error:', err);
+      btnLoadResponses.disabled = false;
+      btnLoadResponses.textContent = 'Einzelantworten anzeigen';
+      alert('Einzelantworten konnten nicht geladen werden.');
     });
   });
 
