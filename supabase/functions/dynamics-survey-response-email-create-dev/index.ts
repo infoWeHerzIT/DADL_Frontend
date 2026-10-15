@@ -5,7 +5,7 @@ const CLIENT_ID = Deno.env.get("DYNAMICS_CLIENT_ID")!;
 const CLIENT_SECRET = Deno.env.get("DYNAMICS_CLIENT_SECRET")!;
 const RESOURCE = Deno.env.get("DYNAMICS_RESOURCE")!;
 const ALLOWED_ORIGIN = "*";
-const FROM_EMAIL = "lili@der-architekt-deines-lebens.de";
+const FROM_EMAIL = "sorin.ratiu@weherzit.de";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const GUID_RE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
