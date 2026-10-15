@@ -335,6 +335,40 @@ class DynamicsCRM {
     });
   }
 
+  // Legt für eine Umfrageantwort einen E-Mail-Entwurf in Dynamics an,
+  // ohne ihn zu versenden. Empfänger, Betreff und Regarding werden serverseitig
+  // anhand der Response und ihres Leads ermittelt.
+  createSurveyResponseEmail(fields) {
+    fields = fields || {};
+    return this.client.functions.invoke(this._functionName('dynamics-survey-response-email-create'), {
+      body: {
+        surveyId: fields.surveyId || '',
+        responseId: fields.responseId || '',
+        bodyHtml: fields.bodyHtml || ''
+      }
+    }).then(function (res) {
+      if (res.error) throw res.error;
+      return res.data;
+    }).catch(async function (err) {
+      var message = (err && err.message) || 'Unbekannter Fehler';
+      var response = err && err.context;
+      if (response && typeof response.clone === 'function') {
+        if (response.status === 404) {
+          message = 'Die CRM-Funktion ist in Supabase nicht bereitgestellt (HTTP 404). Bitte zuerst „supabase login“ ausführen und danach die Funktion dynamics-survey-response-email-create bereitstellen.';
+        } else {
+          try {
+            var payload = await response.clone().json();
+            if (payload && payload.error) message = payload.error + ' (HTTP ' + response.status + ')';
+          } catch (parseError) {
+            message += ' (HTTP ' + response.status + ')';
+          }
+        }
+      }
+      console.error('CRM survey response email creation error:', err);
+      throw new Error(message);
+    });
+  }
+
   // Kopiert/synchronisiert eine Umfrage (Titel, Intro, Beschreibung, alle
   // Fragen + Optionen) von Dynamics DEV nach Dynamics PROD —
   // supabase/functions/dynamics-survey-push-to-prod. Anders als die übrigen

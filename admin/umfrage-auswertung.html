@@ -111,7 +111,7 @@
   }
   .resp-card-who { font-weight:600; font-size:14.5px; color:var(--navy); }
   .resp-card-sub { font-size:12.5px; color:rgba(0,34,77,0.5); margin-top:2px; }
-  .resp-card-meta { display:flex; align-items:center; gap:14px; flex-shrink:0; }
+  .resp-card-meta { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:8px; flex-shrink:0; }
   .resp-card-date { font-size:12px; color:rgba(0,34,77,0.4); white-space:nowrap; }
   .resp-card-chevron { transition:transform .2s; color:rgba(0,34,77,0.35); flex-shrink:0; }
   .resp-card.open .resp-card-chevron { transform:rotate(180deg); }
@@ -126,11 +126,15 @@
   .resp-empty { padding:24px 20px; color:rgba(0,34,77,0.4); font-size:14px; text-align:center; }
   .resp-print-button { flex-shrink:0; border:1px solid rgba(217,104,44,0.4); border-radius:2px; padding:7px 10px; background:transparent; color:var(--orange); font:600 12px 'DM Sans',sans-serif; cursor:pointer; }
   .resp-print-button:hover { background:rgba(217,104,44,0.08); border-color:var(--orange); }
+  .resp-crm-email-button { flex-shrink:0; border:1px solid rgba(0,34,77,0.25); border-radius:2px; padding:7px 10px; background:transparent; color:var(--navy); font:600 12px 'DM Sans',sans-serif; cursor:pointer; }
+  .resp-crm-email-button:hover { background:rgba(0,34,77,0.06); border-color:var(--navy); }
+  .resp-crm-email-button:disabled { opacity:.6; cursor:not-allowed; }
 
   .q-card { background:var(--white); border:1px solid rgba(0,34,77,0.1); border-radius:8px; padding:26px 28px; margin-bottom:18px; }
   .q-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:18px; }
   .q-head > details { flex:1; min-width:0; }
   .q-prompt-toggle { color:var(--navy); cursor:pointer; font-size:14px; font-weight:600; }
+  .q-prompt-toggle .q-label { display:inline; }
   .q-prompt-content { padding-top:8px; }
   .q-label { font-family:'Fredoka',sans-serif; font-size:17px; font-weight:600; line-height:1.4; }
   .q-meta { font-size:12px; color:rgba(0,34,77,0.4); white-space:nowrap; margin-top:3px; }
@@ -673,17 +677,16 @@ document.getElementById('questions-root').addEventListener('click', function (e)
         '<div class="q-card">' +
           '<div class="q-head">' +
             '<details class="q-prompt">' +
-              '<summary class="q-prompt-toggle">Frage ' + (idx + 1) + ' und Beschreibung</summary>' +
+              '<summary class="q-prompt-toggle"><span class="q-label">' + (idx + 1) + '. ' + esc(q.label) + (q.required ? '<span class="q-req">Pflicht</span>' : '') + '</span></summary>' +
               '<div class="q-prompt-content">' +
-              '<div class="q-label">' + (idx + 1) + '. ' + esc(q.label) + (q.required ? '<span class="q-req">Pflicht</span>' : '') + '</div>' +
-              hintHtml +
+                hintHtml +
+                renderSwitcher(q) +
+                '<div id="qbody-' + esc(q.id) + '">' + renderQuestionBody(q) + '</div>' +
+                renderAdditionalInfo(q) +
               '</div>' +
             '</details>' +
             '<div class="q-meta">' + (typeLabels[q.type] || q.type) + ' · ' + q.totalAnswered + ' Antworten</div>' +
           '</div>' +
-          renderSwitcher(q) +
-          '<div id="qbody-' + esc(q.id) + '">' + renderQuestionBody(q) + '</div>' +
-          renderAdditionalInfo(q) +
         '</div>'
       );
     }).join('');
@@ -769,6 +772,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
             '<div class="resp-card-meta">' +
               '<span class="resp-card-date">' + esc(dateStr) + '</span>' +
               '<button type="button" class="resp-print-button" data-response-index="' + responseIndex + '">Ergebnis drucken</button>' +
+              '<button type="button" class="resp-crm-email-button" data-response-index="' + responseIndex + '">Ergebnis in CRM erstellen</button>' +
               '<span class="resp-card-chevron">▾</span>' +
             '</div>' +
           '</div>' +
@@ -779,7 +783,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
 
     elList.querySelectorAll('.resp-card-header').forEach(function (header) {
       header.addEventListener('click', function (event) {
-        if (event.target.closest('.resp-print-button')) return;
+        if (event.target.closest('.resp-print-button, .resp-crm-email-button')) return;
         header.closest('.resp-card').classList.toggle('open');
       });
     });
@@ -790,16 +794,16 @@ document.getElementById('questions-root').addEventListener('click', function (e)
         printResponse(responses[Number(button.getAttribute('data-response-index'))]);
       });
     });
+
+    elList.querySelectorAll('.resp-crm-email-button').forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        event.stopPropagation();
+        createResponseEmail(responses[Number(button.getAttribute('data-response-index'))], button);
+      });
+    });
   }
 
-  function printResponse(response) {
-    if (!response) return;
-    var printWindow = window.open('', '_blank', 'width=800,height=600');
-    if (!printWindow) {
-      alert('Das Druckfenster wurde blockiert. Bitte erlauben Sie Pop-ups für diese Seite.');
-      return;
-    }
-
+  function buildResponsePreviewHtml(response) {
     var answersByQuestion = {};
     (response.answers || []).forEach(function (answer) {
       if (!answersByQuestion[answer.questionId]) answersByQuestion[answer.questionId] = [];
@@ -813,32 +817,98 @@ document.getElementById('questions-root').addEventListener('click', function (e)
         var infoHtml = answer.additionalInfo && answer.additionalInfo.length
           ? '<p><strong>Zusatzinfo:</strong> ' + answer.additionalInfo.map(esc).join(' · ') + '</p>'
           : '';
-        return '<p>' + esc(answer.value) + '</p>' + infoHtml;
+        return '<p style="line-height:1.5;margin:4px 0;white-space:pre-wrap;">' + esc(answer.value) + '</p>' + infoHtml;
       }).join('') : '<p>Keine Antwort</p>';
-      return '<section><h2>' + (index + 1) + '. ' + esc(question.label) + '</h2>' + valueHtml + '</section>';
+      return '<section style="margin:0 0 20px;page-break-inside:avoid;"><h2 style="font-size:16px;margin:0 0 8px;">' + (index + 1) + '. ' + esc(question.label) + '</h2>' + valueHtml + '</section>';
     });
     (response.answers || []).forEach(function (answer) {
       if (answeredQuestionIds[answer.questionId]) return;
       var infoHtml = answer.additionalInfo && answer.additionalInfo.length
         ? '<p><strong>Zusatzinfo:</strong> ' + answer.additionalInfo.map(esc).join(' · ') + '</p>'
         : '';
-      answerRows.push('<section><h2>' + esc(answer.questionLabel || 'Frage') + '</h2><p>' + esc(answer.value) + '</p>' + infoHtml + '</section>');
+      answerRows.push('<section style="margin:0 0 20px;page-break-inside:avoid;"><h2 style="font-size:16px;margin:0 0 8px;">' + esc(answer.questionLabel || 'Frage') + '</h2><p style="line-height:1.5;margin:4px 0;white-space:pre-wrap;">' + esc(answer.value) + '</p>' + infoHtml + '</section>');
     });
     var name = response.lead && response.lead.name ? response.lead.name : 'Anonym';
     var date = response.createdOn
       ? new Date(response.createdOn).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
       : '';
+    return (
+      '<header style="margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #ccc;">' +
+        '<h1 style="font-size:22px;margin:0 0 8px;">' + esc(document.getElementById('survey-title').textContent) + '</h1>' +
+        '<p style="line-height:1.5;margin:4px 0;"><strong>Teilnehmer:in:</strong> ' + esc(name) + (date ? ' · ' + esc(date) : '') + '</p>' +
+      '</header>' +
+      answerRows.join('')
+    );
+  }
 
+  function printResponse(response) {
+    if (!response) return;
+    var printWindow = window.open('', '_blank', 'width=800,height=600');
+    if (!printWindow) {
+      alert('Das Druckfenster wurde blockiert. Bitte erlauben Sie Pop-ups für diese Seite.');
+      return;
+    }
+    var name = response.lead && response.lead.name ? response.lead.name : 'Anonym';
     printWindow.document.open();
     printWindow.document.write(
       '<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><title>Umfrageergebnis – ' + esc(name) + '</title>' +
       '<style>body{font:14px Arial,sans-serif;color:#172b45;max-width:800px;margin:32px auto;padding:0 20px}h1{font-size:22px;margin-bottom:8px}h2{font-size:16px;margin:0 0 8px}header{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid #ccc}section{margin:0 0 20px;page-break-inside:avoid}p{line-height:1.5;margin:4px 0;white-space:pre-wrap}@media print{body{margin:0 auto;padding:0 10mm}}</style>' +
-      '</head><body><header><h1>' + esc(document.getElementById('survey-title').textContent) + '</h1><p><strong>Teilnehmer:in:</strong> ' + esc(name) + (date ? ' · ' + esc(date) : '') + '</p></header>' +
-      answerRows.join('') + '</body></html>'
+      '</head><body>' + buildResponsePreviewHtml(response) + '</body></html>'
     );
     printWindow.document.close();
     printWindow.focus();
     printWindow.print();
+  }
+
+  var newsletterTemplatePromise = null;
+
+  function loadNewsletterTemplate() {
+    if (!newsletterTemplatePromise) {
+      newsletterTemplatePromise = fetch('../Templates/Newsletter-Vorlage.html').then(function (response) {
+        if (!response.ok) throw new Error('Newsletter-Vorlage konnte nicht geladen werden.');
+        return response.text();
+      }).catch(function (err) {
+        newsletterTemplatePromise = null;
+        throw err;
+      });
+    }
+    return newsletterTemplatePromise;
+  }
+
+  function createResponseEmail(response, button) {
+    if (!response) return;
+    button.disabled = true;
+    button.textContent = 'Wird erstellt …';
+
+    loadNewsletterTemplate().then(function (template) {
+      var surveyTitle = document.getElementById('survey-title').textContent;
+      var responseDate = response.createdOn
+        ? new Date(response.createdOn).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'Europe/Berlin' })
+        : 'unbekannt';
+      var html = template
+        .replace(/\{\{BETREFF\}\}/g, esc('Ergebnisse deiner Umfrage von ' + responseDate + ' - ' + surveyTitle))
+        .replace(/\{\{VORSCHAUTEXT\}\}/g, esc('Deine ausgefüllte Umfrage: ' + surveyTitle))
+        .replace(/\{\{UEBERSCHRIFT\}\}/g, 'Dein Umfrageergebnis')
+        .replace(/\{\{TEXT\}\}/g, 'Hier ist das Ergebnis deiner ausgefüllten Umfrage:')
+        .replace(/\{\{EINLADUNG\}\}/g, '<div style="font:14px Arial,sans-serif;color:#172b45;">' + buildResponsePreviewHtml(response) + '</div>')
+        .replace(/\{\{GRUSS\}\}/g, 'Liebe Grüße<br>Lili')
+        .replace(/<img src="\[PLATZHALTER: Logo-URL\]"[^>]*>/, '<span style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#09204A;">Der Architekt Deines Lebens</span>')
+        .replace(/Du möchtest keine Post mehr\? <a href="\[ABMELDELINK\]"[^>]*>Hier abmelden<\/a>/, '');
+
+      return dynamicsCRM.createSurveyResponseEmail({
+        surveyId: surveyId,
+        responseId: response.id,
+        bodyHtml: html
+      });
+    }).then(function (result) {
+      if (!result || !result.success) throw new Error('CRM hat die E-Mail nicht erstellt.');
+      button.textContent = 'Im CRM erstellt';
+    }).catch(function (err) {
+      console.error('CRM survey response email creation error:', err);
+      button.disabled = false;
+      button.textContent = 'Ergebnis in CRM erstellen';
+      alert('Die E-Mail konnte nicht im CRM erstellt werden: ' + ((err && err.message) || 'Unbekannter Fehler'));
+    });
   }
 
   btnLoadResponses.addEventListener('click', function () {
