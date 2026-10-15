@@ -111,6 +111,7 @@
   }
   .resp-card-who { font-weight:600; font-size:14.5px; color:var(--navy); }
   .resp-card-sub { font-size:12.5px; color:rgba(0,34,77,0.5); margin-top:2px; }
+  .resp-card-nocontact { font-size:12px; font-weight:600; color:#b45309; margin-top:2px; }
   .resp-card-meta { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:8px; flex-shrink:0; }
   .resp-card-date { font-size:12px; color:rgba(0,34,77,0.4); white-space:nowrap; }
   .resp-card-chevron { transition:transform .2s; color:rgba(0,34,77,0.35); flex-shrink:0; }
@@ -739,6 +740,8 @@ document.getElementById('questions-root').addEventListener('click', function (e)
       if (r.lead && r.lead.email) subParts.push(esc(r.lead.email));
       if (r.lead && r.lead.phone) subParts.push(esc(r.lead.phone));
       var sub = subParts.length ? '<div class="resp-card-sub">' + subParts.join(' · ') + '</div>' : '';
+      var noContact = !!(r.lead && r.lead.hasContact === false);
+      if (noContact) sub += '<div class="resp-card-nocontact">⚠ Kein Kontakt im CRM hinterlegt</div>';
       var dateStr = r.createdOn
         ? new Date(r.createdOn).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
         : '';
@@ -772,7 +775,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
             '<div class="resp-card-meta">' +
               '<span class="resp-card-date">' + esc(dateStr) + '</span>' +
               '<button type="button" class="resp-print-button" data-response-index="' + responseIndex + '">Ergebnis drucken</button>' +
-              '<button type="button" class="resp-crm-email-button" data-response-index="' + responseIndex + '">Ergebnis in CRM erstellen</button>' +
+              '<button type="button" class="resp-crm-email-button" data-response-index="' + responseIndex + '"' + (noContact ? ' disabled title="Kein Kontakt mit dieser E-Mail-Adresse im CRM"' : '') + '>Ergebnis in CRM erstellen</button>' +
               '<span class="resp-card-chevron">▾</span>' +
             '</div>' +
           '</div>' +

@@ -89,6 +89,33 @@ serve(async (req) => {
       return jsonResponse({ error: "Für diese Umfrageantwort ist kein gültiger CRM-Empfänger hinterlegt" }, 400);
     }
 
+    const contactRes = await fetch(
+      `${RESOURCE}/api/data/v9.2/contacts?$select=contactid,_wht_lead_value&$top=10&$filter=` +
+        encodeURIComponent(`emailaddress1 eq '${recipient.replace(/'/g, "''")}'`),
+      { headers },
+    );
+    if (!contactRes.ok) {
+      console.error("Dataverse error (contact lookup):", contactRes.status, await contactRes.text());
+      return jsonResponse({ error: "CRM-Anfrage fehlgeschlagen" }, 502);
+    }
+    // Bei mehreren Kontakten mit gleicher E-Mail den mit dem Lead verknüpften bevorzugen.
+    const contacts = ((await contactRes.json()).value || []) as Record<string, unknown>[];
+    const contact = contacts.find((c) => String(c._wht_lead_value ?? "").toLowerCase() === leadId.toLowerCase()) ?? contacts[0];
+    const contactId = String(contact?.contactid ?? "");
+    if (!GUID_RE.test(contactId)) {
+      return jsonResponse({ error: `Kein Kontakt mit der E-Mail-Adresse ${recipient} im CRM gefunden` }, 400);
+    }
+
+    // Absender: aktiver Systembenutzer mit der Absenderadresse; sonst nur als Adresse setzen.
+    const userRes = await fetch(
+      `${RESOURCE}/api/data/v9.2/systemusers?$select=systemuserid&$top=1&$filter=` +
+        encodeURIComponent(`internalemailaddress eq '${FROM_EMAIL}' and isdisabled eq false`),
+      { headers },
+    );
+    const senderId = userRes.ok ? String(((await userRes.json()).value || [])[0]?.systemuserid ?? "") : "";
+    const fromParty: Record<string, unknown> = { participationtypemask: 1, addressused: FROM_EMAIL };
+    if (GUID_RE.test(senderId)) fromParty["partyid_systemuser@odata.bind"] = `/systemusers(${senderId})`;
+
     const surveyRes = await fetch(
       `${RESOURCE}/api/data/v9.2/wht_surveies(${surveyId})?$select=wht_title`,
       { headers },
@@ -115,10 +142,14 @@ serve(async (req) => {
         directioncode: true,
         statecode: 0,
         statuscode: 1,
-        "regardingobjectid_wht_lead_email@odata.bind": `/wht_leads(${leadId})`,
+        "regardingobjectid_contact_email@odata.bind": `/contacts(${contactId})`,
         email_activity_parties: [
-          { participationtypemask: 1, addressused: FROM_EMAIL },
-          { participationtypemask: 2, addressused: recipient },
+          fromParty,
+          {
+            participationtypemask: 2,
+            addressused: recipient,
+            "partyid_contact@odata.bind": `/contacts(${contactId})`,
+          },
         ],
       }),
     });

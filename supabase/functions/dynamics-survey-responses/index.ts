@@ -88,7 +88,7 @@ serve(async (req) => {
     const responsesUrl =
       `${RESOURCE}/api/data/v9.2/wht_surveyresponses?$select=wht_surveyresponseid,wht_responsename,createdon` +
       `&$filter=_wht_surveyid_value eq ${surveyId}&$orderby=createdon desc` +
-      `&$expand=wht_Lead($select=wht_leadname,wht_vorname,wht_name)`;
+      `&$expand=wht_Lead($select=wht_leadname,wht_vorname,wht_name,wht_email1)`;
     const responsesRes = await fetch(responsesUrl, { headers });
     if (!responsesRes.ok) {
       console.error("Dataverse error (responses):", responsesRes.status, await responsesRes.text());
@@ -96,6 +96,30 @@ serve(async (req) => {
     }
     const responsesData = await responsesRes.json();
     const responseRows = (responsesData.value || []) as Record<string, unknown>[];
+
+    // ── Prüfen, ob zur E-Mail-Adresse des Leads ein Kontakt (contact) existiert ──
+    const leadEmails = new Set<string>();
+    for (const r of responseRows) {
+      const email = String((r["wht_Lead"] as Record<string, unknown> | null)?.wht_email1 ?? "").trim().toLowerCase();
+      if (email) leadEmails.add(email);
+    }
+    const contactEmails = new Set<string>();
+    const emailList = [...leadEmails];
+    for (let i = 0; i < emailList.length; i += 25) {
+      const filter = emailList.slice(i, i + 25)
+        .map((e) => `emailaddress1 eq '${e.replace(/'/g, "''")}'`).join(" or ");
+      const contactsRes = await fetch(
+        `${RESOURCE}/api/data/v9.2/contacts?$select=emailaddress1&$filter=${encodeURIComponent(filter)}`,
+        { headers },
+      );
+      if (!contactsRes.ok) {
+        console.error("Dataverse error (contacts):", contactsRes.status, await contactsRes.text());
+        continue;
+      }
+      for (const c of ((await contactsRes.json()).value || []) as Record<string, unknown>[]) {
+        contactEmails.add(String(c.emailaddress1 ?? "").trim().toLowerCase());
+      }
+    }
 
     // ── Alle Antworten zu den Fragen dieser Umfrage laden, nach Response
     // gruppieren (wht_value ist bereits der anzeigbare Text — bei
@@ -165,6 +189,7 @@ serve(async (req) => {
         lead: lead
           ? {
               name: lead.wht_leadname ?? [lead.wht_vorname, lead.wht_name].filter(Boolean).join(" "),
+              hasContact: contactEmails.has(String(lead.wht_email1 ?? "").trim().toLowerCase()),
             }
           : null,
         answers,
