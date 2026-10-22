@@ -35,7 +35,24 @@
   .serif { font-family: var(--font-head); font-weight: 800; letter-spacing: -.01em; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
 
+  /* ---------- KOPFZEILE (wie startseite.html) ---------- */
+  .site-header { background: var(--navy); }
+  .site-header .wrap { display: flex; align-items: center; padding-top: 16px; padding-bottom: 16px; }
+  .site-logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--cream); text-decoration: none;
+    font-family: var(--font-head); font-weight: 700; font-size: 17px; letter-spacing: .01em;
+    white-space: nowrap;
+  }
+  .site-logo svg { width: 26px; height: 26px; flex: none; color: var(--orange); }
+  .site-logo:hover { color: var(--orange-100); }
+
   /* ---------- HERO ---------- */
+  .hero-grid { display: flex; align-items: center; gap: 32px; }
+  .hero-text { flex: 1 1 auto; min-width: 0; }
+  .hero-logo { flex: 0 0 210px; }
+  .hero-logo img { display: block; width: 100%; height: auto; }
+  .hero-logo .logo-small { display: none; }
   .hero { background: var(--paper); color: var(--ink); padding: 64px 0 56px 0; border-bottom: 3px solid var(--orange); }
   .kicker { font-family: var(--font-head); color: var(--orange-600); font-weight: bold; letter-spacing: 3px; font-size: 12px; margin-bottom: 18px; }
   .event-eyebrow {
@@ -202,15 +219,31 @@
 
   @media (max-width: 600px) {
     .hero h1 { font-size: 30px; }
+    .hero-grid { flex-direction: column-reverse; align-items: flex-start; gap: 18px; }
+    .hero-logo { flex: none; width: 72px; }
+    .hero-logo .logo-full { display: none; }
+    .hero-logo .logo-small { display: block; }
+    .site-logo { font-size: 15px; }
     .credibility .wrap { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
 
+<!-- ================= KOPFZEILE ================= -->
+<header class="site-header">
+  <div class="wrap">
+    <a href="https://der-architekt-deines-lebens.de/startseite.html" class="site-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
+      Der Architekt Deines Lebens
+    </a>
+  </div>
+</header>
+
 <!-- ================= HERO ================= -->
 <section class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
     <div class="kicker">DER ARCHITEKT DEINES LEBENS</div>
     <div class="event-eyebrow" id="event-eyebrow">
       <span id="event-eyebrow-text"></span>
@@ -219,6 +252,11 @@
     <div class="subtitle">die dir keiner sagt — und was du heute Abend als Erstes ändern kannst</div>
     <p class="body">Du denkst an alles, bevor es jemand fragt – und bist erschöpft, obwohl du „eigentlich nichts Besonderes” gemacht hast? Diese 13 Anzeichen machen die unsichtbare Arbeit sichtbar, die du täglich leistest.</p>
     <a href="#anmelden" class="cta-btn">Jetzt kostenlos lesen</a>
+    </div>
+    <div class="hero-logo">
+      <img class="logo-full" src="images/logo-kompass-dadl.png" width="560" height="454" alt="Logo Der Architekt Deines Lebens: Kompass mit Vertrauen, Klarheit, Mut, Stärke, Wachstum, Freiheit, Liebe, Balance">
+      <img class="logo-small" src="images/kompass-dadl.png" width="240" height="240" alt="Kompass-Logo Der Architekt Deines Lebens">
+    </div>
   </div>
 </section>
 
