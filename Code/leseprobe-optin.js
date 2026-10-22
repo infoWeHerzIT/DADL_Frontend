@@ -47,7 +47,7 @@
   // ────────────────────────────────────────────────────────────────
 
   var CSS = [
-    '.lpo{--lpo-paper:#eee4cf;--lpo-cream:#fffaf1;--lpo-ink:#1d1a13;--lpo-ink-soft:#5c5645;--lpo-line:#cdbe9c;--lpo-navy:#00224d;--lpo-orange:#d9682c;--lpo-orange-600:#bd551f;--lpo-orange-100:#f3dcc4;--lpo-ok:#4c7a5e;',
+    '.lpo{--lpo-paper:#ECE4D1;--lpo-cream:#FEFAF1;--lpo-ink:#1d1a13;--lpo-ink-soft:#5c5645;--lpo-line:#cdbe9c;--lpo-navy:#09204A;--lpo-orange:#CC6E3B;--lpo-orange-600:#AF5B2D;--lpo-orange-100:#EFDDC7;--lpo-ok:#4c7a5e;',
     '  background:var(--lpo-paper);border:1px solid var(--lpo-line);border-top:3px solid var(--lpo-orange);padding:28px 24px;margin:0 0 26px;color:var(--lpo-ink);font-family:inherit}',
     '.lpo *{box-sizing:border-box}',
     '.lpo .lpo-eyebrow{font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--lpo-orange-600);margin:0 0 12px}',
@@ -61,8 +61,8 @@
     '.lpo input[type=text]:focus,.lpo input[type=email]:focus{outline:2px solid var(--lpo-orange);outline-offset:1px;border-color:transparent}',
     '.lpo .lpo-cb{display:flex;gap:11px;align-items:flex-start;margin:16px 0 0;font-size:15px;color:var(--lpo-ink-soft);cursor:pointer}',
     '.lpo .lpo-cb input{margin:3px 0 0;flex:0 0 auto;width:17px;height:17px;accent-color:var(--lpo-orange)}',
-    '.lpo .lpo-btn{display:inline-block;font:inherit;font-weight:700;font-size:17px;letter-spacing:.01em;background:var(--lpo-orange);color:var(--lpo-cream);border:0;padding:16px 30px;border-radius:2px;cursor:pointer;text-decoration:none;transition:background .15s ease}',
-    '.lpo .lpo-btn:hover{background:var(--lpo-orange-600)}',
+    '.lpo .lpo-btn{display:inline-block;font:inherit;font-weight:700;font-size:17px;letter-spacing:.01em;background:var(--lpo-orange-600);color:#FFFFFF;border:0;padding:16px 30px;border-radius:2px;cursor:pointer;text-decoration:none;transition:background .15s ease}',
+    '.lpo .lpo-btn:hover{background:var(--lpo-navy)}',
     '.lpo .lpo-btn:disabled{opacity:.7;cursor:wait}',
     '.lpo .lpo-btn:focus-visible{outline:3px solid var(--lpo-orange);outline-offset:3px}',
     '.lpo .lpo-btn[hidden]{display:none}',
@@ -75,13 +75,13 @@
     '.lpo .lpo-confetti{position:absolute;left:0;right:0;top:-18px;height:0;overflow:visible;pointer-events:none}',
     '.lpo .lpo-confetti span{position:absolute;top:-22px;width:9px;height:14px;opacity:.9;animation:lpoFall 1.3s ease-in infinite}',
     '@keyframes lpoFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(170px) rotate(360deg);opacity:0}}',
-    '.lpo .lpo-box{background:linear-gradient(160deg,var(--lpo-cream) 0%,var(--lpo-orange-100) 100%);border:1.5px solid var(--lpo-orange);border-radius:10px;padding:34px 28px;text-align:center;box-shadow:0 10px 32px rgba(217,104,44,.2);animation:lpoPop .5s cubic-bezier(.34,1.56,.64,1)}',
+    '.lpo .lpo-box{background:linear-gradient(160deg,var(--lpo-cream) 0%,var(--lpo-orange-100) 100%);border:1.5px solid var(--lpo-orange);border-radius:10px;padding:34px 28px;text-align:center;box-shadow:0 10px 32px rgba(204,110,59,.2);animation:lpoPop .5s cubic-bezier(.34,1.56,.64,1)}',
     '@keyframes lpoPop{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}',
     '.lpo .lpo-emojis{font-size:26px;letter-spacing:8px;margin:0 0 8px;animation:lpoEmoji .6s ease}',
     '@keyframes lpoEmoji{0%{transform:scale(0);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}',
     '.lpo .lpo-box h4{font-weight:800;font-size:23px;line-height:1.25;letter-spacing:-.01em;color:var(--lpo-navy);margin:0 0 10px}',
     '.lpo .lpo-box p{margin:0 auto 18px;font-size:15.5px;color:var(--lpo-ink);max-width:none}',
-    '.lpo .lpo-box .lpo-btn{box-shadow:0 4px 16px rgba(217,104,44,.35)}',
+    '.lpo .lpo-box .lpo-btn{box-shadow:0 4px 16px rgba(204,110,59,.35)}',
     '@media (prefers-reduced-motion:reduce){.lpo .lpo-confetti{display:none}.lpo .lpo-box,.lpo .lpo-emojis{animation:none}.lpo .lpo-btn{transition:none}}'
   ].join('\n');
 
@@ -122,7 +122,7 @@
   }
 
   var MAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  var CONFETTI_COLORS = ['#d9682c', '#00224d', '#ffb199', '#d9682c', '#00224d', '#ffd580'];
+  var CONFETTI_COLORS = ['#CC6E3B', '#09204A', '#AF5B2D', '#CC6E3B', '#09204A', '#EFDDC7'];
 
   var options = { getEventId: function () { return ''; }, notifyCheckboxLabel: '' };
   var instances = [];

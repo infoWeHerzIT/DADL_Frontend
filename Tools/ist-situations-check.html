@@ -22,7 +22,7 @@
 <meta property="og:image:alt" content="Der Ist-Situations-Check – Selbsttest für Frauen">
 
 <meta name="author" content="Sorin Ratiu">
-<meta name="theme-color" content="#F6F0E3">
+<meta name="theme-color" content="#09204A">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="alternate icon" href="/favicon.ico">
 
@@ -69,19 +69,23 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
 <style>
   :root{
-    --paper:#f6f0e3; --paper-2:#eee4cf;
+    /* Farben laut _DADL/_Gemeinsam/Branding.md (Canva Brand Kit „DADL") */
+    --paper:#FEFAF1;   /* Off-White: Seitenhintergrund */
+    --paper-2:#ECE4D1; /* Beige: Flächen */
     --ink:#1d1a13; --ink-soft:#5c5645;
-    --navy-900:#00224d; --navy-800:#0b3a6b; --navy-700:#1b4f8f;
-    --line-light:#cdbe9c; --line-dark:#37486b;
-    --cream:#fffaf1;
-    --orange-500:#d9682c; --orange-600:#bd551f; --orange-100:#f3dcc4;
+    --navy-900:#09204A; /* Navy: Überschriften, Schriftzug */
+    --line-light:#cdbe9c;
+    --cream:#FFFFFF;   /* Weiß: Inhaltsfläche */
+    --orange-500:#CC6E3B; /* Orange: Linien, Rahmen */
+    --orange-600:#AF5B2D; /* Orange dunkel: Links, Hover, Akzent auf hellem Grund */
+    --orange-100:#EFDDC7; /* Sand: Flächen, Kästen */
     --ok:#4c7a5e;
     --shadow:0 18px 40px -22px rgba(15,27,45,.35);
-    --display:'Archivo',system-ui,sans-serif;
-    --body:'Source Sans 3',system-ui,sans-serif;
+    --display:"Archivo",Arial,Helvetica,sans-serif;
+    --body:"Source Sans 3",Arimo,Arial,Helvetica,sans-serif;
     --maxw:640px;
   }
   *{box-sizing:border-box}
@@ -117,20 +121,39 @@
   }
   #event-eyebrow-select option{ color:var(--ink); }
 
+  /* Kopfzeile wie startseite.html */
+  .site-header{ background:var(--navy-900); margin-inline:-20px; padding:16px 20px; }
+  .site-header-in{ max-width:var(--maxw); margin:0 auto; }
   .site-brand{
-    display:flex; align-items:center; gap:10px;
-    color:var(--ink); text-decoration:none;
-    font-family:"Fraunces",serif; font-weight:600; font-size:1.05rem; letter-spacing:.01em;
-    padding:18px 0 0; max-width:var(--maxw); margin:0 auto;
+    display:inline-flex; align-items:center; gap:10px;
+    color:#FEFAF1; text-decoration:none; white-space:nowrap;
+    font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:.01em;
   }
   .site-brand svg{ width:26px; height:26px; flex:none; color:var(--orange-500); }
+  .site-brand:hover{ color:var(--orange-100); }
+  /* Logo im Intro */
+  .intro-head{ display:flex; align-items:flex-start; gap:28px; }
+  .intro-head > div:first-child{ flex:1 1 auto; min-width:0; }
+  .intro-logo{ flex:0 0 170px; }
+  .intro-logo img{ display:block; width:100%; height:auto; }
+  .intro-logo .logo-small{ display:none; }
+  @media (max-width:600px){
+    .intro-head{ flex-direction:column-reverse; gap:14px; }
+    .intro-logo{ flex:none; width:64px; }
+    .intro-logo .logo-full{ display:none; }
+    .intro-logo .logo-small{ display:block; }
+    .site-brand{ font-size:15px; }
+  }
+  .site-foot{ margin-top:48px; padding-top:20px; border-top:1px solid var(--line-light); font-size:14px; color:var(--ink-soft); text-align:center; line-height:1.8; }
+  .site-foot .link{ text-decoration:none; }
+  .site-foot .link:hover{ text-decoration:underline; }
   h1{
     font-family:var(--display); font-weight:800; font-size:clamp(34px,7.5vw,52px);
-    line-height:1.04; letter-spacing:-.02em; margin:0 0 20px; text-wrap:balance;
+    line-height:1.04; letter-spacing:-.02em; margin:0 0 20px; text-wrap:balance; color:var(--navy-900);
   }
   h2{
     font-family:var(--display); font-weight:700; font-size:clamp(22px,4.5vw,28px);
-    line-height:1.15; letter-spacing:-.01em; margin:0 0 14px; text-wrap:balance;
+    line-height:1.15; letter-spacing:-.01em; margin:0 0 14px; text-wrap:balance; color:var(--navy-900);
   }
   p{margin:0 0 16px; max-width:60ch}
   .lead{font-size:19px; color:var(--ink)}
@@ -146,10 +169,10 @@
   button{font:inherit; cursor:pointer}
   .btn{
     display:inline-block; font-family:var(--display); font-weight:700; font-size:17px;
-    letter-spacing:.01em; background:var(--orange-500); color:var(--cream); border:0;
+    letter-spacing:.01em; background:var(--orange-600); color:#FFFFFF; border:0;
     padding:16px 30px; border-radius:2px; transition:background .15s ease;
   }
-  .btn:hover{background:var(--orange-600)}
+  .btn:hover{background:var(--navy-900)}
   .btn:focus-visible,.opt:focus-visible,.link:focus-visible{outline:3px solid var(--orange-500); outline-offset:3px}
   .btn-ghost{
     background:none; color:var(--ink-soft); border:1px solid var(--line-light);
@@ -168,7 +191,7 @@
   }
   .qtext{
     font-family:var(--display); font-weight:700; font-size:clamp(21px,4.4vw,27px);
-    line-height:1.24; letter-spacing:-.01em; margin:0 0 30px; text-wrap:balance;
+    line-height:1.24; letter-spacing:-.01em; margin:0 0 30px; text-wrap:balance; color:var(--navy-900);
   }
   .opts{display:flex; flex-direction:column; gap:10px; margin-bottom:26px}
   .opt{
@@ -188,10 +211,10 @@
   .s-ja{color:var(--ok)} .s-kaum{color:var(--orange-500)} .s-nein{color:var(--orange-600)}
   .verdict{
     font-family:var(--display); font-weight:800; font-size:clamp(24px,5vw,34px);
-    line-height:1.12; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance;
+    line-height:1.12; letter-spacing:-.015em; margin:0 0 18px; text-wrap:balance; color:var(--navy-900);
   }
   .card{background:var(--paper-2); border:1px solid var(--line-light); padding:24px 22px; margin:0 0 26px}
-  .card h3{font-family:var(--display); font-weight:700; font-size:19px; margin:0 0 10px; letter-spacing:-.005em}
+  .card h3{font-family:var(--display); font-weight:700; font-size:19px; margin:0 0 10px; letter-spacing:-.005em; color:var(--navy-900)}
   .card p:last-child{margin-bottom:0}
   .placeholder{
     border:1px dashed var(--line-light); padding:20px; color:var(--ink-soft); font-size:15px; margin:0 0 26px;
@@ -210,13 +233,17 @@
 </head>
 <body>
 
-<a href="../startseite.html" class="site-brand">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
-  Der Architekt deines Lebens
-</a>
+<header class="site-header">
+  <div class="site-header-in">
+    <a href="https://der-architekt-deines-lebens.de/startseite.html" class="site-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
+      Der Architekt Deines Lebens
+    </a>
+  </div>
+</header>
 
 <noscript>
-  <div style="max-width:640px;margin:48px auto;padding:0 20px;font-family:sans-serif;color:#1d1a13;background:#f6f0e3">
+  <div style="max-width:640px;margin:48px auto;padding:0 20px;font-family:sans-serif;color:#1d1a13;background:#FEFAF1">
     <p>Für diesen Check wird JavaScript benötigt. Bitte aktiviere JavaScript in deinem Browser, um den Ist-Situations-Check zu starten.</p>
   </div>
 </noscript>
@@ -236,8 +263,16 @@
       <select id="product-eyebrow-select" style="display:none;" aria-label="Produkt zuordnen (Admin)"></select>
       <span class="event-eyebrow-admin-badge" id="product-eyebrow-admin-badge" style="display:none;">Admin</span>
     </div>
+    <div class="intro-head">
+    <div>
     <p class="eyebrow">Ist-Situations-Check · 10 Aussagen · 5 Minuten</p>
     <h1>Der Ist-Situations-Check</h1>
+    </div>
+    <div class="intro-logo">
+      <img class="logo-full" src="../assets/brand/logo-kompass-dadl.png" width="560" height="454" alt="Logo Der Architekt Deines Lebens: Kompass mit Vertrauen, Klarheit, Mut, Stärke, Wachstum, Freiheit, Liebe, Balance">
+      <img class="logo-small" src="../assets/brand/kompass-dadl.png" width="240" height="240" alt="Kompass-Logo Der Architekt Deines Lebens">
+    </div>
+    </div>
     <hr class="rule">
     <p class="lead">Du hast das Gefühl, an mehreren Stellen gleichzeitig zu kämpfen — Beziehung, Job, Energie, Geld, du selbst. Aber wo genau sitzt gerade der größte Druck?</p>
     <p>Dieser Check misst nicht, wie gestresst du insgesamt bist. Er zeigt dir, welcher von fünf Lebensbereichen — Beziehung, Beruf &amp; Zeit, Energie &amp; Körper, Finanzen, Selbstbild — gerade am meisten Gewicht trägt, damit du weißt, wo ein erster Schritt am meisten bringt.</p>
@@ -299,8 +334,11 @@
 
     <p class="foot">Sorin Ratiu · Der Architekt Deines Lebens · Dieser Check ersetzt keine Beratung und keine Diagnose.</p>
   </section>
+  <footer class="site-foot">
+    Der Architekt Deines Lebens — Lili &amp; Sorin Ratiu — <a class="link" href="https://www.instagram.com/der_architekt_deines_lebens" target="_blank" rel="noopener">@der_architekt_deines_lebens</a><br>
+    <a class="link" href="https://der-architekt-deines-lebens.de/rechtliches.html#impressum">Impressum</a> · <a class="link" href="https://der-architekt-deines-lebens.de/rechtliches.html#datenschutz">Datenschutz</a>
+  </footer>
 </div>
-
 <script>
 (function(){
   "use strict";
