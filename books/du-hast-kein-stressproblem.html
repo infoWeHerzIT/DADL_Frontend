@@ -6,8 +6,8 @@
 <meta name="robots" content="index, follow">
 
 <title>Du hast kein Stressproblem | Buch von Sorin Ratiu</title>
-<meta name="description" content="Ein Sachbuch für Frauen, die seit Jahren nur noch funktionieren. Warum deine eigenen Ansprüche der Stressauslöser sind – und wie du zurückkommst. Jetzt Kapitel 1 gratis lesen.">
-<link rel="canonical" href="https://der-architekt-deines-lebens.de/lanpag/buch-du-hast-kein-stressproblem/">
+<meta name="description" content="Ein Sachbuch für Frauen, die seit Jahren nur noch funktionieren. Nicht dein Anspruch erschöpft dich, sondern das Urteil, das zuschlägt, wenn du ihn verfehlst. Kapitel 1 gratis lesen.">
+<link rel="canonical" href="https://der-architekt-deines-lebens.de/books/du-hast-kein-stressproblem.html">
 
 <!-- Open Graph / Social Sharing -->
 <meta property="og:type" content="book">
@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="Der Architekt Deines Lebens">
 <meta property="og:title" content="Du hast kein Stressproblem – Buch von Sorin Ratiu">
 <meta property="og:description" content="Warum du erschöpft bist, obwohl du alles richtig machst. Ein Sachbuch für Frauen, die seit Jahren nur noch funktionieren. Kapitel 1 jetzt kostenlos lesen.">
-<meta property="og:url" content="https://der-architekt-deines-lebens.de/lanpag/buch-du-hast-kein-stressproblem/">
+<meta property="og:url" content="https://der-architekt-deines-lebens.de/books/du-hast-kein-stressproblem.html">
 <meta property="og:image" content="https://der-architekt-deines-lebens.de/lanpag/images/buch-du-hast-kein-stressproblem-og.jpg"><!-- TODO: echtes Cover (1200×630px, sobald das Canva-Cover mit Frauen-Bildmotiv fertig ist) hochladen und Pfad anpassen -->
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -49,22 +49,22 @@
   "inLanguage": "de-DE",
   "genre": "Sachbuch, Ratgeber",
   "bookFormat": "https://schema.org/EBook",
-  "url": "https://der-architekt-deines-lebens.de/lanpag/buch-du-hast-kein-stressproblem/",
-  "description": "Du hast kein Stressproblem. Du hast aufgehört, in deinem eigenen Leben vorzukommen. Dieses Buch zeigt Frauen, die seit Jahren nur noch funktionieren, warum ihre eigenen hohen Ansprüche der Stressauslöser sind – und was passiert, wenn du zum ersten Mal eine Grenze ziehst und die Reaktion darauf aushältst.",
+  "url": "https://der-architekt-deines-lebens.de/books/du-hast-kein-stressproblem.html",
+  "description": "Du hast kein Stressproblem. Du hast aufgehört, in deinem eigenen Leben vorzukommen. Dieses Buch zeigt Frauen, die seit Jahren nur noch funktionieren, warum nicht ihre Ansprüche sie erschöpfen, sondern das Urteil, das zuschlägt, sobald sie sie verfehlen – und was passiert, wenn sie zum ersten Mal eine Grenze ziehen und die Reaktion darauf aushalten.",
   "workExample": [
     { "@type": "Book", "bookFormat": "https://schema.org/EBook", "isbn": "" },
     { "@type": "Book", "bookFormat": "https://schema.org/Hardcover", "isbn": "" }
   ]
 }
-<!-- TODO: ISBNs eintragen, sobald gekauft (Abschnitt 4/7 im Konzept-Dokument) -->
 </script>
+<!-- TODO: ISBNs eintragen, sobald gekauft (Abschnitt 4/7 im Konzept-Dokument) -->
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Du hast kein Stressproblem – Buch von Sorin Ratiu",
-  "url": "https://der-architekt-deines-lebens.de/lanpag/buch-du-hast-kein-stressproblem/",
+  "url": "https://der-architekt-deines-lebens.de/books/du-hast-kein-stressproblem.html",
   "inLanguage": "de-DE",
   "datePublished": "2026-09-28",
   "dateModified": "2026-09-29",
@@ -77,7 +77,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "https://der-architekt-deines-lebens.de/" },
-      { "@type": "ListItem", "position": 2, "name": "Du hast kein Stressproblem", "item": "https://der-architekt-deines-lebens.de/lanpag/buch-du-hast-kein-stressproblem/" }
+      { "@type": "ListItem", "position": 2, "name": "Du hast kein Stressproblem", "item": "https://der-architekt-deines-lebens.de/books/du-hast-kein-stressproblem.html" }
     ]
   }
 }
@@ -282,6 +282,16 @@
   .price-admin-select.required-missing{border-style:solid; border-color:var(--orange-500); color:var(--orange-600)}
   .price-amount:empty{display:none}
   .price-fine{font-size:12.5px; color:var(--ink-soft); margin:18px 0 0}
+  /* Nur eine sichtbare Kachel (z. B. nur E-Book live): nicht über die volle
+     Breite ziehen. Wird per JS gesetzt (applyPaymentLinks). */
+  @media (min-width:560px){ .prices.count-1{grid-template-columns:minmax(0,380px)} .prices.count-2{grid-template-columns:repeat(2,1fr)} }
+  /* Kaufknopf in der E-Book-Kachel – nur sichtbar, wenn der Link live ist. */
+  .price-cta{display:none; margin:14px 0 0; background:var(--orange-600); color:#fff; font-weight:700; padding:12px 16px; text-align:center; border-radius:2px}
+  .price-card[href] .price-cta{display:block}
+  .price-card[href]:hover .price-cta{background:var(--navy-900, #09204A)}
+  .price-buynote{display:none; font-size:13px; color:var(--ink-soft); margin:10px 0 0}
+  .price-card[href] .price-buynote{display:block}
+  .price-shops{font-size:13.5px; color:var(--ink-soft); margin:12px 0 0}
 
   /* Für wen */
   .forlist{list-style:none; margin:0; padding:0}
@@ -331,7 +341,7 @@
   <header>
     <div class="event-eyebrow" id="event-eyebrow">
       <span id="event-eyebrow-text"></span>
-      <select id="event-eyebrow-select" style="display:none;" aria-label="Event zuordnen (Admin)" title="Zeigt nur Events vom Typ „Buch" oder „Tool" — andere Event-Typen werden hier bewusst nicht gelistet."></select>
+      <select id="event-eyebrow-select" style="display:none;" aria-label="Event zuordnen (Admin)" title="Zeigt nur Events vom Typ „Buch“ oder „Tool“ — andere Event-Typen werden hier bewusst nicht gelistet."></select>
       <span class="event-eyebrow-admin-badge" id="event-eyebrow-admin-badge" style="display:none;">Admin</span>
     </div>
     <p class="eyebrow">Sachbuch von Sorin Ratiu · Der Architekt Deines Lebens</p>
@@ -342,7 +352,7 @@
       <a href="#formate-preise">Formate &amp; Preise</a>
       <a href="#fuenf-saetze-test">Der Fünf-Sätze-Test</a>
       <a href="#warum-ich-das-schreibe">Warum ich das schreibe</a>
-      <a href="#warum-stress">Warum „Stress" das falsche Wort ist</a>
+      <a href="#warum-stress">Warum „Stress“ das falsche Wort ist</a>
       <a href="#fuer-wen">Für wen dieses Buch ist</a>
       <a href="#was-dich-erwartet">Was dich erwartet</a>
     </nav>
@@ -354,7 +364,7 @@
       </div>
       <div class="hero-text">
         <p class="muted" style="font-size:16px">Du funktionierst. Seit Jahren. Der Haushalt läuft, der Job läuft, alle bekommen, was sie brauchen. Du hast Listen geführt, Apps installiert, früher aufstehen probiert. Und trotzdem findest du abends keine einzige Minute, die dir gehört hat.</p>
-        <p class="muted" style="font-size:16px">Dieses Buch nennt das nicht Stress – ein Zuviel ließe sich reduzieren, aber das hast du längst probiert, und es hat nicht gereicht. Es zeigt dir, warum deine eigenen hohen Ansprüche der eigentliche Auslöser sind – und was passiert, wenn du zum ersten Mal eine Grenze ziehst und die Reaktion darauf aushältst.</p>
+        <p class="muted" style="font-size:16px">Dieses Buch nennt das nicht Stress – ein Zuviel ließe sich reduzieren, aber das hast du längst probiert, und es hat nicht gereicht. Es zeigt dir, warum nicht deine Ansprüche dich erschöpfen, sondern das Urteil, das zuschlägt, sobald du sie verfehlst – und was passiert, wenn du zum ersten Mal eine Grenze ziehst und die Reaktion darauf aushältst.</p>
       </div>
     </div>
 
@@ -370,7 +380,7 @@
       <p>Die Spülmaschine läuft. Die Mail an die Schule ist raus. Die Sporttasche steht gepackt neben der Tür. Im Flur brennt noch Licht. Zum ersten Mal an diesem Tag will niemand etwas von dir.</p>
       <p>Du setzt dich hin. Es ist still. Und dann kommt dieser Moment, den du niemandem erzählst: Du gehst den Tag noch einmal durch, Stunde für Stunde – und findest keine einzige Minute, die dir gehört hat.</p>
       <p>Du warst den ganzen Tag da. Du bist nur nicht vorgekommen.</p>
-      <span class="excerpt-source">— aus Kapitel 1, „Der Tag läuft, und du bist nicht dabei"</span>
+      <span class="excerpt-source">— aus Kapitel 1, „Der Tag läuft, und du bist nicht dabei“</span>
     </blockquote>
     <p>Das komplette erste Kapitel – mit den drei Übungsfragen aus dem Buch – bekommst du kostenlos als PDF, wenn du dich unten einträgst.</p>
   </section>
@@ -392,7 +402,7 @@
 
   <!-- ══════════ WARUM STRESS DAS FALSCHE WORT IST ══════════ -->
   <section id="warum-stress">
-    <p class="eyebrow">Warum „Stress" das falsche Wort ist</p>
+    <p class="eyebrow">Warum „Stress“ das falsche Wort ist</p>
     <h2>Der Grund ist banal und schwer zu schlucken</h2>
     <blockquote>
       <p>Du bist nicht erschöpft, weil du zu viel tust. Du bist erschöpft, weil in dem, was du tust, niemand mehr vorkommt, der du bist.</p>
@@ -407,7 +417,7 @@
     <h2>Für dich, wenn das bekannt vorkommt</h2>
     <ul class="forlist">
       <li>Du funktionierst gut – bei der Arbeit, zu Hause, für alle, die auf dich zählen – und merkst erst abends, dass du selbst nirgends vorkamst.</li>
-      <li>Du hast Selfcare-Tipps, Atemübungen und Wochenendpausen ausprobiert. Nach ein paar Tagen war alles wieder da.</li>
+      <li>Du hast gute Tipps, Atemübungen und Wochenendpausen ausprobiert. Nach ein paar Tagen war alles wieder da.</li>
       <li>Du willst nicht noch einen Ratgeber mit fünf Tipps – sondern verstehen, warum es bei dir nicht funktioniert.</li>
       <li>Du bist bereit, eine echte Grenze zu ziehen, auch wenn sie kurzfristig jemanden enttäuscht.</li>
     </ul>
@@ -420,7 +430,7 @@
   <section id="was-dich-erwartet">
     <p class="eyebrow">Was dich erwartet</p>
     <h2>14 Kapitel, drei Teile</h2>
-    <p class="muted" style="font-size:16px">Verstehen, Werkzeuge, Integration: der Weg zurück in dein eigenes Leben.</p>
+    <p class="muted" style="font-size:16px">Verstehen, was mit dir passiert. Werkzeuge, mit denen du zurückkommst. Und was bleibt, wenn der Alltag dich einholt.</p>
 
     <div class="part">
       <p class="part-label">Teil 1 — Warum du nicht mehr vorkommst</p>
@@ -460,7 +470,7 @@
   <section>
     <p class="eyebrow">Ein Auszug aus Kapitel 3</p>
     <h2>Die drei Sätze, die dich antreiben</h2>
-    <p>Du wirst sie nie laut denken hören – das ist ihr Trick. Sichtbar werden sie nur an deinem Verhalten. Bei den meisten Frauen kommen drei davon fast immer vor:</p>
+    <p>Du wirst sie nie laut denken hören – das ist ihr Trick. Sichtbar werden sie nur an deinem Verhalten. Drei davon kennst du vielleicht:</p>
     <ul class="forlist">
       <li><em>Ich muss es richtig machen.</em></li>
       <li><em>Ich darf niemanden enttäuschen.</em></li>
@@ -474,58 +484,65 @@
     <p class="eyebrow">Warum ich das schreibe</p>
     <h2>Sorin Ratiu</h2>
     <img src="../Coaches/SorinRatiu/images/sorin-profil-flat.jpg" alt="Sorin Ratiu" style="width:100%; max-width:280px; height:auto; border-radius:4px; margin:0 0 20px; display:block;">
-    <p>„Ich habe ein Jahr lang gewusst, dass es schiefgeht. Nicht geahnt. Gewusst."</p>
+    <p>„Ich habe ein Jahr lang gewusst, dass es schiefgeht. Nicht geahnt. Gewusst.“</p>
     <p>Im September 2012 war es vorbei, von einer Minute auf die andere. Ich hatte mich geweigert, die Schulden meiner Firma weiter mitzutragen. Danach stand ich mit einem Laptop und ein paar persönlichen Sachen auf der Straße – und das meine ich nicht im übertragenen Sinn: keine Wohnung mehr, kein Firmenauto. Meine Familie war 1.500&nbsp;Kilometer entfernt, in Rumänien. Meine Kinder waren damals sieben und vier.</p>
     <p>Das Harte daran war nicht dieser eine Abend. Es war das Jahr davor, in dem ich genau wusste, dass es so nicht weitergeht, und trotzdem weitergemacht habe – weil Hoffen weniger kostet als Handeln. Bis nichts anderes mehr übrig war.</p>
     <p>Meine Umstände waren geschäftlich, deine sind wahrscheinlich familiär. Aber das Muster ist dasselbe. Ich schreibe dieses Buch nicht, weil ich es besser gemacht habe als du – sondern weil ich zu lange gewartet habe und weiß, was das kostet.</p>
-    <p class="muted" style="font-size:15px">Sorin Ratiu ist NLP-Trainer und Coach und arbeitet unter der Marke „Der Architekt Deines Lebens" mit Frauen, die aufgehört haben, in ihrem eigenen Leben vorzukommen.</p>
+    <p class="muted" style="font-size:15px">Sorin Ratiu ist NLP-Master und Coach aus dem Raum Nürnberg. Unter der Marke „Der Architekt Deines Lebens“ arbeitet er in Coachings und Seminaren mit Menschen, die alles richtig machen und trotzdem nicht mehr in ihrem eigenen Leben vorkommen. Er hat selbst ein Jahr zu lange mit einer Entscheidung gewartet und weiß, was das kostet.</p>
   </section>
 
   <!-- ══════════ FORMATE & PREISE ══════════ -->
   <section id="formate-preise">
     <p class="eyebrow">Formate &amp; Preise</p>
-    <h2>Transparent von Anfang an</h2>
-    <p class="muted" style="font-size:16px">Die Preise stehen bereits fest. Verkaufsstart und genaues Erscheinungsdatum folgen hier, sobald das Manuskript fertig ist.</p>
+    <h2 id="preise-titel" data-live-text="Das E-Book gibt es ab jetzt">Transparent von Anfang an</h2>
+    <p class="muted" id="preise-intro" style="font-size:16px" data-live-text="Das Manuskript ist fertig, das E-Book ist da.">Die Preise stehen bereits fest. Verkaufsstart und genaues Erscheinungsdatum folgen hier, sobald das Manuskript fertig ist.</p>
 
+    <!-- Kacheln holen URL, Preis und live-Status aus Dynamics (Zahlungslinks am
+         zugeordneten Buch-Event). Hardcover und Hörbuch (data-optional) sind für
+         Besucherinnen unsichtbar, bis ihr Link wht_live = true hat (Sorin, 06.11.2026). -->
     <div class="prices">
       <div class="price-card-shell">
-        <a class="price-card highlight" data-linktype="959230001" data-tilekey="hardcover" target="_blank" rel="noopener">
-          <p class="price-tag">Hardcover</p>
-          <p class="price-amount"></p>
-          <p class="price-desc">gebunden, zum Signieren</p>
-          <p class="price-soon-note">Erscheint bald</p>
-        </a>
-        <span class="price-admin-label" data-tilekey="hardcover" style="display:none;">Zahlungslink (Admin)</span>
-        <select class="price-admin-select" data-tilekey="hardcover" style="display:none;" aria-label="Zahlungslink für Hardcover (Admin)"></select>
-      </div>
-      <div class="price-card-shell">
-        <a class="price-card" data-linktype="959230003" data-tilekey="ebook" target="_blank" rel="noopener">
+        <a class="price-card highlight" data-linktype="959230003" data-tilekey="ebook" target="_blank" rel="noopener">
           <p class="price-tag">E-Book</p>
           <p class="price-amount"></p>
           <p class="price-desc">EPUB &amp; PDF · der Einstieg</p>
           <p class="price-soon-note">Erscheint bald</p>
+          <span class="price-cta" data-cta-prefix="E-Book kaufen – ">E-Book kaufen</span>
+          <span class="price-buynote">Bezahlen z.&nbsp;B. per PayPal. Sofort nach dem Kauf als Download.</span>
         </a>
         <span class="price-admin-label" data-tilekey="ebook" style="display:none;">Zahlungslink (Admin)</span>
         <select class="price-admin-select" data-tilekey="ebook" style="display:none;" aria-label="Zahlungslink für E-Book (Admin)"></select>
       </div>
-      <div class="price-card-shell">
+      <div class="price-card-shell" data-optional="1" style="display:none;">
+        <a class="price-card" data-linktype="959230001" data-tilekey="hardcover" target="_blank" rel="noopener">
+          <p class="price-tag">Hardcover</p>
+          <p class="price-amount"></p>
+          <p class="price-desc">gebunden</p>
+          <p class="price-soon-note">Nicht live – nur für Admins sichtbar</p>
+        </a>
+        <span class="price-admin-label" data-tilekey="hardcover" style="display:none;">Zahlungslink (Admin)</span>
+        <select class="price-admin-select" data-tilekey="hardcover" style="display:none;" aria-label="Zahlungslink für Hardcover (Admin)"></select>
+      </div>
+      <div class="price-card-shell" data-optional="1" style="display:none;">
         <a class="price-card" data-linktype="959230002" data-tilekey="hoerbuch" target="_blank" rel="noopener">
           <p class="price-tag">Hörbuch</p>
           <p class="price-amount"></p>
-          <p class="price-desc">selbst eingesprochen, ca. 6,5 Std.</p>
-          <p class="price-soon-note">Erscheint bald</p>
+          <p class="price-desc">selbst eingesprochen</p>
+          <p class="price-soon-note">Nicht live – nur für Admins sichtbar</p>
         </a>
         <span class="price-admin-label" data-tilekey="hoerbuch" style="display:none;">Zahlungslink (Admin)</span>
         <select class="price-admin-select" data-tilekey="hoerbuch" style="display:none;" aria-label="Zahlungslink für Hörbuch (Admin)"></select>
       </div>
     </div>
-    <p class="price-fine">E-Book und Hardcover unterliegen der Buchpreisbindung – ein Preis, überall, jederzeit, ohne Rabattcodes. Preise inkl. 7 % USt. Endgültige Verfügbarkeit und Bestell-Link folgen zum Verkaufsstart.</p>
+    <!-- „Auch erhältlich bei …“: zeigt alle live-Links vom Typ SHOP_LINK_TYPE (Script unten); ohne solche Links unsichtbar. -->
+    <p class="price-shops" id="price-shops" style="display:none;">Lieber bei deinem Shop? Auch erhältlich bei <span id="price-shops-list"></span></p>
+    <p class="price-fine">Bücher unterliegen der Buchpreisbindung – ein Preis, überall, jederzeit, ohne Rabattcodes. Preise inkl. 7&nbsp;% USt.<span id="preise-fine-presale"> Bestell-Link folgt zum Verkaufsstart.</span></p>
   </section>
 
   <!-- ══════════ VERSPRECHEN ══════════ -->
   <section>
     <div class="note">
-      <p style="margin-bottom:0"><strong>Was dieses Buch dir verspricht:</strong> Am Ende wirst du eine Frage beantwortet haben, die du dir seit Jahren nicht gestellt hast – <em>Wer wäre ich, wenn ich aufhöre, nur zu funktionieren?</em> Und du wirst mindestens eine Grenze tatsächlich gezogen haben. Nicht darüber gelesen – gezogen, mit einer Reaktion darauf, die du überlebt hast. Das ist weniger, als der Markt verspricht. Es ist mehr, als die meisten liefern.</p>
+      <p style="margin-bottom:0"><strong>Was dieses Buch dir mitgibt:</strong> Am Ende hast du dir eine Frage beantwortet, die du dir seit Jahren nicht gestellt hast: <em>Wer wäre ich, wenn ich aufhöre, nur zu funktionieren?</em> Und das Buch führt dich zu dem Schritt, um den es wirklich geht: eine Grenze tatsächlich zu ziehen – nicht darüber lesen, sondern sie ziehen und die Reaktion darauf aushalten. Das ist weniger, als der Markt verspricht. Es ist der Teil, der bei dir bisher gefehlt hat.</p>
     </div>
   </section>
 
@@ -539,7 +556,7 @@
     <p style="margin-bottom:0">Die TelefonSeelsorge ist kostenfrei und rund um die Uhr erreichbar: <strong>0800 111 0 111</strong>, <strong>0800 111 0 222</strong> oder <strong>116 123</strong>, auch per Chat.</p>
   </div>
 
-  <p class="muted" style="font-size:15px">Noch unsicher, ob das dein Thema ist? Mach zuerst den <a class="link" href="https://der-architekt-deines-lebens.de/Tools/wo-kommst-du-noch-vor.html">3-Minuten-Selbsttest „Wo kommst du noch vor?"</a> – er beschreibt genau den Zustand, um den es im Buch geht.</p>
+  <p class="muted" style="font-size:15px">Noch unsicher, ob das dein Thema ist? Mach zuerst den <a class="link" href="https://der-architekt-deines-lebens.de/Tools/wo-kommst-du-noch-vor.html">3-Minuten-Selbsttest „Wo kommst du noch vor?“</a> – er beschreibt genau den Zustand, um den es im Buch geht.</p>
 
   <p class="foot">Sorin Ratiu · <a class="link" href="https://der-architekt-deines-lebens.de/">Der Architekt Deines Lebens</a> · Erscheint im Verlag der weHerzIT GmbH · Dieses Buch ersetzt keine Diagnose und keine Behandlung.</p>
 </div>
@@ -584,6 +601,7 @@
   var jumpNotifyBtn = document.getElementById('btn-jump-notify');
   if (jumpNotifyBtn) {
     jumpNotifyBtn.addEventListener('click', function () {
+      if (jumpNotifyBtn.dataset.mode === 'buy') return; // Kaufmodus: nur zum Kaufbereich springen
       var notifyCb = document.querySelector('#benachrichtigung input[name="notify"]');
       if (notifyCb) notifyCb.checked = true;
       focusNotifyEmailField();
@@ -616,6 +634,12 @@
   // ersten Rendern erfasste Funktionsabschluss stur das alte Event
   // referenzieren).
   var CURRENT_ACTIVE_EVENT = null;
+  // Eingeloggter Admin? Dann bleiben auch nicht-live Kacheln sichtbar (zum Zuordnen).
+  var IS_ADMIN = false;
+  // wht_paymentlinktype für Buchhandel-Links (tolino/Thalia/Hugendubel …).
+  // TODO: Nummer des neuen Picklist-Werts aus Dynamics eintragen (Sorin) –
+  // bis dahin bleibt die Zeile „Auch erhältlich bei …“ unsichtbar.
+  var SHOP_LINK_TYPE = null;
 
   function formatPrice(price) {
     if (typeof price !== 'number' || !isFinite(price)) return '';
@@ -643,21 +667,92 @@
   }
 
   function applyPaymentLinks() {
+    var visibleCount = 0;
+    var ebookLive = null;
     document.querySelectorAll('.price-card[data-tilekey]').forEach(function (card) {
       var amountEl = card.querySelector('.price-amount');
+      var ctaEl = card.querySelector('.price-cta');
+      var shell = card.closest('.price-card-shell');
       var match = findLinkForTile(card);
       var isActive = !!(match && match.url && match.live === true);
       if (isActive) {
         card.href = match.url;
         card.classList.remove('soon');
-        if (amountEl) amountEl.textContent = formatPrice(match.price);
+        if (ctaEl) {
+          // Preis steht im Knopf („E-Book kaufen – 16,99 €“), nicht doppelt darüber.
+          ctaEl.textContent = (ctaEl.getAttribute('data-cta-prefix') || '') + formatPrice(match.price);
+          if (amountEl) amountEl.textContent = '';
+        } else if (amountEl) {
+          amountEl.textContent = formatPrice(match.price);
+        }
+        if (card.getAttribute('data-tilekey') === 'ebook') ebookLive = match;
       } else {
         card.removeAttribute('href');
         card.classList.add('soon');
         if (amountEl) amountEl.textContent = '';
       }
+      // Optionale Formate (Hardcover, Hörbuch) erst zeigen, wenn live – Admins sehen sie immer.
+      if (shell && shell.getAttribute('data-optional') === '1') {
+        shell.style.display = (isActive || IS_ADMIN) ? '' : 'none';
+      }
+      if (!shell || shell.style.display !== 'none') visibleCount++;
     });
+    var grid = document.querySelector('.prices');
+    if (grid) {
+      grid.classList.remove('count-1', 'count-2');
+      if (visibleCount === 1) grid.classList.add('count-1');
+      if (visibleCount === 2) grid.classList.add('count-2');
+    }
+    applySaleState(ebookLive);
+    applyShopLinks();
   }
+
+  // Verkaufsstart: sobald der E-Book-Link live ist, wechseln Überschrift,
+  // Einleitung und der zweite Hero-Knopf automatisch (Texte: Marcs Endfassung).
+  function applySaleState(ebookLink) {
+    var live = !!ebookLink;
+    ['preise-titel', 'preise-intro'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (!el.hasAttribute('data-presale-text')) el.setAttribute('data-presale-text', el.textContent);
+      el.textContent = live ? el.getAttribute('data-live-text') : el.getAttribute('data-presale-text');
+    });
+    var fine = document.getElementById('preise-fine-presale');
+    if (fine) fine.style.display = live ? 'none' : '';
+    var btn = document.getElementById('btn-jump-notify');
+    if (btn) {
+      if (live) {
+        btn.dataset.mode = 'buy';
+        btn.textContent = 'E-Book kaufen – ' + formatPrice(ebookLink.price);
+        btn.setAttribute('href', '#formate-preise');
+      } else {
+        btn.dataset.mode = 'notify';
+        btn.textContent = 'Bescheid sagen, wenn’s da ist';
+        btn.setAttribute('href', '#benachrichtigung');
+      }
+    }
+  }
+
+  // „Auch erhältlich bei …“ – nur live-Links vom Typ SHOP_LINK_TYPE; Linktext = Name des Zahlungslinks.
+  function applyShopLinks() {
+    var box = document.getElementById('price-shops');
+    var list = document.getElementById('price-shops-list');
+    if (!box || !list) return;
+    var links = (CURRENT_ACTIVE_EVENT && CURRENT_ACTIVE_EVENT.payment_links) || [];
+    var shops = SHOP_LINK_TYPE == null ? [] : links.filter(function (l) {
+      return l.type === SHOP_LINK_TYPE && l.url && l.live === true;
+    });
+    list.innerHTML = '';
+    shops.forEach(function (l, idx) {
+      if (idx > 0) list.appendChild(document.createTextNode(' · '));
+      var a = document.createElement('a');
+      a.className = 'link'; a.href = l.url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = l.name;
+      list.appendChild(a);
+    });
+    box.style.display = shops.length ? '' : 'none';
+  }
+
 
   // ── Admin-Auswahl je Kachel: zeigt ALLE Zahlungslinks des aktuell
   // zugeordneten Events zur Auswahl an (nicht nur den per Typ automatisch
@@ -759,6 +854,8 @@
         // (applyPaymentLinks oben) funktionieren unabhängig davon für alle.
         db.auth.getSession().then(function (sessionRes) {
           if (!sessionRes.data.session) return;
+          IS_ADMIN = true;
+          applyPaymentLinks();
           renderPriceLinkAdmin();
 
           if (!events.length) return;
