@@ -282,6 +282,16 @@
   .price-admin-select.required-missing{border-style:solid; border-color:var(--orange-500); color:var(--orange-600)}
   .price-amount:empty{display:none}
   .price-fine{font-size:12.5px; color:var(--ink-soft); margin:18px 0 0}
+  /* Nur eine sichtbare Kachel (z. B. nur E-Book live): nicht über die volle
+     Breite ziehen. Wird per JS gesetzt (applyPaymentLinks). */
+  @media (min-width:560px){ .prices.count-1{grid-template-columns:minmax(0,380px)} .prices.count-2{grid-template-columns:repeat(2,1fr)} }
+  /* Kaufknopf in der E-Book-Kachel – nur sichtbar, wenn der Link live ist. */
+  .price-cta{display:none; margin:14px 0 0; background:var(--orange-600); color:#fff; font-weight:700; padding:12px 16px; text-align:center; border-radius:2px}
+  .price-card[href] .price-cta{display:block}
+  .price-card[href]:hover .price-cta{background:var(--navy-900, #09204A)}
+  .price-buynote{display:none; font-size:13px; color:var(--ink-soft); margin:10px 0 0}
+  .price-card[href] .price-buynote{display:block}
+  .price-shops{font-size:13.5px; color:var(--ink-soft); margin:12px 0 0}
 
   /* Für wen */
   .forlist{list-style:none; margin:0; padding:0}
@@ -484,42 +494,49 @@
   <!-- ══════════ FORMATE & PREISE ══════════ -->
   <section id="formate-preise">
     <p class="eyebrow">Formate &amp; Preise</p>
-    <h2>Transparent von Anfang an</h2>
-    <p class="muted" style="font-size:16px">Die Preise stehen bereits fest. Verkaufsstart und genaues Erscheinungsdatum folgen hier, sobald das Manuskript fertig ist.</p>
+    <h2 id="preise-titel" data-live-text="Das E-Book gibt es ab jetzt">Transparent von Anfang an</h2>
+    <p class="muted" id="preise-intro" style="font-size:16px" data-live-text="Das Manuskript ist fertig, das E-Book ist da.">Die Preise stehen bereits fest. Verkaufsstart und genaues Erscheinungsdatum folgen hier, sobald das Manuskript fertig ist.</p>
 
+    <!-- Kacheln holen URL, Preis und live-Status aus Dynamics (Zahlungslinks am
+         zugeordneten Buch-Event). Hardcover und Hörbuch (data-optional) sind für
+         Besucherinnen unsichtbar, bis ihr Link wht_live = true hat (Sorin, 06.11.2026). -->
     <div class="prices">
       <div class="price-card-shell">
-        <a class="price-card highlight" data-linktype="959230001" data-tilekey="hardcover" target="_blank" rel="noopener">
-          <p class="price-tag">Hardcover</p>
-          <p class="price-amount"></p>
-          <p class="price-desc">gebunden, zum Signieren</p>
-          <p class="price-soon-note">Erscheint bald</p>
-        </a>
-        <span class="price-admin-label" data-tilekey="hardcover" style="display:none;">Zahlungslink (Admin)</span>
-        <select class="price-admin-select" data-tilekey="hardcover" style="display:none;" aria-label="Zahlungslink für Hardcover (Admin)"></select>
-      </div>
-      <div class="price-card-shell">
-        <a class="price-card" data-linktype="959230003" data-tilekey="ebook" target="_blank" rel="noopener">
+        <a class="price-card highlight" data-linktype="959230003" data-tilekey="ebook" target="_blank" rel="noopener">
           <p class="price-tag">E-Book</p>
           <p class="price-amount"></p>
           <p class="price-desc">EPUB &amp; PDF · der Einstieg</p>
           <p class="price-soon-note">Erscheint bald</p>
+          <span class="price-cta" data-cta-prefix="E-Book kaufen – ">E-Book kaufen</span>
+          <span class="price-buynote">Bezahlen z.&nbsp;B. per PayPal. Sofort nach dem Kauf als Download.</span>
         </a>
         <span class="price-admin-label" data-tilekey="ebook" style="display:none;">Zahlungslink (Admin)</span>
         <select class="price-admin-select" data-tilekey="ebook" style="display:none;" aria-label="Zahlungslink für E-Book (Admin)"></select>
       </div>
-      <div class="price-card-shell">
+      <div class="price-card-shell" data-optional="1" style="display:none;">
+        <a class="price-card" data-linktype="959230001" data-tilekey="hardcover" target="_blank" rel="noopener">
+          <p class="price-tag">Hardcover</p>
+          <p class="price-amount"></p>
+          <p class="price-desc">gebunden</p>
+          <p class="price-soon-note">Nicht live – nur für Admins sichtbar</p>
+        </a>
+        <span class="price-admin-label" data-tilekey="hardcover" style="display:none;">Zahlungslink (Admin)</span>
+        <select class="price-admin-select" data-tilekey="hardcover" style="display:none;" aria-label="Zahlungslink für Hardcover (Admin)"></select>
+      </div>
+      <div class="price-card-shell" data-optional="1" style="display:none;">
         <a class="price-card" data-linktype="959230002" data-tilekey="hoerbuch" target="_blank" rel="noopener">
           <p class="price-tag">Hörbuch</p>
           <p class="price-amount"></p>
-          <p class="price-desc">selbst eingesprochen, ca. 6,5 Std.</p>
-          <p class="price-soon-note">Erscheint bald</p>
+          <p class="price-desc">selbst eingesprochen</p>
+          <p class="price-soon-note">Nicht live – nur für Admins sichtbar</p>
         </a>
         <span class="price-admin-label" data-tilekey="hoerbuch" style="display:none;">Zahlungslink (Admin)</span>
         <select class="price-admin-select" data-tilekey="hoerbuch" style="display:none;" aria-label="Zahlungslink für Hörbuch (Admin)"></select>
       </div>
     </div>
-    <p class="price-fine">E-Book und Hardcover unterliegen der Buchpreisbindung – ein Preis, überall, jederzeit, ohne Rabattcodes. Preise inkl. 7 % USt. Endgültige Verfügbarkeit und Bestell-Link folgen zum Verkaufsstart.</p>
+    <!-- „Auch erhältlich bei …“: zeigt alle live-Links vom Typ SHOP_LINK_TYPE (Script unten); ohne solche Links unsichtbar. -->
+    <p class="price-shops" id="price-shops" style="display:none;">Lieber bei deinem Shop? Auch erhältlich bei <span id="price-shops-list"></span></p>
+    <p class="price-fine">Bücher unterliegen der Buchpreisbindung – ein Preis, überall, jederzeit, ohne Rabattcodes. Preise inkl. 7&nbsp;% USt.<span id="preise-fine-presale"> Bestell-Link folgt zum Verkaufsstart.</span></p>
   </section>
 
   <!-- ══════════ VERSPRECHEN ══════════ -->
@@ -584,6 +601,7 @@
   var jumpNotifyBtn = document.getElementById('btn-jump-notify');
   if (jumpNotifyBtn) {
     jumpNotifyBtn.addEventListener('click', function () {
+      if (jumpNotifyBtn.dataset.mode === 'buy') return; // Kaufmodus: nur zum Kaufbereich springen
       var notifyCb = document.querySelector('#benachrichtigung input[name="notify"]');
       if (notifyCb) notifyCb.checked = true;
       focusNotifyEmailField();
@@ -616,6 +634,12 @@
   // ersten Rendern erfasste Funktionsabschluss stur das alte Event
   // referenzieren).
   var CURRENT_ACTIVE_EVENT = null;
+  // Eingeloggter Admin? Dann bleiben auch nicht-live Kacheln sichtbar (zum Zuordnen).
+  var IS_ADMIN = false;
+  // wht_paymentlinktype für Buchhandel-Links (tolino/Thalia/Hugendubel …).
+  // TODO: Nummer des neuen Picklist-Werts aus Dynamics eintragen (Sorin) –
+  // bis dahin bleibt die Zeile „Auch erhältlich bei …“ unsichtbar.
+  var SHOP_LINK_TYPE = null;
 
   function formatPrice(price) {
     if (typeof price !== 'number' || !isFinite(price)) return '';
@@ -643,21 +667,92 @@
   }
 
   function applyPaymentLinks() {
+    var visibleCount = 0;
+    var ebookLive = null;
     document.querySelectorAll('.price-card[data-tilekey]').forEach(function (card) {
       var amountEl = card.querySelector('.price-amount');
+      var ctaEl = card.querySelector('.price-cta');
+      var shell = card.closest('.price-card-shell');
       var match = findLinkForTile(card);
       var isActive = !!(match && match.url && match.live === true);
       if (isActive) {
         card.href = match.url;
         card.classList.remove('soon');
-        if (amountEl) amountEl.textContent = formatPrice(match.price);
+        if (ctaEl) {
+          // Preis steht im Knopf („E-Book kaufen – 16,99 €“), nicht doppelt darüber.
+          ctaEl.textContent = (ctaEl.getAttribute('data-cta-prefix') || '') + formatPrice(match.price);
+          if (amountEl) amountEl.textContent = '';
+        } else if (amountEl) {
+          amountEl.textContent = formatPrice(match.price);
+        }
+        if (card.getAttribute('data-tilekey') === 'ebook') ebookLive = match;
       } else {
         card.removeAttribute('href');
         card.classList.add('soon');
         if (amountEl) amountEl.textContent = '';
       }
+      // Optionale Formate (Hardcover, Hörbuch) erst zeigen, wenn live – Admins sehen sie immer.
+      if (shell && shell.getAttribute('data-optional') === '1') {
+        shell.style.display = (isActive || IS_ADMIN) ? '' : 'none';
+      }
+      if (!shell || shell.style.display !== 'none') visibleCount++;
     });
+    var grid = document.querySelector('.prices');
+    if (grid) {
+      grid.classList.remove('count-1', 'count-2');
+      if (visibleCount === 1) grid.classList.add('count-1');
+      if (visibleCount === 2) grid.classList.add('count-2');
+    }
+    applySaleState(ebookLive);
+    applyShopLinks();
   }
+
+  // Verkaufsstart: sobald der E-Book-Link live ist, wechseln Überschrift,
+  // Einleitung und der zweite Hero-Knopf automatisch (Texte: Marcs Endfassung).
+  function applySaleState(ebookLink) {
+    var live = !!ebookLink;
+    ['preise-titel', 'preise-intro'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      if (!el.hasAttribute('data-presale-text')) el.setAttribute('data-presale-text', el.textContent);
+      el.textContent = live ? el.getAttribute('data-live-text') : el.getAttribute('data-presale-text');
+    });
+    var fine = document.getElementById('preise-fine-presale');
+    if (fine) fine.style.display = live ? 'none' : '';
+    var btn = document.getElementById('btn-jump-notify');
+    if (btn) {
+      if (live) {
+        btn.dataset.mode = 'buy';
+        btn.textContent = 'E-Book kaufen – ' + formatPrice(ebookLink.price);
+        btn.setAttribute('href', '#formate-preise');
+      } else {
+        btn.dataset.mode = 'notify';
+        btn.textContent = 'Bescheid sagen, wenn’s da ist';
+        btn.setAttribute('href', '#benachrichtigung');
+      }
+    }
+  }
+
+  // „Auch erhältlich bei …“ – nur live-Links vom Typ SHOP_LINK_TYPE; Linktext = Name des Zahlungslinks.
+  function applyShopLinks() {
+    var box = document.getElementById('price-shops');
+    var list = document.getElementById('price-shops-list');
+    if (!box || !list) return;
+    var links = (CURRENT_ACTIVE_EVENT && CURRENT_ACTIVE_EVENT.payment_links) || [];
+    var shops = SHOP_LINK_TYPE == null ? [] : links.filter(function (l) {
+      return l.type === SHOP_LINK_TYPE && l.url && l.live === true;
+    });
+    list.innerHTML = '';
+    shops.forEach(function (l, idx) {
+      if (idx > 0) list.appendChild(document.createTextNode(' · '));
+      var a = document.createElement('a');
+      a.className = 'link'; a.href = l.url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = l.name;
+      list.appendChild(a);
+    });
+    box.style.display = shops.length ? '' : 'none';
+  }
+
 
   // ── Admin-Auswahl je Kachel: zeigt ALLE Zahlungslinks des aktuell
   // zugeordneten Events zur Auswahl an (nicht nur den per Typ automatisch
@@ -759,6 +854,8 @@
         // (applyPaymentLinks oben) funktionieren unabhängig davon für alle.
         db.auth.getSession().then(function (sessionRes) {
           if (!sessionRes.data.session) return;
+          IS_ADMIN = true;
+          applyPaymentLinks();
           renderPriceLinkAdmin();
 
           if (!events.length) return;
