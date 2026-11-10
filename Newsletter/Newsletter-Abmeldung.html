@@ -177,8 +177,16 @@
       var button = document.getElementById('unsubscribe-button');
       var emailInput = document.getElementById('unsubscribe-email');
       var message = document.getElementById('unsubscribe-message');
-      var emailFromLink = new URLSearchParams(window.location.search).get('email');
-      if (emailFromLink) emailInput.value = emailFromLink;
+      var emailQuery = window.location.search.slice(1).split('&').find(function (part) {
+        return part.indexOf('email=') === 0;
+      });
+      if (emailQuery) {
+        try {
+          emailInput.value = decodeURIComponent(emailQuery.slice(6).replace(/\+/g, '%2B'));
+        } catch (error) {
+          emailInput.value = '';
+        }
+      }
 
       form.addEventListener('submit', async function (event) {
         event.preventDefault();
