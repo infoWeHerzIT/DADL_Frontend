@@ -11,20 +11,19 @@
 <![endif]-->
 <!--
   NEWSLETTER-VORLAGE MAIL v3 – Der Architekt Deines Lebens · Stand 12.10.2026 · Max
-  Neu in v3: Logo-Kopf (Kompass + Wortmarke) als Bild, mit Text-Fallback.
+  Neu in v3: Markenlogo im Kopf, Coaches-Foto im Inhalt und Instagram-Logo im Footer.
   Nachtrag 12.10. (Vorgabe Sorin): gesamter Inhalt + Fußzeile in EINEM Container,
     max. 700 px breit, horizontal zentriert. Outlook (Windows): MSO-Ghost-Table 700 px.
     Handy (bis 740 px Fensterbreite): Container 100 % Breite.
   Tabellen-Layout, Stile inline, keine Skripte.
   Quelle Farben/Schriften: _DADL\_Gemeinsam\Branding.md (Canva Brand Kit „DADL“).
 
-  LOGO
-    Datei:    Output - Max\Newsletter\Logo-Newsletter-Kopf.png (528 × 128 px, transparent, 2× Retina)
-    Anzeige:  264 × 64 px
-    Bild-URL: [PLATZHALTER: Logo-URL] – öffentliche URL fehlt noch (Entscheidung Sorin:
-              Webseite oder Mail-System). OneDrive-Links sind nicht öffentlich.
-    Ohne Bild (Bilder blockiert / URL fehlt): Der Alt-Text „Der Architekt Deines Lebens“
-              erscheint in Navy, Archivo/Arial, Großbuchstaben – wie die Wortmarke in v2.
+  BILDER
+    Markenlogo: assets\brand\der_architekt_deines_lebens Logo transparent.png
+    Instagram:  assets\brand\der_architekt_deines_lebens (1080 X 120 Px).png
+    Foto:       Coaches\LiliUndSorin\Sorin_Lili 02_small.png
+    Die Bildpfade sind relativ zu dieser Vorlage. Vor dem Newsletter-Versand durch
+    öffentlich erreichbare Bild-URLs oder die vom Mail-System unterstützte Einbettung ersetzen.
 
   FARBEN (Rolle laut Branding.md)
     #FEFAF1  Off-White      Seitenhintergrund außen
@@ -71,11 +70,19 @@
               <!-- INHALT (weiße Fläche) -->
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; background-color:#FFFFFF;">
 
-                <!-- LOGO-KOPF: Kompass + Wortmarke als Bild (264 × 64 angezeigt, Datei 528 × 128).
-                     Alt-Text ist gestylt: ohne Bild steht dort die Wortmarke in Navy. -->
+                <!-- Kopfbereich: Markenlogo links, Foto rechts -->
                 <tr>
-                  <td class="pad" align="left" style="padding:40px 44px 0 44px; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:13px; line-height:18px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#09204A;">
-                    <img src="[PLATZHALTER: Logo-URL]" width="264" height="64" alt="Der Architekt Deines Lebens" style="display:block; border:0; outline:none; text-decoration:none; width:264px; max-width:100%; height:auto; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:13px; line-height:18px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#09204A;">
+                  <td class="pad" style="padding:32px 44px 0 44px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td width="50%" align="left" valign="middle">
+                          <img src="../assets/brand/der_architekt_deines_lebens%20Logo%20transparent.png" width="120" alt="Der Architekt Deines Lebens – Kompass-Logo" style="display:block; border:0; outline:none; text-decoration:none; width:120px; max-width:100%; height:auto;">
+                        </td>
+                        <td width="50%" align="right" valign="middle">
+                          <img src="../Coaches/LiliUndSorin/Sorin_Lili 02_small_transparent.png" width="150" alt="Lili und Sorin" style="display:block; border:0; outline:none; text-decoration:none; width:100%; max-width:150px; height:auto;">
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
 
@@ -129,9 +136,9 @@
                 <tr>
                   <td align="center" class="pad" style="padding:24px 44px 0 44px; font-family:'Source Sans 3', Arimo, Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; color:#09204A; text-align:center;">
                     Der Architekt Deines Lebens · Lili &amp; Sorin<br>
-                    <a href="https://www.instagram.com/der_architekt_deines_lebens/" style="color:#AF5B2D; text-decoration:underline;">@der_architekt_deines_lebens</a><br>
+                    <a href="https://www.instagram.com/der_architekt_deines_lebens/" style="text-decoration:none;"><img src="../assets/brand/der_architekt_deines_lebens%20(1080%20X%20120%20Px).png" width="264" height="29" alt="@der_architekt_deines_lebens auf Instagram" style="display:inline-block; border:0; outline:none; text-decoration:none; width:264px; max-width:100%; height:auto;"></a><br>
                     <a href="https://der-architekt-deines-lebens.de/rechtliches.html#impressum">Impressum</a> · <a href="https://der-architekt-deines-lebens.de/rechtliches.html#datenschutz">Datenschutz</a><br>
-                    Du möchtest keine Post mehr? <a href="[ABMELDELINK]" style="color:#AF5B2D; text-decoration:underline;">Hier abmelden</a>
+                    Du möchtest keine Post mehr? <a href="https://der-architekt-deines-lebens.de/Newsletter/Newsletter-Abmeldung.html" style="color:#AF5B2D; text-decoration:underline;">Hier abmelden</a>
                   </td>
                 </tr>
               </table>

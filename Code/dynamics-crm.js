@@ -204,6 +204,35 @@ class DynamicsCRM {
     });
   }
 
+  // Setzt die Newsletter-Einwilligung eines Dynamics-Kontakts anhand seiner
+  // E-Mail-Adresse zurück (supabase/functions/crm-newsletter-unsubscribe[-dev]).
+  async unsubscribeNewsletter(email) {
+    try {
+      var res = await this.client.functions.invoke(this._functionName('crm-newsletter-unsubscribe'), {
+        body: { email: String(email || '').trim() }
+      });
+      if (res.error) {
+        var errorMessage = res.error.message || 'Die Abmeldung konnte nicht abgeschlossen werden.';
+        if (res.error.context && typeof res.error.context.json === 'function') {
+          try {
+            var errorBody = await res.error.context.json();
+            errorMessage = errorBody.error || errorMessage;
+          } catch (parseError) {
+            console.warn('CRM unsubscribe error response could not be parsed:', parseError);
+          }
+        }
+        throw new Error(errorMessage);
+      }
+      if (!res.data || !res.data.success) {
+        throw new Error((res.data && res.data.error) || 'Abmeldung fehlgeschlagen.');
+      }
+      return { success: true, updatedCount: res.data.updatedCount || 0 };
+    } catch (err) {
+      console.error('CRM newsletter unsubscribe error:', err);
+      return { success: false, error: err.message || 'Die Abmeldung konnte nicht abgeschlossen werden.' };
+    }
+  }
+
   // Liest eine dynamische Umfrage-Definition (wht_survey + wht_surveyquestion
   // + wht_surveyquestionoption, read-only) anhand ihres Slugs —
   // supabase/functions/dynamics-survey-get[-dev]. Gibt bei Fehlern ODER wenn
