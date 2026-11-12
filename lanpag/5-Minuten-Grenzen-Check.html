@@ -34,7 +34,7 @@
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
 
   /* ---------- KOPFZEILE (wie startseite.html) ---------- */
-  .site-header { background: var(--navy); }
+  .site-header { position:sticky; top:0; z-index:1000; background:var(--navy); }
   .site-header .wrap { display: flex; align-items: center; padding-top: 16px; padding-bottom: 16px; }
   .site-logo {
     display: inline-flex; align-items: center; gap: 10px;
@@ -43,7 +43,6 @@
     white-space: nowrap;
   }
   .site-logo svg { width: 26px; height: 26px; flex: none; color: var(--orange); }
-  .site-logo:hover { color: var(--orange-100); }
 
   /* ---------- HERO ---------- */
   .hero-grid { display: flex; align-items: center; gap: 32px; }
@@ -231,10 +230,10 @@
 <!-- ================= KOPFZEILE ================= -->
 <header class="site-header">
   <div class="wrap">
-    <a href="https://der-architekt-deines-lebens.de/startseite.html" class="site-logo">
+    <div class="site-logo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
       Der Architekt Deines Lebens
-    </a>
+    </div>
   </div>
 </header>
 

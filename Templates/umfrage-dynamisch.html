@@ -10,6 +10,7 @@
 <script src="../Code/dynamics-crm.js"></script>
 <script src="../Code/send-overlay.js"></script>
 <script src="../Code/dynamic-survey-renderer.js"></script>
+<script src="../Code/survey-result-configs.js"></script>
 <style>
   :root {
     --orange: #d9682c;
@@ -234,6 +235,30 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .btn-submit.loading .spinner { display: block; }
 
+  /* Ergebnis-Ansicht (nur bei Umfragen mit Eintrag in survey-result-configs.js) */
+  .sr-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+  .sr-title { font-size: clamp(26px, 5vw, 36px); line-height: 1.15; margin-bottom: 18px; }
+  .sr-section-title { font-size: clamp(22px, 4.5vw, 28px); line-height: 1.2; margin: 36px 0 8px; }
+  #survey-result p { font-size: 17px; line-height: 1.7; margin-bottom: 16px; }
+  .sr-hint { color: rgba(0,34,77,0.55); }
+  .sr-map { display: grid; grid-template-columns: 1fr; gap: 1px; margin: 12px 0 28px; border: 1px solid rgba(0,34,77,0.12); background: rgba(0,34,77,0.12); border-radius: 8px; overflow: hidden; }
+  .sr-cell { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; background: #fff; padding: 13px 15px; }
+  .sr-state { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-align: right; }
+  .sr-yes { color: #4c7a5e; } .sr-some { color: var(--orange); } .sr-no { color: #8f3925; }
+  .sr-card { padding: 22px; background: #fff; border: 1px solid rgba(0,34,77,0.1); border-radius: 8px; margin: 18px 0; }
+  .sr-card h3 { font-size: 19px; margin-bottom: 8px; }
+  .sr-card p:last-child { margin-bottom: 0 !important; }
+  .sr-note { border-left: 3px solid var(--orange); padding: 12px 0 12px 18px; margin: 28px 0; color: rgba(0,34,77,0.7); }
+  .sr-note p { font-size: 15px !important; margin-bottom: 0 !important; }
+  .sr-booking { margin: 18px 0; border: 1px solid rgba(0,34,77,0.12); border-radius: 8px; overflow: hidden; background: #fff; }
+  .sr-booking iframe { display: block; width: 100%; height: 740px; border: 0; }
+  .sr-small { font-size: 14px !important; color: rgba(0,34,77,0.55); }
+  .sr-small a { color: var(--orange); }
+  .sr-closing { font-weight: 700; margin-top: 32px; }
+  .sr-btn { display: inline-block; border: 0; border-radius: 8px; background: var(--orange); color: #fff; padding: 15px 26px; font: 700 17px 'DM Sans', sans-serif; cursor: pointer; }
+  .sr-btn:hover { background: var(--navy); }
+  @media (min-width: 560px) { .sr-map { grid-template-columns: 1fr 1fr; } }
+
   .form-divider { border: none; border-top: 1px solid rgba(0,34,77,0.08); margin: 32px 0; }
 
   /* ─── CHECKBOX ─── */
@@ -392,7 +417,7 @@
           <span>Ja, schick mir gerne ab und zu Impulse per E-Mail (Newsletter) – kurze Gedanken zu Stress, Grenzen und dem eigenen Weg. Jederzeit mit einem Klick abbestellbar.</span>
         </label>
 
-        <label class="form-checkbox" style="margin-top: 12px; padding: 14px 16px; border: 1px solid rgba(217,104,44,0.28); border-radius: 8px; background: rgba(217,104,44,0.04); box-shadow: 0 0 0 1px rgba(217,104,44,0.06);">
+        <label class="form-checkbox" id="results-optin-row" style="margin-top: 12px; padding: 14px 16px; border: 1px solid rgba(217,104,44,0.28); border-radius: 8px; background: rgba(217,104,44,0.04); box-shadow: 0 0 0 1px rgba(217,104,44,0.06);">
           <input type="checkbox" id="c-results-optin">
           <span><strong>Möchtest du die Ergebnisse dieser Umfrage bekommen?</strong> Wir werten alle Antworten aus und schicken dir eine Zusammenfassung: Was Frauen zwischen 35 und 55 gerade am meisten belastet, was sie schon versucht haben – und was tatsächlich etwas verändert hat. Du wirst wahrscheinlich überrascht sein, wie viele es genauso erleben wie du.</span>
         </label>
@@ -408,6 +433,20 @@
 
         <div class="submit-error" id="submit-error">Etwas ist schiefgelaufen. Bitte versuche es gleich noch einmal.</div>
       </form>
+    </div>
+
+    <div id="survey-result" style="display:none;">
+      <div id="sr-body"></div>
+      <div id="sr-booking-wrap" style="display:none;">
+        <h2 class="sr-section-title">Was du jetzt damit machen kannst</h2>
+        <p id="sr-booking-intro"></p>
+        <p id="sr-booking-btn-row"><button type="button" class="sr-btn" id="sr-booking-btn">Termin für mein Erstgespräch wählen</button></p>
+        <div id="sr-booking" style="display:none;">
+          <div class="sr-booking"><iframe id="sr-booking-frame" title="Termin für dein Erstgespräch bei Microsoft Bookings wählen" loading="lazy"></iframe></div>
+          <p class="sr-small">Beim Laden der Terminbuchung wird eine Verbindung zu Microsoft Bookings hergestellt; es gelten die Datenschutzhinweise von Microsoft. Falls die Terminbuchung nicht angezeigt wird, <a id="sr-booking-link" target="_blank" rel="noopener">öffne sie direkt bei Microsoft Bookings</a>.</p>
+        </div>
+      </div>
+      <p class="sr-closing" id="sr-closing"></p>
     </div>
 
   </div>
@@ -492,6 +531,11 @@
   var renderer = new DynamicSurveyRenderer(document.getElementById('questions-root'));
   var surveyId = '';
   var eventId  = '';
+  // Optionale Auswertung pro Slug (Code/survey-result-configs.js). Ohne
+  // Eintrag bleibt alles beim Alten: Absenden -> Danke-Seite.
+  var resultConfig = null;
+  var loadedQuestions = [];
+  var submitLabel = 'Umfrage absenden →';
 
   // Lookup per "?id=<Dynamics-GUID>" hat Vorrang vor "?survey=<slug>", falls
   // beide gesetzt sind.
@@ -514,6 +558,20 @@
     descEl.innerHTML = result.survey.description || '';
     fixDescriptionLinkTargets(descEl);
     document.getElementById('survey-intro').textContent = result.survey.intro || '';
+
+    loadedQuestions = result.questions;
+    var configs = window.SURVEY_RESULT_CONFIGS || {};
+    resultConfig = (result.survey.slug && configs[result.survey.slug]) || null;
+    if (resultConfig) {
+      if (resultConfig.hideResultsOptIn) {
+        document.getElementById('c-results-optin').checked = false;
+        document.getElementById('results-optin-row').style.display = 'none';
+      }
+      if (resultConfig.submitLabel) {
+        submitLabel = resultConfig.submitLabel;
+        document.getElementById('btn-label').textContent = submitLabel;
+      }
+    }
 
     renderer.renderQuestions(result.questions, updateContactRequiredUI);
     updateContactRequiredUI();
@@ -625,8 +683,106 @@
     btn.disabled = on;
     btn.classList.toggle('loading', on);
     spinner.style.display = on ? 'block' : 'none';
-    btnLabel.textContent  = on ? 'Wird gesendet …' : 'Umfrage absenden →';
+    btnLabel.textContent  = on ? 'Wird gesendet …' : submitLabel;
   }
+
+  // ── Ergebnis-Ansicht ──
+  // Antworten über die Reihenfolge (wht_order) von Frage und Option
+  // auflösen, damit die Auswertung in DEV und PROD gleich funktioniert.
+  function buildResultContext(answers) {
+    var byQuestionId = {};
+    answers.forEach(function (a) { byQuestionId[a.questionId] = a; });
+    function questionAt(n) {
+      return loadedQuestions.find(function (q) { return Number(q.order) === Number(n); });
+    }
+    return {
+      choice: function (n) {
+        var q = questionAt(n);
+        var a = q && byQuestionId[q.id];
+        if (!a || !a.options || !a.options.length) return null;
+        var sorted = (q.options || []).slice().sort(function (x, y) { return (Number(x.order) || 0) - (Number(y.order) || 0); });
+        var idx = sorted.findIndex(function (o) { return o.id === a.options[0].id; });
+        return idx >= 0 ? idx + 1 : null;
+      },
+      text: function (n) {
+        var q = questionAt(n);
+        var a = q && byQuestionId[q.id];
+        return (a && a.value) || '';
+      }
+    };
+  }
+
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function showResult(answers) {
+    var ctx = buildResultContext(answers);
+    var res = {};
+    try { res = resultConfig.evaluate ? (resultConfig.evaluate(ctx) || {}) : {}; }
+    catch (err) { console.error('Survey evaluate error:', err); }
+
+    var body = document.getElementById('sr-body');
+    body.textContent = '';
+    if (res.eyebrow) body.appendChild(el('p', 'sr-eyebrow', res.eyebrow));
+    if (res.title) body.appendChild(el('h2', 'sr-title', res.title));
+    (res.paragraphs || []).forEach(function (t) { body.appendChild(el('p', null, t)); });
+    if (res.map && res.map.length) {
+      if (res.mapTitle) body.appendChild(el('h2', 'sr-section-title', res.mapTitle));
+      if (res.mapHint) body.appendChild(el('p', 'sr-hint', res.mapHint));
+      var map = el('div', 'sr-map');
+      res.map.forEach(function (m) {
+        var cell = el('div', 'sr-cell');
+        cell.appendChild(el('strong', null, m.name));
+        cell.appendChild(el('span', 'sr-state sr-' + (m.tone || 'some'), m.label));
+        map.appendChild(cell);
+      });
+      body.appendChild(map);
+    }
+    (res.cards || []).forEach(function (c) {
+      var card = el('div', 'sr-card');
+      card.appendChild(el('h3', null, c.title));
+      card.appendChild(el('p', null, c.text));
+      body.appendChild(card);
+    });
+    (res.notes || []).forEach(function (n) {
+      var note = el('div', 'sr-note');
+      var p = el('p');
+      if (n.title) { p.appendChild(el('strong', null, n.title)); p.appendChild(document.createTextNode(' ')); }
+      p.appendChild(document.createTextNode(n.text || ''));
+      note.appendChild(p);
+      body.appendChild(note);
+    });
+    document.getElementById('sr-closing').textContent = res.closing || '';
+
+    var booking = resultConfig.booking;
+    if (booking && booking.url) {
+      document.getElementById('sr-booking-wrap').style.display = '';
+      document.getElementById('sr-booking-intro').textContent = booking.intro || '';
+      document.getElementById('sr-booking-link').href = booking.url;
+      var wantsNow = booking.askQuestion ? ctx.choice(booking.askQuestion) === booking.yesOption : false;
+      if (wantsNow) openBooking();
+    }
+
+    elFormState.style.display = 'none';
+    document.getElementById('survey-result').style.display = '';
+    sendOverlay.hide && sendOverlay.hide();
+    window.scrollTo(0, document.querySelector('.fb-form-section').offsetTop - 80);
+  }
+
+  function openBooking() {
+    var frame = document.getElementById('sr-booking-frame');
+    if (!frame.src) frame.src = resultConfig.booking.url;
+    document.getElementById('sr-booking').style.display = '';
+    document.getElementById('sr-booking-btn-row').style.display = 'none';
+  }
+  document.getElementById('sr-booking-btn').addEventListener('click', function () {
+    openBooking();
+    document.getElementById('sr-booking').scrollIntoView({ behavior: 'smooth' });
+  });
 
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -703,12 +859,17 @@
     var doiRequested = document.getElementById('c-newsletter').checked
       || document.getElementById('c-results-optin').checked;
     Promise.resolve(crmDone).then(function () {
+      // Umfragen mit Auswertung bleiben auf der Seite und zeigen das
+      // Ergebnis (+ ggf. Terminbuchung) statt der Danke-Seite.
+      var next = resultConfig
+        ? function () { showResult(answers); }
+        : function () { window.location.href = thanksUrl; };
       // Bei Newsletter- oder Ergebnis-Opt-in erst auf die Double-Opt-In-Mail
-      // hinweisen, Weiterleitung zur Danke-Seite dann per "Weiter".
+      // hinweisen, weiter dann per "Weiter".
       if (doiRequested && emailVal) {
-        sendOverlay.showDoi(emailVal, { onContinue: function () { window.location.href = thanksUrl; } });
+        sendOverlay.showDoi(emailVal, { onContinue: next });
       } else {
-        window.location.href = thanksUrl;
+        next();
       }
     });
   });

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<title>Selbsttest: Wo kommst du noch vor? | Der Architekt Deines Lebens</title>
+<meta name="description" content="14 Fragen, 4 Minuten: Finde heraus, in welchen Räumen deines Lebens du noch selbst wohnst – und wo du nur noch zuständig bist.">
+<link rel="canonical" href="https://der-architekt-deines-lebens.de/Tools/selbsttest-wo-kommst-du-noch-vor-lili-sorin.html">
+<meta name="theme-color" content="#09204A">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+  :root{
+    --paper:#FFFFFF;--paper-2:#FFFFFF;--ink:#1d1a13;--ink-soft:#5c5645;
+    --navy:#09204A;--line:#cdbe9c;--orange:#AF5B2D;--orange-soft:#EFDDC7;
+    --green:#4c7a5e;--display:"Archivo",Arial,Helvetica,sans-serif;
+    --body:"Source Sans 3",Arimo,Arial,Helvetica,sans-serif;--maxw:700px
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:0 20px;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+  header{position:sticky;top:0;z-index:5;margin:0 -20px;padding:15px 20px;background:var(--navy);color:var(--paper)}
+  .brand{max-width:var(--maxw);margin:auto;font:700 17px var(--display)}
+  main{max-width:var(--maxw);margin:auto;padding:48px 0 64px}
+  h1,h2,h3,p{margin-top:0}
+  h1,h2,h3,.eyebrow,.step,.verdict{font-family:var(--display);color:var(--navy)}
+  h1{font-size:clamp(36px,8vw,54px);line-height:1.04;letter-spacing:-.02em;margin-bottom:20px}
+  h2{font-size:clamp(24px,5vw,32px);line-height:1.15;margin:36px 0 14px}
+  h3{font-size:20px;margin:0 0 10px}
+  p{margin-bottom:16px;max-width:65ch}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:16px}
+  .lead{font-size:20px}
+  .muted{color:var(--ink-soft)}
+  .note{border-left:3px solid var(--orange);padding:14px 0 14px 18px;margin:28px 0;color:var(--ink-soft)}
+  .note strong{color:var(--ink)}
+  button{font:inherit;cursor:pointer}
+  .btn{display:inline-block;border:0;border-radius:2px;background:var(--orange);color:white;padding:15px 26px;font:700 17px var(--display)}
+  .btn:hover{background:var(--navy)}
+  .btn:focus-visible,.option:focus-visible,.link:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+  .ghost{border:1px solid var(--line);border-radius:2px;background:transparent;color:var(--ink-soft);padding:10px 16px}
+  .progress{display:flex;gap:5px;margin:0 0 30px}
+  .progress span{height:4px;flex:1;background:var(--line);border-radius:2px}
+  .progress .done{background:var(--orange)}
+  .progress .now{background:var(--navy)}
+  .step{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  .question{font:700 clamp(21px,4.5vw,28px)/1.25 var(--display);color:var(--navy);margin:0 0 24px}
+  .options{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+  .option{width:100%;text-align:left;border:1px solid var(--line);background:#fff;color:var(--ink);padding:13px 16px}
+  .option:hover,.option[aria-pressed=true]{border-color:var(--orange);background:var(--orange-soft)}
+  .option[aria-pressed=true]::before{content:"→ ";font-weight:700;color:var(--orange)}
+  .scale{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+  .scale .option{text-align:center;padding:11px 2px}
+  .scale>p{grid-column:1/-1}
+  .map{display:grid;grid-template-columns:1fr;gap:1px;margin:12px 0 28px;border:1px solid var(--line);background:var(--line)}
+  .cell{display:flex;justify-content:space-between;align-items:baseline;gap:12px;background:#fff;padding:13px 15px}
+  .cell b{font-family:var(--display)}
+  .state{font:700 11px var(--display);letter-spacing:.07em;text-transform:uppercase;text-align:right}
+  .yes{color:var(--green)}.some{color:var(--orange)}.no{color:#8f3925}
+  .verdict{font-size:clamp(26px,5vw,36px);font-weight:800;line-height:1.12}
+  .card{padding:22px;background:var(--paper-2);border:1px solid var(--line);margin:22px 0}
+  .link{color:var(--orange);text-underline-offset:3px}
+  .contact-form{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:22px 0}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .full{grid-column:1/-1}
+  label{font-weight:600}
+  input,select,textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:2px;background:#fff;color:var(--ink);font:inherit;padding:11px 13px}
+  textarea{min-height:110px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--orange);outline-offset:1px}
+  .error{color:#8f3925;font-weight:600}
+  .booking{margin:20px 0;border:1px solid var(--line);background:white}
+  .booking iframe{display:block;width:100%;height:740px;border:0}
+  footer{border-top:1px solid var(--line);padding-top:20px;margin-top:45px;text-align:center;color:var(--ink-soft);font-size:14px}
+  .team-photo{display:block;width:100%;max-width:150px;height:auto;margin:0 auto 28px}
+  .claim{font:700 clamp(20px,4vw,24px)/1.3 var(--display);color:var(--navy);border-left:3px solid var(--orange);padding:4px 0 4px 18px;margin:28px 0}
+  .dashes{list-style:none;padding:0;margin:0 0 24px}
+  .dashes li{position:relative;padding-left:22px;margin-bottom:8px}
+  .dashes li::before{content:"–";position:absolute;left:0;color:var(--orange);font-weight:700}
+  [hidden]{display:none!important}
+  @media(min-width:560px){.map{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.contact-form{grid-template-columns:1fr}.full{grid-column:auto}.scale{gap:3px}.scale .option{font-size:14px}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
+<script src="../Code/dynamics-crm.js"></script>
+</head>
+<body>
+<header><div class="brand">Der Architekt Deines Lebens</div></header>
+<main>
+  <section id="about">
+    <img class="team-photo" src="../Coaches/LiliUndSorin/Sorin_Lili%2002_small_transparent.png" alt="Lili und Sorin Ratiu, lachend in einer Umarmung" width="234" height="232">
+    <h1>♥️ Schön, dass du da bist.</h1>
+    <hr style="width:650px;height:3px;background:var(--orange);border:0;margin:0 0 28px">
+    <p class="lead">Wir sind <b>Lili &amp; Sorin – ein Paar und ein Coaching-Paar</b>. Wir begleiten Frauen, die nur noch funktionieren: für alle da, außer für sich selbst.</p>
+    <p class="lead"><b>Dein Wunsch?</b> Endlich wieder spüren, was du willst – und nicht nur, was alle anderen von dir brauchen? Gleichzeitig wieder in deinem eigenen Leben vorkommen, ohne dass dafür etwas anderes zusammenbrechen muss?</p>
+    <p class="claim">Vom Funktionieren zum Gestalten.<br> Bevor aus „irgendwann“ ein „zu spät“ wird.</p>
+    <p class="lead">Genau deswegen wartet am Ende eine neue Möglichkeit 🎁 auf dich und wir schauen gemeinsam auf deine Antworten, ehrlich, wo du stehst, und du gehst mit einem ersten Schritt raus.</p>
+
+    <p><b>Klingt fantastisch?</b> 😍<br>Klick jetzt auf <b>Weiter</b>, um zu starten.</p>
+    <p><button class="btn" id="to-intro" type="button">Weiter</button></p>
+  </section>
+
+  <section id="intro" hidden>
+    <p class="eyebrow">Selbsttest · 14 Fragen · 4 Minuten</p>
+    <h1>Wo kommst du noch vor?</h1>
+    <hr style="width:56px;height:3px;background:var(--orange);border:0;margin:0 0 28px">
+    <p class="lead">Du funktionierst. Der Job läuft, die Familie läuft, alle bekommen, was sie brauchen. Und trotzdem fühlt es sich manchmal an, als wärst du in deinem eigenen Haus nur noch die, die aufräumt.</p>
+    <p>Dieser Selbsttest misst nicht, wie gestresst du bist. Er zeigt dir etwas Genaueres: in welchen Räumen deines Lebens du noch selbst wohnst – und in welchen du nur noch zuständig bist.</p>
+    <div class="note"><p style="margin:0"><strong>Das ist kein Gesundheitstest.</strong> Er vergibt keine Punktzahl und stellt keine Diagnose. Er zeigt dir eine Landkarte. Was du damit machst, entscheidest du. Coaching ersetzt keine ärztliche oder psychotherapeutische Behandlung.</p></div>
+    <p class="muted"><em>Antworte schnell. Das Erste, was kommt, ist meistens das Ehrlichste.</em></p>
+    <p><button class="btn" id="start" type="button">Selbsttest starten</button> <button class="ghost" id="to-about" type="button">← Zurück</button></p>
+    <p class="muted" style="font-size:14px">Deine Antworten bleiben zunächst auf deinem Gerät. Erst wenn du am Ende einen Termin anfragst, schicken wir sie zusammen mit deinen Kontaktdaten an uns – damit wir uns auf dein Erstgespräch vorbereiten können.</p>
+  </section>
+
+  <section id="quiz" hidden>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <p class="step" id="step"></p>
+    <h2 class="question" id="question"></h2>
+    <div class="options" id="options"></div>
+    <button class="ghost" id="back" type="button">← Zurück</button>
+  </section>
+
+  <section id="result" hidden>
+    <p class="eyebrow">Dein Ergebnis</p>
+    <h2 class="verdict" id="verdict"></h2>
+    <p id="verdict-text"></p>
+    <p id="scale-result"></p>
+    <h2>Dein Grundriss</h2>
+    <p class="muted">Wohnst du dort noch – oder bist du dort nur zuständig?</p>
+    <div class="map" id="map"></div>
+    <div class="card"><h3>Dein deutlichstes Anzeichen</h3><p id="sign-title"></p><p id="sign-text" style="margin-bottom:0"></p></div>
+    <div class="card"><h3>Ein Raum hat mehr gezogen als die anderen.</h3><p>Nicht der, der am leersten aussieht – der, bei dem du kurz gezögert hast. Merk ihn dir. Dort kann etwas anfangen.</p><p class="muted" style="margin-bottom:0">Du musst heute nichts damit tun.</p></div>
+    <div class="note">
+      <p><strong>Wenn es mehr ist als Alltag.</strong> Wenn dich seit Wochen nichts mehr trägt oder du daran denkst, dir etwas anzutun: Dann ist das kein Fall für einen Selbsttest. Sprich bitte mit deiner Hausärztin oder einer Psychotherapeutin.</p>
+      <p style="margin-bottom:0">Die TelefonSeelsorge ist kostenfrei und rund um die Uhr erreichbar – in Deutschland unter <strong>0800 111 0 111</strong>, <strong>0800 111 0 222</strong> oder <strong>116 123</strong>, in Österreich unter <strong>142</strong>. Bei akuter Gefahr wähle den Notruf <strong>112</strong>.</p>
+    </div>
+    <h2>Was du jetzt damit machen kannst</h2>
+    <p>Du musst heute nichts entscheiden. Wenn du magst, schauen wir gemeinsam auf deinen Grundriss. In 30 Minuten schauen wir mit deinem Ergebnis ehrlich, wo du stehst, und du gehst mit einem ersten Schritt raus. Über Teams, mit Sorin. Ein Angebot gibt es in diesem Gespräch nicht.</p>
+    <p>Wenn du einen Termin anfragst, schicken wir dein Ergebnis mit. So kennen wir deinen Grundriss schon, bevor wir sprechen – und du schreibst uns nur noch in zwei, drei Sätzen, wo du stehst.</p>
+    <p><button class="btn" id="show-contact" type="button">Termin für mein Erstgespräch wählen</button></p>
+
+    <section id="contact" hidden>
+      <h2>Damit Sorin dich kennt, bevor ihr sprecht</h2>
+      <p>Ein paar Angaben brauchen wir, damit Sorin sich auf dein Erstgespräch vorbereiten kann. Deine Antworten aus dem Selbsttest schicken wir mit.</p>
+      <form class="contact-form" id="contact-form">
+        <div class="field"><label for="firstname">Vorname*</label><input id="firstname" name="firstname" autocomplete="given-name" required></div>
+        <div class="field"><label for="lastname">Nachname (freiwillig)</label><input id="lastname" name="lastname" autocomplete="family-name"></div>
+        <div class="field"><label for="email">E-Mail*</label><input id="email" name="email" type="email" autocomplete="email" required><small>Dorthin schicken wir dir die Bestätigung und den Link zum Gespräch.</small></div>
+        <div class="field"><label for="phone">Telefon (mit Ländervorwahl, freiwillig)</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
+        <div class="field full"><label for="message">Wo stehst du gerade?*</label><textarea id="message" name="message" required></textarea><small>Schreib uns in zwei, drei Sätzen, was dich hierher gebracht hat. Bitte keine Angaben zu deiner Gesundheit, zu Diagnosen oder Behandlungen. Darüber sprechen wir – wenn du magst – persönlich.</small></div>
+        <div class="field"><label for="country">Wo lebst du gerade?*</label><select id="country" name="country" required><option value="">Bitte auswählen</option><option>Deutschland</option><option>Österreich</option><option>Anderes Land</option></select></div>
+        <div class="field"><label for="language">In welcher Sprache möchtest du sprechen?*</label><select id="language" name="language" required><option value="">Bitte auswählen</option><option>Deutsch</option><option>Rumänisch</option></select></div>
+        <div class="field full"><p style="font-size:14px;margin:0">Mit dem Absenden werden deine Kontaktdaten, deine Angaben und deine Antworten aus dem Selbsttest an uns übermittelt. Wir nutzen sie ausschließlich zur Vorbereitung deines Erstgesprächs. Weitere Informationen findest du in unserer <a class="link" href="../rechtliches.html#datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p></div>
+        <div class="field full"><p class="error" id="contact-error" role="alert" hidden></p><button class="btn" id="submit-contact" type="submit">Weiter zur Terminwahl</button></div>
+      </form>
+    </section>
+    <section id="booking" hidden>
+      <h2>Wähle deinen Termin</h2>
+      <p>Das Gespräch findet über Teams statt. Beim Laden der Terminbuchung wird eine Verbindung zu Microsoft Bookings hergestellt.</p>
+      <div class="booking"><iframe src="https://bookings.cloud.microsoft/book/Geaeaf2cdf7e54e6eba9ac4fcc962ebf2@weherzit.de/?ismsaljsauthenabled" title="Termin für dein Erstgespräch bei Microsoft Bookings wählen" loading="lazy"></iframe></div>
+      <p class="muted" style="font-size:14px">Falls die Terminbuchung nicht angezeigt wird, <a class="link" href="https://bookings.cloud.microsoft/book/Geaeaf2cdf7e54e6eba9ac4fcc962ebf2@weherzit.de/?ismsaljsauthenabled" target="_blank" rel="noopener">öffne sie direkt bei Microsoft Bookings</a>. Es gelten die Datenschutzhinweise von Microsoft.</p>
+    </section>
+    <p style="margin-top:28px"><button class="ghost" id="result-back" type="button">← Zurück zur letzten Frage</button> <button class="ghost" id="again" type="button">Selbsttest noch einmal machen</button></p>
+    <footer>Bis bald – Lili &amp; Sorin · <a class="link" href="../rechtliches.html#impressum">Impressum</a> · <a class="link" href="../rechtliches.html#datenschutz">Datenschutz</a></footer>
+  </section>
+</main>
+<script>
+(function(){
+  "use strict";
+  var areas=[
+    {name:"Arbeit",text:"In meinem Job gibt es etwas, das ich tue, weil ich es will – nicht nur, weil es erledigt werden muss."},
+    {name:"Partnerschaft",text:"In den letzten vier Wochen haben wir etwas gemacht, das ich vorgeschlagen habe.",na:true},
+    {name:"Kinder oder Eltern",text:"Bei meinen Kindern oder Eltern komme ich als Mensch vor – nicht nur als die, die sich kümmert.",na:true},
+    {name:"Freundschaften",text:"Es gibt jemanden, der gerade wirklich weiß, wie es mir geht – nicht nur, was ich alles schaffe."},
+    {name:"Deine Wünsche",text:"Ich weiß gerade, was ich mir für mich selbst wünsche – nicht für die anderen."},
+    {name:"Zeit nur für dich",text:"Letzte Woche hatte ich mehr als eine Stunde, die niemandem gehört hat außer mir."}
+  ];
+  var signs=[
+    {title:"Dein Kopf führt einen Kalender für Leben, die nicht deins sind.",text:"Niemand hat dich gebeten, das alles im Kopf zu behalten. Du machst es, weil du es kannst – und weil es sonst niemand tut. Diese Arbeit taucht in keiner Bilanz auf, und sie hat keinen Feierabend."},
+    {title:"Du hast einen Ordner mit der Aufschrift „irgendwann“.",text:"Er wird jedes Jahr ein bisschen dicker. Und jedes Mal, wenn jemand anderes etwas braucht, wandert noch etwas hinein. Irgendwann ist kein Termin."},
+    {title:"Die Antwort auf die Frage, was du willst, ist leise geworden.",text:"Vielleicht hältst du es für Bescheidenheit. Am Anfang war es das womöglich auch. Die Antwort ist nicht weg. Sie wurde nur sehr lange nicht gefragt."}
+  ];
+  var questions=[
+    {kind:"sign",group:0,text:"Mein Kopf plant auch dann für andere, wenn gerade niemand etwas von mir will.",options:["Kenne ich nicht","Manchmal","Ständig"]},
+    {kind:"sign",group:0,text:"Abends fällt mir ein, was ich für andere vergessen habe – nicht, was ich für mich vergessen habe.",options:["Kenne ich nicht","Manchmal","Ständig"]},
+    {kind:"sign",group:1,text:"Meine eigenen Wünsche schiebe ich auf „irgendwann“.",options:["Kenne ich nicht","Manchmal","Ständig"]},
+    {kind:"sign",group:1,text:"Wenn ich etwas für mich plane, fällt es als Erstes weg, sobald jemand anderes etwas braucht.",options:["Kenne ich nicht","Manchmal","Ständig"]},
+    {kind:"sign",group:2,text:"Auf die Frage „Was möchtest du?“ antworte ich zuverlässig mit einer Gegenfrage.",options:["Kenne ich nicht","Manchmal","Ständig"]},
+    {kind:"sign",group:2,text:"Wenn ich überlege, was ich mir für mich wünsche, wird es erst einmal still.",options:["Kenne ich nicht","Manchmal","Ständig"]}
+  ];
+  areas.forEach(function(area,index){var options=["Ja","Kaum","Nein"];if(area.na)options.push("Trifft auf mich nicht zu");questions.push({kind:"area",area:index,text:area.text,options:options});});
+  questions.push({kind:"scale",text:"Wie viel von deinem Alltag gehört gerade dir?",hint:"1 = Gar nichts – ich bin nur für andere da · 5 = So viel, wie ich es mir wünsche"});
+  questions.push({kind:"scale",text:"Wo wünschst du dich in drei Monaten auf dieser Skala?",hint:"1 = Gar nichts – ich bin nur für andere da · 5 = So viel, wie ich es mir wünsche. Nimm die Zahl, die sich für dich stimmig anfühlt – nicht die, die „man“ haben sollte."});
+
+  var answers=new Array(questions.length).fill(null),current=0;
+  var about=document.getElementById("about"),intro=document.getElementById("intro"),quiz=document.getElementById("quiz"),result=document.getElementById("result");
+  var optionsEl=document.getElementById("options"),progress=document.getElementById("progress");
+  for(var i=0;i<questions.length;i++)progress.appendChild(document.createElement("span"));
+  function show(which){about.hidden=which!=="about";intro.hidden=which!=="intro";quiz.hidden=which!=="quiz";result.hidden=which!=="result";window.scrollTo(0,0);}
+  function render(){
+    var q=questions[current];
+    document.getElementById("step").textContent=(current<6?"Fragen 1–6 · Kenne ich nicht · Manchmal · Ständig":current<12?"Fragen 7–12 · Ja · Kaum · Nein":"Fragen 13–14 · Skala 1–5")+" · Frage "+(current+1)+" von 14";
+    document.getElementById("question").textContent=q.text;
+    optionsEl.textContent="";
+    var labels=q.kind==="scale"?Array.from({length:5},function(_,n){return String(n+1);}):q.options;
+    if(q.hint){var hint=document.createElement("p");hint.className="muted";hint.textContent=q.hint;optionsEl.appendChild(hint);}
+    optionsEl.className="options"+(q.kind==="scale"?" scale":"");
+    labels.forEach(function(label,index){var button=document.createElement("button");button.type="button";button.className="option";button.textContent=label;button.setAttribute("aria-pressed",answers[current]===index?"true":"false");button.addEventListener("click",function(){choose(index);});optionsEl.appendChild(button);});
+    Array.prototype.forEach.call(progress.children,function(bar,index){bar.className=index<current?"done":index===current?"now":"";});
+  }
+  function choose(value){answers[current]=value;if(current<questions.length-1){current++;render();}else{renderResult();show("result");}}
+  function renderResult(){
+    var count=0,map=document.getElementById("map");map.textContent="";
+    areas.forEach(function(area,index){
+      var answer=answers[6+index],label,cls;
+      if(answer===0){label="Du wohnst hier";cls="yes";}
+      else if(answer===1){label="Kaum noch";cls="some";count++;}
+      else if(answer===2){label="Nur noch zuständig";cls="no";count++;}
+      else{label="Trifft nicht zu";cls="some";}
+      var cell=document.createElement("div");cell.className="cell";
+      var name=document.createElement("b");name.textContent=area.name;
+      var state=document.createElement("span");state.className="state "+cls;state.textContent=label;
+      cell.appendChild(name);cell.appendChild(state);map.appendChild(cell);
+    });
+    var verdict,text;
+    if(count<=1){verdict="In deinem Leben wohnst du noch.";text="Das ist seltener, als du vielleicht denkst. Die meisten Räume gehören auch dir – nicht nur den anderen. Und trotzdem hast du diesen Selbsttest gemacht. Vielleicht lohnt sich die Frage, welcher Raum sich leiser anfühlt, als er auf dem Grundriss aussieht.";}
+    else if(count<=3){verdict="Du wohnst noch – aber in einigen Räumen wird es still.";text="An den meisten Stellen kommst du noch vor. An zwei, drei Stellen bist du vor allem zuständig. Genau hier lässt sich etwas verändern, ohne dass vorher etwas einstürzen muss. Viele Frauen schauen erst sehr viel später so genau hin.";}
+    else{verdict="Du hältst dein Haus in Ordnung – für alle anderen.";text="In den meisten Räumen bist du zuständig, aber kaum noch zu Hause. Das sieht von außen niemand, weil alles läuft. Es ist kein Charakterfehler – es ist das Ergebnis einer Rolle, die sehr lange sehr gut funktioniert hat. Für alle außer für dich. Dass du das jetzt schwarz auf weiß siehst, ist kein Grund zur Scham. Es ist der erste ehrliche Blick auf deinen Bauplan.";}
+    document.getElementById("verdict").textContent=verdict;
+    document.getElementById("verdict-text").textContent=text;
+    document.getElementById("scale-result").textContent="Heute gehört dir "+(answers[12]+1)+" von 5. In drei Monaten wünschst du dir "+(answers[13]+1)+". Der Abstand dazwischen ist kein Versagen. Er ist dein Bauplan.";
+    var groupScores=[0,0,0];questions.slice(0,6).forEach(function(q,index){groupScores[q.group]+=answers[index];});
+    var strongest=0;for(var group=1;group<groupScores.length;group++)if(groupScores[group]>groupScores[strongest])strongest=group;
+    document.getElementById("sign-title").textContent=signs[strongest].title;
+    document.getElementById("sign-text").textContent=signs[strongest].text;
+    var lines=questions.map(function(q,index){var a=answers[index];var label=a===null?"–":q.kind==="scale"?(a+1)+" von 5":q.options[a];return (index+1)+". "+(q.kind==="area"?areas[q.area].name+": ":"")+q.text+" → "+label;});
+    summary={SelbsttestErgebnis:verdict,SelbsttestAnzeichen:signs[strongest].title,SelbsttestSkala:"Heute "+(answers[12]+1)+" von 5, in drei Monaten gewünscht "+(answers[13]+1)+" von 5",SelbsttestRaeumeKaumOderNein:String(count)+" von 6",SelbsttestAntworten:lines.join("\n")};
+  }
+  var summary=null;
+  document.getElementById("to-intro").addEventListener("click",function(){show("intro");});
+  document.getElementById("to-about").addEventListener("click",function(){show("about");});
+  document.getElementById("start").addEventListener("click",function(){current=0;show("quiz");render();});
+  document.getElementById("back").addEventListener("click",function(){if(current){current--;render();}else show("intro");});
+  document.getElementById("result-back").addEventListener("click",function(){current=questions.length-1;show("quiz");render();});
+  document.getElementById("show-contact").addEventListener("click",function(){var section=document.getElementById("contact");section.hidden=false;section.scrollIntoView({behavior:"smooth"});document.getElementById("firstname").focus();});
+  document.getElementById("again").addEventListener("click",function(){answers=new Array(questions.length).fill(null);current=0;document.getElementById("contact-form").reset();document.getElementById("contact").hidden=true;document.getElementById("booking").hidden=true;document.getElementById("contact-error").hidden=true;document.getElementById("submit-contact").disabled=false;document.getElementById("submit-contact").textContent="Weiter zur Terminwahl";show("intro");});
+  document.getElementById("contact-form").addEventListener("submit",async function(event){
+    event.preventDefault();
+    var form=event.currentTarget,button=document.getElementById("submit-contact"),error=document.getElementById("contact-error");
+    error.hidden=true;button.disabled=true;button.textContent="Wird übermittelt …";
+    if(typeof dynamicsCRM==="undefined"||!dynamicsCRM.submitLead){error.textContent="Die Übermittlung ist gerade nicht verfügbar. Bitte versuche es später erneut.";error.hidden=false;button.disabled=false;button.textContent="Weiter zur Terminwahl";return;}
+    var data=new FormData(form);
+    var extra={country:data.get("country"),preferredLanguage:data.get("language"),ErstgespraechNachricht:data.get("message"),Quelle:"Selbsttest: Wo kommst du noch vor? (Variante Lili & Sorin)"};
+    if(summary)Object.keys(summary).forEach(function(key){extra[key]=summary[key];});
+    var response=await dynamicsCRM.submitLead({firstname:data.get("firstname"),lastname:data.get("lastname"),email:data.get("email"),mobilephone:data.get("phone"),extra:extra});
+    if(!response||!response.success){error.textContent="Deine Angaben konnten gerade nicht übermittelt werden. Bitte versuche es erneut oder melde dich direkt bei uns.";error.hidden=false;button.disabled=false;button.textContent="Weiter zur Terminwahl";return;}
+    button.textContent="Angaben übermittelt";
+    var booking=document.getElementById("booking");booking.hidden=false;booking.scrollIntoView({behavior:"smooth"});
+  });
+})();
+</script>
+</body>
+</html>

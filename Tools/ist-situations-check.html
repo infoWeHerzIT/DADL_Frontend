@@ -120,7 +120,7 @@
   #event-eyebrow-select option{ color:var(--ink); }
 
   /* Kopfzeile wie startseite.html */
-  .site-header{ background:var(--navy-900); margin-inline:-20px; padding:16px 20px; }
+  .site-header{ position:sticky; top:0; z-index:1000; background:var(--navy-900); margin-inline:-20px; padding:16px 20px; }
   .site-header-in{ max-width:var(--maxw); margin:0 auto; }
   .site-brand{
     display:inline-flex; align-items:center; gap:10px;
@@ -128,7 +128,11 @@
     font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:.01em;
   }
   .site-brand svg{ width:26px; height:26px; flex:none; color:var(--orange-500); }
-  .site-brand:hover{ color:var(--orange-100); }
+  .site-page-title{
+    display:block; margin:4px 0 0 36px;
+    color:#FEFAF1; font-family:var(--display); font-size:13px;
+    font-weight:500; line-height:1.3;
+  }
   /* Logo im Intro */
   .intro-head{ display:flex; align-items:flex-start; gap:28px; }
   .intro-head > div:first-child{ flex:1 1 auto; min-width:0; }
@@ -141,6 +145,7 @@
     .intro-logo .logo-full{ display:none; }
     .intro-logo .logo-small{ display:block; }
     .site-brand{ font-size:15px; }
+    .site-page-title{ margin-left:36px; font-size:12px; }
   }
   .site-foot{ margin-top:48px; padding-top:20px; border-top:1px solid var(--line-light); font-size:14px; color:var(--ink-soft); text-align:center; line-height:1.8; }
   .site-foot .link{ text-decoration:none; }
@@ -233,10 +238,11 @@
 
 <header class="site-header">
   <div class="site-header-in">
-    <a href="https://der-architekt-deines-lebens.de/startseite.html" class="site-brand">
+    <div class="site-brand">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
       Der Architekt Deines Lebens
-    </a>
+    </div>
+    <span class="site-page-title">Der Ist-Situations-Check</span>
   </div>
 </header>
 
