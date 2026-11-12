@@ -15,7 +15,7 @@
     --paper:#FFFFFF;--paper-2:#FFFFFF;--ink:#1d1a13;--ink-soft:#5c5645;
     --navy:#09204A;--line:#cdbe9c;--orange:#AF5B2D;--orange-soft:#EFDDC7;
     --green:#4c7a5e;--display:"Archivo",Arial,Helvetica,sans-serif;
-    --body:"Source Sans 3",Arimo,Arial,Helvetica,sans-serif;--maxw:700px
+    --body:"Source Sans 3",Arimo,Arial,Helvetica,sans-serif;--maxw:875px
   }
   *{box-sizing:border-box}
   body{margin:0;padding:0 20px;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
@@ -80,9 +80,6 @@
   @media(max-width:520px){.contact-form{grid-template-columns:1fr}.full{grid-column:auto}.scale{gap:3px}.scale .option{font-size:14px}}
   @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../supabase-config.js"></script>
-<script src="../Code/dynamics-crm.js"></script>
 </head>
 <body>
 <header><div class="brand">Der Architekt Deines Lebens</div></header>
@@ -108,8 +105,8 @@
     <p>Dieser Selbsttest misst nicht, wie gestresst du bist. Er zeigt dir etwas Genaueres: in welchen Räumen deines Lebens du noch selbst wohnst – und in welchen du nur noch zuständig bist.</p>
     <div class="note"><p style="margin:0"><strong>Das ist kein Gesundheitstest.</strong> Er vergibt keine Punktzahl und stellt keine Diagnose. Er zeigt dir eine Landkarte. Was du damit machst, entscheidest du. Coaching ersetzt keine ärztliche oder psychotherapeutische Behandlung.</p></div>
     <p class="muted"><em>Antworte schnell. Das Erste, was kommt, ist meistens das Ehrlichste.</em></p>
-    <p><button class="btn" id="start" type="button">Selbsttest starten</button> <button class="ghost" id="to-about" type="button">← Zurück</button></p>
-    <p class="muted" style="font-size:14px">Deine Antworten bleiben zunächst auf deinem Gerät. Erst wenn du am Ende einen Termin anfragst, schicken wir sie zusammen mit deinen Kontaktdaten an uns – damit wir uns auf dein Erstgespräch vorbereiten können.</p>
+    <p style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;max-width:none"><button class="ghost" id="to-about" type="button" style="justify-self:start">← Zurück</button><button class="btn" id="start" type="button">Selbsttest starten</button></p>
+    <p class="muted" style="font-size:14px">Deine Antworten bleiben auf deinem Gerät. Wir speichern sie nicht und sehen sie nicht.</p>
   </section>
 
   <section id="quiz" hidden>
@@ -132,35 +129,17 @@
     <div class="card"><h3>Ein Raum hat mehr gezogen als die anderen.</h3><p>Nicht der, der am leersten aussieht – der, bei dem du kurz gezögert hast. Merk ihn dir. Dort kann etwas anfangen.</p><p class="muted" style="margin-bottom:0">Du musst heute nichts damit tun.</p></div>
     <div class="note">
       <p><strong>Wenn es mehr ist als Alltag.</strong> Wenn dich seit Wochen nichts mehr trägt oder du daran denkst, dir etwas anzutun: Dann ist das kein Fall für einen Selbsttest. Sprich bitte mit deiner Hausärztin oder einer Psychotherapeutin.</p>
-      <p style="margin-bottom:0">Die TelefonSeelsorge ist kostenfrei und rund um die Uhr erreichbar – in Deutschland unter <strong>0800 111 0 111</strong>, <strong>0800 111 0 222</strong> oder <strong>116 123</strong>, in Österreich unter <strong>142</strong>. Bei akuter Gefahr wähle den Notruf <strong>112</strong>.</p>
     </div>
     <h2>Was du jetzt damit machen kannst</h2>
     <p>Du musst heute nichts entscheiden. Wenn du magst, schauen wir gemeinsam auf deinen Grundriss. In 30 Minuten schauen wir mit deinem Ergebnis ehrlich, wo du stehst, und du gehst mit einem ersten Schritt raus. Über Teams, mit Sorin. Ein Angebot gibt es in diesem Gespräch nicht.</p>
-    <p>Wenn du einen Termin anfragst, schicken wir dein Ergebnis mit. So kennen wir deinen Grundriss schon, bevor wir sprechen – und du schreibst uns nur noch in zwei, drei Sätzen, wo du stehst.</p>
-    <p><button class="btn" id="show-contact" type="button">Termin für mein Erstgespräch wählen</button></p>
-
-    <section id="contact" hidden>
+    <p>Bring dein Ergebnis einfach mit ins Gespräch – dann schauen wir gemeinsam drauf.</p>
+    <section id="booking">
       <h2>Damit Sorin dich kennt, bevor ihr sprecht</h2>
       <p>Ein paar Angaben brauchen wir, damit Sorin sich auf dein Erstgespräch vorbereiten kann. Deine Antworten aus dem Selbsttest schicken wir mit.</p>
-      <form class="contact-form" id="contact-form">
-        <div class="field"><label for="firstname">Vorname*</label><input id="firstname" name="firstname" autocomplete="given-name" required></div>
-        <div class="field"><label for="lastname">Nachname (freiwillig)</label><input id="lastname" name="lastname" autocomplete="family-name"></div>
-        <div class="field"><label for="email">E-Mail*</label><input id="email" name="email" type="email" autocomplete="email" required><small>Dorthin schicken wir dir die Bestätigung und den Link zum Gespräch.</small></div>
-        <div class="field"><label for="phone">Telefon (mit Ländervorwahl, freiwillig)</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
-        <div class="field full"><label for="message">Wo stehst du gerade?*</label><textarea id="message" name="message" required></textarea><small>Schreib uns in zwei, drei Sätzen, was dich hierher gebracht hat. Bitte keine Angaben zu deiner Gesundheit, zu Diagnosen oder Behandlungen. Darüber sprechen wir – wenn du magst – persönlich.</small></div>
-        <div class="field"><label for="country">Wo lebst du gerade?*</label><select id="country" name="country" required><option value="">Bitte auswählen</option><option>Deutschland</option><option>Österreich</option><option>Anderes Land</option></select></div>
-        <div class="field"><label for="language">In welcher Sprache möchtest du sprechen?*</label><select id="language" name="language" required><option value="">Bitte auswählen</option><option>Deutsch</option><option>Rumänisch</option></select></div>
-        <div class="field full"><p style="font-size:14px;margin:0">Mit dem Absenden werden deine Kontaktdaten, deine Angaben und deine Antworten aus dem Selbsttest an uns übermittelt. Wir nutzen sie ausschließlich zur Vorbereitung deines Erstgesprächs. Weitere Informationen findest du in unserer <a class="link" href="../rechtliches.html#datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p></div>
-        <div class="field full"><p class="error" id="contact-error" role="alert" hidden></p><button class="btn" id="submit-contact" type="submit">Weiter zur Terminwahl</button></div>
-      </form>
+      <div class="booking"><iframe src="https://calendly.com/sorin-ratiu/der-architekt-deines-lebens" title="Termin für dein Erstgespräch bei Calendly wählen" loading="lazy"></iframe></div>
+      <p class="muted" style="font-size:14px">Beim Laden der Terminbuchung wird eine Verbindung zu Calendly hergestellt; es gelten die Datenschutzhinweise von Calendly. Falls die Terminbuchung nicht angezeigt wird, <a class="link" href="https://calendly.com/sorin-ratiu/der-architekt-deines-lebens" target="_blank" rel="noopener">öffne sie direkt bei Calendly</a>.</p>
     </section>
-    <section id="booking" hidden>
-      <h2>Wähle deinen Termin</h2>
-      <p>Das Gespräch findet über Teams statt. Beim Laden der Terminbuchung wird eine Verbindung zu Microsoft Bookings hergestellt.</p>
-      <div class="booking"><iframe src="https://bookings.cloud.microsoft/book/Geaeaf2cdf7e54e6eba9ac4fcc962ebf2@weherzit.de/?ismsaljsauthenabled" title="Termin für dein Erstgespräch bei Microsoft Bookings wählen" loading="lazy"></iframe></div>
-      <p class="muted" style="font-size:14px">Falls die Terminbuchung nicht angezeigt wird, <a class="link" href="https://bookings.cloud.microsoft/book/Geaeaf2cdf7e54e6eba9ac4fcc962ebf2@weherzit.de/?ismsaljsauthenabled" target="_blank" rel="noopener">öffne sie direkt bei Microsoft Bookings</a>. Es gelten die Datenschutzhinweise von Microsoft.</p>
-    </section>
-    <p style="margin-top:28px"><button class="ghost" id="result-back" type="button">← Zurück zur letzten Frage</button> <button class="ghost" id="again" type="button">Selbsttest noch einmal machen</button></p>
+    <p style="margin-top:28px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;max-width:none"><button class="ghost" id="result-back" type="button">← Zurück zur letzten Frage</button> <button class="ghost" id="again" type="button" style="margin-left:auto">Selbsttest noch einmal machen</button></p>
     <footer>Bis bald – Lili &amp; Sorin · <a class="link" href="../rechtliches.html#impressum">Impressum</a> · <a class="link" href="../rechtliches.html#datenschutz">Datenschutz</a></footer>
   </section>
 </main>
@@ -233,30 +212,13 @@
     var strongest=0;for(var group=1;group<groupScores.length;group++)if(groupScores[group]>groupScores[strongest])strongest=group;
     document.getElementById("sign-title").textContent=signs[strongest].title;
     document.getElementById("sign-text").textContent=signs[strongest].text;
-    var lines=questions.map(function(q,index){var a=answers[index];var label=a===null?"–":q.kind==="scale"?(a+1)+" von 5":q.options[a];return (index+1)+". "+(q.kind==="area"?areas[q.area].name+": ":"")+q.text+" → "+label;});
-    summary={SelbsttestErgebnis:verdict,SelbsttestAnzeichen:signs[strongest].title,SelbsttestSkala:"Heute "+(answers[12]+1)+" von 5, in drei Monaten gewünscht "+(answers[13]+1)+" von 5",SelbsttestRaeumeKaumOderNein:String(count)+" von 6",SelbsttestAntworten:lines.join("\n")};
   }
-  var summary=null;
   document.getElementById("to-intro").addEventListener("click",function(){show("intro");});
   document.getElementById("to-about").addEventListener("click",function(){show("about");});
   document.getElementById("start").addEventListener("click",function(){current=0;show("quiz");render();});
   document.getElementById("back").addEventListener("click",function(){if(current){current--;render();}else show("intro");});
   document.getElementById("result-back").addEventListener("click",function(){current=questions.length-1;show("quiz");render();});
-  document.getElementById("show-contact").addEventListener("click",function(){var section=document.getElementById("contact");section.hidden=false;section.scrollIntoView({behavior:"smooth"});document.getElementById("firstname").focus();});
-  document.getElementById("again").addEventListener("click",function(){answers=new Array(questions.length).fill(null);current=0;document.getElementById("contact-form").reset();document.getElementById("contact").hidden=true;document.getElementById("booking").hidden=true;document.getElementById("contact-error").hidden=true;document.getElementById("submit-contact").disabled=false;document.getElementById("submit-contact").textContent="Weiter zur Terminwahl";show("intro");});
-  document.getElementById("contact-form").addEventListener("submit",async function(event){
-    event.preventDefault();
-    var form=event.currentTarget,button=document.getElementById("submit-contact"),error=document.getElementById("contact-error");
-    error.hidden=true;button.disabled=true;button.textContent="Wird übermittelt …";
-    if(typeof dynamicsCRM==="undefined"||!dynamicsCRM.submitLead){error.textContent="Die Übermittlung ist gerade nicht verfügbar. Bitte versuche es später erneut.";error.hidden=false;button.disabled=false;button.textContent="Weiter zur Terminwahl";return;}
-    var data=new FormData(form);
-    var extra={country:data.get("country"),preferredLanguage:data.get("language"),ErstgespraechNachricht:data.get("message"),Quelle:"Selbsttest: Wo kommst du noch vor? (Variante Lili & Sorin)"};
-    if(summary)Object.keys(summary).forEach(function(key){extra[key]=summary[key];});
-    var response=await dynamicsCRM.submitLead({firstname:data.get("firstname"),lastname:data.get("lastname"),email:data.get("email"),mobilephone:data.get("phone"),extra:extra});
-    if(!response||!response.success){error.textContent="Deine Angaben konnten gerade nicht übermittelt werden. Bitte versuche es erneut oder melde dich direkt bei uns.";error.hidden=false;button.disabled=false;button.textContent="Weiter zur Terminwahl";return;}
-    button.textContent="Angaben übermittelt";
-    var booking=document.getElementById("booking");booking.hidden=false;booking.scrollIntoView({behavior:"smooth"});
-  });
+  document.getElementById("again").addEventListener("click",function(){answers=new Array(questions.length).fill(null);current=0;show("intro");});
 })();
 </script>
 </body>
