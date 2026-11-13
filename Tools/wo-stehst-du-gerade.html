@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index, follow">
+<title>Wo stehst du gerade – wirklich? | Der Architekt Deines Lebens</title>
+<meta name="description" content="Ein paar Fragen über deinen Alltag, etwa 4 Minuten: Schau ehrlich hin, wo du gerade stehst – und in welchen Räumen deines Lebens du noch selbst wohnst.">
+<meta name="author" content="Lili &amp; Sorin – Der Architekt Deines Lebens">
+<meta name="theme-color" content="#09204A">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+  :root{
+    --paper:#FFFFFF;--paper-2:#FFFFFF;--ink:#1d1a13;--ink-soft:#5c5645;
+    --navy:#09204A;--line:#cdbe9c;--orange:#AF5B2D;--orange-soft:#EFDDC7;
+    --green:#4c7a5e;--display:"Archivo",Arial,Helvetica,sans-serif;
+    --body:"Source Sans 3",Arimo,Arial,Helvetica,sans-serif;--maxw:875px
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:0 20px;background:var(--paper);color:var(--ink);font:17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+  header{position:sticky;top:0;z-index:5;margin:0 -20px;padding:15px 20px;background:var(--navy);color:var(--paper)}
+  .brand{max-width:var(--maxw);margin:auto;font:700 17px var(--display)}
+  main{max-width:var(--maxw);margin:auto;padding:48px 0 64px}
+  h1,h2,h3,p{margin-top:0}
+  h1,h2,h3,.eyebrow,.step,.verdict{font-family:var(--display);color:var(--navy)}
+  h1{font-size:clamp(36px,8vw,54px);line-height:1.04;letter-spacing:-.02em;margin-bottom:20px}
+  h2{font-size:clamp(24px,5vw,32px);line-height:1.15;margin:36px 0 14px}
+  h3{font-size:20px;margin:0 0 10px}
+  p{margin-bottom:16px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:16px}
+  .lead{font-size:20px}
+  .muted{color:var(--ink-soft)}
+  .small{font-size:14px;color:var(--ink-soft)}
+  .note{border-left:3px solid var(--orange);padding:14px 0 14px 18px;margin:28px 0;color:var(--ink-soft)}
+  .note strong{color:var(--ink)}
+  button{font:inherit;cursor:pointer}
+  .btn{display:inline-block;border:0;border-radius:2px;background:var(--orange);color:white;padding:15px 26px;font:700 17px var(--display);text-decoration:none}
+  .btn:hover{background:var(--navy)}
+  .btn:disabled{opacity:.7;cursor:wait}
+  .btn:focus-visible,.ghost:focus-visible,.link:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+  .ghost{border:1px solid var(--line);border-radius:2px;background:transparent;color:var(--ink-soft);padding:10px 16px}
+  .progress{display:flex;gap:5px;margin:0 0 30px}
+  .progress span{height:4px;flex:1;background:var(--line);border-radius:2px}
+  .progress .done{background:var(--orange)}
+  .progress .now{background:var(--navy)}
+  .step{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:22px}
+  /* Fragen */
+  .q{margin:0 0 34px}
+  .q-title{font:700 clamp(19px,4vw,24px)/1.3 var(--display);color:var(--navy);margin:0 0 14px}
+  .req{color:var(--orange)}
+  .hint{color:var(--ink-soft);margin:-6px 0 12px}
+  .opt{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);background:#fff;color:var(--ink);padding:13px 16px;margin:0 0 9px;cursor:pointer}
+  .opt:hover,.opt:has(input:checked){border-color:var(--orange);background:var(--orange-soft)}
+  .opt input{margin:5px 0 0;flex:0 0 auto;accent-color:var(--orange)}
+  .scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
+  .scale label{display:flex;align-items:center;justify-content:center;border:1px solid var(--line);background:#fff;padding:11px 2px;cursor:pointer;font:700 17px var(--display);color:var(--navy)}
+  .scale label:hover,.scale label:has(input:checked){border-color:var(--orange);background:var(--orange-soft)}
+  .scale input{position:absolute;opacity:0;pointer-events:none}
+  .scale label:has(input:focus-visible){outline:3px solid var(--orange);outline-offset:2px}
+  .scale-legend{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--ink-soft);margin-top:6px}
+  .inter{border-left:3px solid var(--orange);padding:12px 0 12px 18px;color:var(--ink-soft);font-style:italic}
+  .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px}
+  .error{color:#8f3925;font-weight:600}
+  /* Formulare */
+  .contact-form{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:22px 0}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .full{grid-column:1/-1}
+  label.lbl{font-weight:600}
+  input[type=text],input[type=email],input[type=tel],textarea{width:100%;min-width:0;border:1px solid var(--line);border-radius:2px;background:#fff;color:var(--ink);font:inherit;padding:11px 13px}
+  textarea{min-height:110px;resize:vertical}
+  input:focus,textarea:focus{outline:2px solid var(--orange);outline-offset:1px}
+  .cb{display:flex;gap:11px;align-items:flex-start;cursor:pointer;color:var(--ink-soft)}
+  .cb input{margin:4px 0 0;flex:0 0 auto;width:17px;height:17px;accent-color:var(--orange)}
+  .ok{color:var(--green);font-weight:600}
+  /* Ergebnis */
+  .map{display:grid;grid-template-columns:1fr;gap:1px;margin:12px 0 28px;border:1px solid var(--line);background:var(--line)}
+  .cell{display:flex;justify-content:space-between;align-items:baseline;gap:12px;background:#fff;padding:13px 15px}
+  .cell b{font-family:var(--display)}
+  .state{font:700 11px var(--display);letter-spacing:.07em;text-transform:uppercase;text-align:right}
+  .yes{color:var(--green)}.some{color:var(--orange)}.no{color:#8f3925}.na{color:var(--ink-soft)}
+  .verdict{font-size:clamp(26px,5vw,36px);font-weight:800;line-height:1.12}
+  .card{padding:22px;background:var(--paper-2);border:1px solid var(--line);margin:22px 0}
+  .link{color:var(--orange);text-underline-offset:3px}
+  footer{border-top:1px solid var(--line);padding-top:20px;margin-top:45px;text-align:center;color:var(--ink-soft);font-size:14px}
+  .team-photo{display:block;width:100%;max-width:150px;height:auto;margin:0 auto 28px}
+  .claim{font:700 clamp(20px,4vw,24px)/1.3 var(--display);color:var(--navy);border-left:3px solid var(--orange);padding:4px 0 4px 18px;margin:28px 0}
+  /* Termin-Block (Microsoft Bookings) – Variante „Termin“ groß, Variante „Bleib in Verbindung“ klein darunter */
+  .booking{margin:30px 0;padding:26px 22px;border:2px solid var(--orange);background:#fff}
+  .booking h2{margin-top:0}
+  .bk-irgendwann{font:700 clamp(18px,3.6vw,21px)/1.35 var(--display);color:var(--navy);border-left:3px solid var(--orange);padding:4px 0 4px 16px;margin:18px 0 18px}
+  .bk-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .bk-person{display:flex;gap:14px;align-items:center;flex:1 1 300px;min-width:0}
+  .bk-person img{width:92px;height:auto;flex:0 0 auto}
+  .bk-quote{margin:0;font-style:italic}
+  .bk-action{flex:0 0 auto}
+  .btn-big{font-size:19px;padding:18px 30px}
+  .bk-frame{margin-top:20px}
+  .bk-frame iframe{display:block;width:100%;height:780px;border:1px solid var(--line)}
+  .placeholder{border:2px dashed var(--orange);background:var(--orange-soft);padding:14px 16px;color:var(--ink);font-weight:600}
+  .later-link{background:none;border:0;padding:0;color:var(--orange);text-decoration:underline;text-underline-offset:3px;font-size:15px}
+  [hidden]{display:none!important}
+  @media(min-width:560px){.map{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.contact-form{grid-template-columns:1fr}.full{grid-column:auto}.scale{gap:3px}.scale label{font-size:15px}.bk-action,.bk-action .btn{width:100%;text-align:center}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="brand">Der Architekt Deines Lebens</div></header>
+<main>
+
+  <!-- Seite 1: Über uns (aus selbsttest-wo-kommst-du-noch-vor.html) -->
+  <section id="about">
+    <img class="team-photo" src="../Coaches/LiliUndSorin/Sorin_Lili%2002_small_transparent.png" alt="Lili und Sorin Ratiu, lachend in einer Umarmung" width="234" height="232">
+    <h1>♥️ Schön, dass du da bist.</h1>
+    <hr style="width:100%;max-width:650px;height:3px;background:var(--orange);border:0;margin:0 0 28px">
+    <p class="lead">Wir sind <b>Lili &amp; Sorin – ein Paar und ein Coaching-Paar</b>. Wir begleiten Frauen, die nur noch funktionieren: für alle da, außer für sich selbst.</p>
+    <p class="lead"><b>Dein Wunsch?</b> Endlich wieder spüren, was du willst – und nicht nur, was alle anderen von dir brauchen? Gleichzeitig wieder in deinem eigenen Leben vorkommen, ohne dass dafür etwas anderes zusammenbrechen muss?</p>
+    <p class="claim">Vom Funktionieren zum Gestalten.<br> Bevor aus „irgendwann“ ein „zu spät“ wird.</p>
+    <!-- Text Marc 12.11.2026, 22:49 -->
+    <p class="lead">Genau deswegen kannst du am Ende ein Erstgespräch buchen: 30 Minuten, in denen Sorin mit dir ehrlich auf deine Antworten schaut – und du gehst mit einem ersten Schritt raus.</p>
+    <p><b>Klingt fantastisch?</b> 😍<br>Klick jetzt auf <b>Weiter</b>, um zu starten.</p>
+    <p><button class="btn" id="to-intro" type="button">Weiter</button></p>
+    <p id="admin-jump" hidden><button class="ghost" id="jump-q15" type="button">Admin: Direkt zu Frage 15 →</button></p>
+  </section>
+
+  <!-- Seite 2: Intro -->
+  <section id="intro" hidden>
+    <p class="eyebrow">Umfrage · 15 Fragen · 4 Minuten</p>
+    <h1>Wo stehst du gerade – wirklich?</h1>
+    <hr style="width:56px;height:3px;background:var(--orange);border:0;margin:0 0 28px">
+    <p class="lead">Ein paar Fragen über deinen Alltag. Kein Test, keine Punkte, keine richtigen oder falschen Antworten.</p>
+    <p>Du funktionierst. Der Job läuft, die Familie läuft, alle bekommen, was sie brauchen. Diese Fragen schauen auf etwas anderes: wo in all dem du selbst noch vorkommst.</p>
+    <div class="note"><p style="margin:0"><strong>Das ist kein Gesundheitstest.</strong> Er stellt keine Diagnose. Er zeigt dir eine Landkarte. Was du damit machst, entscheidest du. Coaching ersetzt keine ärztliche oder psychotherapeutische Behandlung.</p></div>
+    <p class="muted"><em>Nimm einfach das, was dir als Erstes kommt. Das ist meistens das Ehrlichste.</em></p>
+    <p style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px"><button class="ghost" id="to-about" type="button" style="justify-self:start">← Zurück</button><button class="btn" id="start" type="button">Los geht's</button></p>
+    <!-- Text Clara 12.11.2026, 23:07 -->
+    <p class="small">Deine Antworten bleiben auf deinem Gerät. Nur wenn du am Ende einen Termin möchtest und es ausdrücklich erlaubst, nehmen wir sie zur Vorbereitung deines Erstgesprächs mit.</p>
+  </section>
+
+  <!-- Fragen -->
+  <form id="survey" novalidate hidden>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+    <p class="step" id="info"></p>
+
+    <section data-step="1" data-title="Leichter Einstieg" hidden>
+      <div class="q" data-required="radio" data-name="q1">
+        <div class="q-title">1. Wie fängt dein Tag meistens an? <span class="req">*</span></div>
+        <label class="opt"><input type="radio" name="q1" value="0"> Mit einem ruhigen Moment für mich, bevor es losgeht</label>
+        <label class="opt"><input type="radio" name="q1" value="1"> Mit der Liste im Kopf, noch bevor ich richtig wach bin</label>
+        <label class="opt"><input type="radio" name="q1" value="2"> Mit allem, was die anderen brauchen: Frühstück, Taschen, Termine</label>
+        <label class="opt"><input type="radio" name="q1" value="3"> Jeden Tag anders</label>
+      </div>
+      <div class="q">
+        <div class="q-title">2. Was hat in deiner Woche einen festen Platz?</div>
+        <p class="hint">Kreuz alles an, was passt.</p>
+        <label class="opt"><input type="checkbox" name="q2" value="0"> Job</label>
+        <label class="opt"><input type="checkbox" name="q2" value="1"> Kinder und Familie</label>
+        <label class="opt"><input type="checkbox" name="q2" value="2"> Haushalt</label>
+        <label class="opt"><input type="checkbox" name="q2" value="3"> Eltern oder Angehörige</label>
+        <label class="opt"><input type="checkbox" name="q2" value="4"> Freundinnen</label>
+        <label class="opt"><input type="checkbox" name="q2" value="5"> Bewegung</label>
+        <label class="opt"><input type="checkbox" name="q2" value="6"> Etwas, das nur mir Freude macht</label>
+        <label class="opt"><input type="checkbox" name="q2" value="7"> Zeit nur für mich</label>
+      </div>
+    </section>
+
+    <section data-step="2" data-title="Spiegel des Alltags" hidden>
+      <div class="q">
+        <div class="q-title">3. Wer behält bei euch zu Hause den Überblick – Termine, Geschenke, was im Kühlschrank fehlt?</div>
+        <label class="opt"><input type="radio" name="q3" value="0"> Fast nur ich</label>
+        <label class="opt"><input type="radio" name="q3" value="1"> Überwiegend ich</label>
+        <label class="opt"><input type="radio" name="q3" value="2"> Wir teilen ziemlich fair</label>
+        <label class="opt"><input type="radio" name="q3" value="3"> Überwiegend jemand anderes</label>
+      </div>
+      <div class="q">
+        <div class="q-title">4. Wie oft passiert dir das: Abends fällt dir ein, was du für andere vergessen hast – aber nicht, was du für dich vergessen hast?</div>
+        <label class="opt"><input type="radio" name="q4" value="0"> Kenne ich nicht</label>
+        <label class="opt"><input type="radio" name="q4" value="1"> Manchmal</label>
+        <label class="opt"><input type="radio" name="q4" value="2"> Ständig</label>
+      </div>
+    </section>
+
+    <section data-step="3" data-title="Rollen und Lasten" hidden>
+      <div class="q" data-required="check" data-name="q5">
+        <div class="q-title">5. In welchen Rollen bist du an einem normalen Tag unterwegs? <span class="req">*</span></div>
+        <p class="hint">Kreuz alles an, was passt.</p>
+        <label class="opt"><input type="checkbox" name="q5" value="0"> Mutter</label>
+        <label class="opt"><input type="checkbox" name="q5" value="1"> Partnerin</label>
+        <label class="opt"><input type="checkbox" name="q5" value="2"> Kollegin oder Chefin</label>
+        <label class="opt"><input type="checkbox" name="q5" value="3"> Tochter</label>
+        <label class="opt"><input type="checkbox" name="q5" value="4"> Freundin</label>
+        <label class="opt"><input type="checkbox" name="q5" value="5"> Organisatorin für alle</label>
+        <label class="opt"><input type="checkbox" name="q5" value="6"> Einfach ich – ohne Aufgabe</label>
+      </div>
+      <div class="q">
+        <div class="q-title">6. Wann hat dich zuletzt jemand gefragt, wie es dir geht – und wirklich auf die Antwort gewartet?</div>
+        <label class="opt"><input type="radio" name="q6" value="0"> In den letzten Tagen</label>
+        <label class="opt"><input type="radio" name="q6" value="1"> In den letzten Wochen</label>
+        <label class="opt"><input type="radio" name="q6" value="2"> Ich weiß es nicht mehr</label>
+      </div>
+    </section>
+
+    <section data-step="4" data-title="Was fehlt" hidden>
+      <div class="q" data-required="radio" data-name="q7">
+        <div class="q-title">7. Denk an letzte Woche: Wie viel Zeit hat nur dir gehört – niemandem sonst? <span class="req">*</span></div>
+        <label class="opt"><input type="radio" name="q7" value="0"> Mehr als drei Stunden</label>
+        <label class="opt"><input type="radio" name="q7" value="1"> Ein, zwei Stunden</label>
+        <label class="opt"><input type="radio" name="q7" value="2"> Weniger als eine Stunde</label>
+        <label class="opt"><input type="radio" name="q7" value="3"> Gar keine</label>
+      </div>
+      <div class="q">
+        <div class="q-title">8. Was hast du früher gern gemacht, wofür heute kein Platz mehr ist?</div>
+        <p class="hint">Ein Wort reicht. (freiwillig)</p>
+        <input type="text" name="q8" maxlength="120">
+      </div>
+    </section>
+
+    <section data-step="5" data-title="Der berührende Moment" hidden>
+      <div class="q">
+        <div class="q-title">9. Welcher Satz trifft dich gerade am meisten?</div>
+        <label class="opt"><input type="radio" name="q9" value="0"> „Ich funktioniere nur noch.“</label>
+        <label class="opt"><input type="radio" name="q9" value="1"> „Ich bin für alle da – außer für mich.“</label>
+        <label class="opt"><input type="radio" name="q9" value="2"> „Ich habe mich irgendwo verloren.“</label>
+        <label class="opt"><input type="radio" name="q9" value="3"> „Ich weiß gar nicht mehr, was ich eigentlich will.“</label>
+        <label class="opt"><input type="radio" name="q9" value="4"> Keiner davon</label>
+      </div>
+      <div class="q">
+        <div class="q-title">10. Gibt es etwas, das du dir schon lange vornimmst – für „irgendwann“?</div>
+        <p class="hint">Schreib es in einem Satz auf. Niemand bewertet ihn. (freiwillig)</p>
+        <textarea name="q10" maxlength="400"></textarea>
+      </div>
+      <p class="inter">Danke für deine Ehrlichkeit. Die nächsten Fragen schauen nach vorn.</p>
+    </section>
+
+    <section data-step="6" data-title="Wende nach vorn" hidden>
+      <div class="q">
+        <div class="q-title">11. Stell dir vor, es ist ein Jahr später und du kommst in deinem eigenen Leben wieder vor. Woran merkst du es als Erstes?</div>
+        <p class="hint">Kreuz alles an, was passt.</p>
+        <label class="opt"><input type="checkbox" name="q11" value="0"> Ich habe Zeit, die nur mir gehört</label>
+        <label class="opt"><input type="checkbox" name="q11" value="1"> Ich weiß wieder, was ich will</label>
+        <label class="opt"><input type="checkbox" name="q11" value="2"> Ich sage Nein, ohne mich schlecht zu fühlen</label>
+        <label class="opt"><input type="checkbox" name="q11" value="3"> In meiner Partnerschaft sind wir wieder mehr Paar als Team</label>
+        <label class="opt"><input type="checkbox" name="q11" value="4"> Ich fange etwas an, das ich lange aufgeschoben habe</label>
+        <label class="opt"><input type="checkbox" name="q11" value="5"> Etwas anderes:</label>
+        <input type="text" name="q11_anderes" maxlength="150" placeholder="Etwas anderes …">
+      </div>
+      <div class="q">
+        <div class="q-title">12. Wer würde es als Erstes merken?</div>
+        <p class="hint">Kreuz alles an, was passt.</p>
+        <label class="opt"><input type="checkbox" name="q12" value="0"> Ich selbst – noch vor allen anderen</label>
+        <label class="opt"><input type="checkbox" name="q12" value="1"> Mein Partner</label>
+        <label class="opt"><input type="checkbox" name="q12" value="2"> Meine Kinder</label>
+        <label class="opt"><input type="checkbox" name="q12" value="3"> Eine Freundin</label>
+        <label class="opt"><input type="checkbox" name="q12" value="4"> Die Menschen bei der Arbeit</label>
+        <label class="opt"><input type="checkbox" name="q12" value="5"> Jemand anderes:</label>
+        <input type="text" name="q12_anderes" maxlength="80" placeholder="Jemand anderes …">
+      </div>
+    </section>
+
+    <section data-step="7" data-title="Eigene Bereitschaft" hidden>
+      <div class="q" data-required="radio" data-name="q13">
+        <div class="q-title">13. Wie sehr möchtest du daran gerade etwas ändern? <span class="req">*</span></div>
+        <div class="scale" role="radiogroup">
+          <label><input type="radio" name="q13" value="0">0</label><label><input type="radio" name="q13" value="1">1</label><label><input type="radio" name="q13" value="2">2</label><label><input type="radio" name="q13" value="3">3</label><label><input type="radio" name="q13" value="4">4</label><label><input type="radio" name="q13" value="5">5</label>
+        </div>
+        <div class="scale-legend"><span>0 = gerade gar nicht</span><span>5 = ich will jetzt anfangen</span></div>
+      </div>
+      <div class="q">
+        <div class="q-title">14. Wie möchtest du das angehen?</div>
+        <label class="opt"><input type="radio" name="q14" value="0"> Allein, in meinem Tempo</label>
+        <label class="opt"><input type="radio" name="q14" value="1"> Mit einer Freundin an meiner Seite</label>
+        <label class="opt"><input type="radio" name="q14" value="2"> Mit jemandem, der mich von außen begleitet</label>
+        <label class="opt"><input type="radio" name="q14" value="3"> Weiß ich noch nicht</label>
+      </div>
+    </section>
+
+    <section data-step="8" data-title="Einladung" hidden>
+      <div class="q" data-required="radio" data-name="q15">
+        <div class="q-title">15. Magst du in einem Erstgespräch mit Sorin ehrlich anschauen, wo du stehst? 30 Minuten, über Teams – und du gehst mit einem ersten Schritt raus. <span class="req">*</span></div>
+        <label class="opt"><input type="radio" name="q15" value="ja"> Ja, gern</label>
+        <label class="opt"><input type="radio" name="q15" value="spaeter"> Vielleicht später</label>
+        <label class="opt"><input type="radio" name="q15" value="nein"> Nein, danke</label>
+      </div>
+      <!-- Kontaktdaten bei "Ja" → Lead in Dynamics 365 (dynamicsCRM.submitLead); danach Termin direkt über Bookings -->
+      <!-- Einwilligungstexte Clara 12.11.2026 (Auftrag Sorin 23:30, Texte A/B wörtlich). Textversion: CONSENT_VERSION im Skript. -->
+      <div id="contact" hidden>
+        <div class="contact-form">
+          <div class="field"><label class="lbl" for="vorname">Vorname</label><input type="text" id="vorname" autocomplete="given-name"></div>
+          <div class="field"><label class="lbl" for="email">E-Mail</label><input type="email" id="email" autocomplete="email"></div>
+          <div class="field full"><label class="lbl" for="tel">Telefon <span class="small">(freiwillig)</span></label><input type="tel" id="tel" autocomplete="tel" placeholder="+49 …"><p class="small" style="margin:0">Deine Telefonnummer inkl. Ländervorwahl (damit ich dir über WhatsApp bzgl. deiner Auswertung schreiben kann, falls E-Mail aus unerklärlichen Gründen nicht klappen sollte)</p></div>
+          <div class="field full"><label class="lbl" for="stand">Wenn du magst: Schreib in zwei, drei Sätzen, wo du gerade stehst. <span class="small">(freiwillig)</span></label>
+            <textarea id="stand" maxlength="600"></textarea>
+            <p class="small" style="margin:0">Schreib hier bitte keine Angaben zu deiner Gesundheit, zu Diagnosen oder Behandlungen. Darüber sprechen wir – wenn du magst – persönlich.</p></div>
+          <!-- Häkchen 1 (Pflicht) -->
+          <div class="field full"><label class="cb"><input type="checkbox" id="consent"> <span>Ich bin einverstanden, dass die weHerzIT GmbH meinen Vornamen, meine E-Mail-Adresse und – falls angegeben – Telefonnummer und meine zwei, drei Sätze speichert, um mit mir das Erstgespräch zu vereinbaren und vorzubereiten. Widerruf jederzeit an <a class="link" href="mailto:kontakt@der-architekt-deines-lebens.de">kontakt@der-architekt-deines-lebens.de</a>.</span></label></div>
+          <!-- Häkchen 2 (freiwillig, nicht vorangekreuzt, KEIN Pflichtfeld) – Text A von Clara, wörtlich (Auftrag Sorin 12.11.2026, 23:30) -->
+          <div class="field full"><label class="cb"><input type="checkbox" id="consent-antworten"> <span>Ja, ich willige ausdrücklich ein, dass die weHerzIT GmbH meine Antworten aus dieser Umfrage – einschließlich meiner freien Texte – zusammen mit meinem Vornamen und meiner E-Mail-Adresse speichert, um unser Erstgespräch vorzubereiten. Meine Antworten können auch Angaben zu meinem Wohlbefinden oder meiner Gesundheit enthalten; auch dafür gilt diese Einwilligung. Die Daten werden in Microsoft Dynamics 365 gespeichert und spätestens 6 Monate nach dem letzten Kontakt gelöscht. Ich kann die Einwilligung jederzeit ohne Angabe von Gründen widerrufen – z. B. per E-Mail an <a class="link" href="mailto:kontakt@der-architekt-deines-lebens.de">kontakt@der-architekt-deines-lebens.de</a>. Ohne Einwilligung kann ich trotzdem einen Termin buchen. <a class="link" href="https://der-architekt-deines-lebens.de/rechtliches.html#datenschutz" target="_blank" rel="noopener">Mehr in der Datenschutzerklärung</a></span></label></div>
+          <!-- Kurz-Hinweis unter dem Häkchen – Text B von Clara, wörtlich -->
+          <div class="field full"><p class="small" style="margin:0">Was mit deinen Antworten passiert: Verantwortlich ist die weHerzIT GmbH, <a class="link" href="https://der-architekt-deines-lebens.de/rechtliches.html#impressum" target="_blank" rel="noopener">siehe Impressum</a>. Zweck: Vorbereitung deines Erstgesprächs – nicht Werbung, kein Newsletter. Rechtsgrundlage: deine Einwilligung (Art. 6 Abs. 1 lit. a und Art. 9 Abs. 2 lit. a DSGVO). Speicherort: Microsoft Dynamics 365 (Microsoft als Auftragsverarbeiter, Vertrag nach Art. 28 DSGVO). Speicherdauer: bis 6 Monate nach dem letzten Kontakt; kommt es zu einer Zusammenarbeit, gelten die Fristen aus dem Vertrag. Deine Rechte: Auskunft, Berichtigung, Löschung, Einschränkung, Widerruf jederzeit mit Wirkung für die Zukunft, Beschwerde bei einer Datenschutz-Aufsichtsbehörde.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <p class="small">* Pflichtfrage – alles andere ist freiwillig.</p>
+    <p class="error" id="err" hidden></p>
+    <div class="actions">
+      <button type="button" class="ghost" id="back">← Zurück</button>
+      <button type="button" class="btn" id="next">Weiter</button>
+    </div>
+  </form>
+
+  <!-- Abschluss bei "Ja" (Variante TERMIN) – nur Termin, kein Newsletter. Texte Marc 12.11.2026, 22:49 -->
+  <section id="end-ja" hidden>
+    <p class="eyebrow">Dein nächster Schritt</p>
+    <h2 class="verdict" id="ja-title">Danke. Jetzt fehlt nur noch dein Termin.</h2>
+    <!-- Danke-Text Clara: „Deine Antworten sind angekommen.“ nur mit Häkchen 2, sonst „Deine Kontaktdaten sind angekommen.“ -->
+    <p class="ok" id="ja-received"></p>
+    <p>Du hast dir gerade ein paar Minuten nur für dich genommen. Im Erstgespräch schauen wir ehrlich, wo du stehst – und du gehst mit einem ersten Schritt raus. 30 Minuten, über Teams.</p>
+    <div id="slot-ja"></div>
+    <div class="note"><p><strong>Wenn es mehr ist als Alltag.</strong> Wenn dich seit Wochen nichts mehr trägt oder du daran denkst, dir etwas anzutun: Dann ist das kein Fall für eine Umfrage. Sprich bitte mit deiner Hausärztin oder einer Psychotherapeutin.</p>
+      <p style="margin:0">Die TelefonSeelsorge ist kostenfrei und rund um die Uhr erreichbar – in Deutschland unter <strong>0800 111 0 111</strong>, <strong>0800 111 0 222</strong> oder <strong>116 123</strong>, in Österreich unter <strong>142</strong>. Bei akuter Gefahr wähle den Notruf <strong>112</strong>.</p></div>
+    <footer>Bis bald – Lili &amp; Sorin<br><a class="link" href="../rechtliches.html#impressum">Impressum</a> · <a class="link" href="../rechtliches.html#datenschutz">Datenschutz</a></footer>
+  </section>
+
+  <!-- Ergebnis bei "Vielleicht später" / "Nein, danke" / Frage 14 „von außen begleitet“ -->
+  <section id="result" hidden>
+    <p class="eyebrow">Dein Ergebnis</p>
+    <h2 class="verdict" id="verdict"></h2>
+    <p id="verdict-text"></p>
+    <p id="scale-result"></p>
+    <h2>Dein Grundriss</h2>
+    <p class="muted">Wohnst du dort noch – oder bist du dort nur zuständig?</p>
+    <div class="map" id="map"></div>
+    <div class="card" id="irgendwann-card" hidden><h3>Dein „Irgendwann“</h3><p id="irgendwann-text" style="font-style:italic"></p><p class="muted" style="margin-bottom:0">Das gehört dir. Nimm es ernst – auch wenn heute nicht der Tag ist, damit anzufangen.</p></div>
+    <div class="card" id="frueher-card" hidden><h3>Was früher Platz hatte</h3><p id="frueher-text" style="margin-bottom:0"></p></div>
+    <div class="card"><h3>Ein Raum hat mehr gezogen als die anderen.</h3><p>Nicht der, der am leersten aussieht – der, bei dem du kurz gezögert hast. Merk ihn dir. Dort kann etwas anfangen.</p><p class="muted" style="margin-bottom:0">Du musst heute nichts damit tun.</p></div>
+    <!-- Sicherheitshinweis – gilt für alle Varianten (Termin über Frage 14, Bleib in Verbindung, Danke); Ergänzung TelefonSeelsorge Clara 12.11.2026 -->
+    <div class="note"><p><strong>Wenn es mehr ist als Alltag.</strong> Wenn dich seit Wochen nichts mehr trägt oder du daran denkst, dir etwas anzutun: Dann ist das kein Fall für eine Umfrage. Sprich bitte mit deiner Hausärztin oder einer Psychotherapeutin.</p>
+      <p style="margin:0">Die TelefonSeelsorge ist kostenfrei und rund um die Uhr erreichbar – in Deutschland unter <strong>0800 111 0 111</strong>, <strong>0800 111 0 222</strong> oder <strong>116 123</strong>, in Österreich unter <strong>142</strong>. Bei akuter Gefahr wähle den Notruf <strong>112</strong>.</p></div>
+
+    <h2 id="end-title"></h2>
+    <p id="end-text"></p>
+
+    <!-- Variante TERMIN (Frage 14 „von außen begleitet“): Termin groß, kein Newsletter -->
+    <div id="slot-main"></div>
+
+    <!-- Variante BLEIB IN VERBINDUNG (Frage 15 „Vielleicht später“): Newsletter als Hauptangebot. Texte Marc 22:49 / Clara (Auftrag Sorin 23:30, Texte C–F wörtlich) -->
+    <!-- Kontaktformular → Lead in Dynamics 365 (dynamicsCRM.submitLead). Entscheidung Sorin 12.11.2026, 23:18:
+         Umfrage-Antworten als JSON NUR wenn (E-Mail ODER Telefon) UND Häkchen 2 (k-consent-antworten). Telefon freiwillig. -->
+    <div class="card" id="keep-box" hidden>
+      <h3>Bleib in Verbindung – ganz ohne Termin</h3>
+      <p class="muted">Lass uns deinen Vornamen und deine E-Mail da. Dann schicken wir dir ab und zu einen Impuls – und die Tür bleibt offen, bis du so weit bist.</p>
+      <form id="keep-form" class="contact-form" novalidate style="margin-bottom:0">
+        <div class="field"><label class="lbl" for="k-vorname">Vorname</label><input type="text" id="k-vorname" autocomplete="given-name"></div>
+        <div class="field"><label class="lbl" for="k-email">E-Mail</label><input type="email" id="k-email" autocomplete="email"></div>
+        <!-- Telefon (freiwillig) – Hinweis Text E von Clara, wörtlich -->
+        <div class="field full"><label class="lbl" for="k-tel">Telefon <span class="small">(freiwillig)</span></label><input type="tel" id="k-tel" autocomplete="tel" placeholder="+49 …"><p class="small" style="margin:0">Deine Telefonnummer inkl. Ländervorwahl (damit ich dir über WhatsApp bzgl. deiner Auswertung schreiben kann, falls E-Mail aus unerklärlichen Gründen nicht klappen sollte)</p>
+          <p class="small" style="margin:0">Freiwillig. Wir nutzen deine Nummer nur, wenn du uns um einen Rückruf bittest oder um einen Termin mit dir abzustimmen – nicht für Werbeanrufe.</p></div>
+        <div class="field full"><label class="cb"><input type="checkbox" id="k-newsletter"> <span>Ja, schick mir ab und zu Impulse per E-Mail (Newsletter). Jederzeit mit einem Klick abbestellbar.</span></label></div>
+        <!-- Pflicht-Häkchen – Text C von Clara, wörtlich -->
+        <div class="field full"><label class="cb"><input type="checkbox" id="k-consent"> <span>Ich bin einverstanden, dass die weHerzIT GmbH meinen Vornamen, meine E-Mail-Adresse und – falls angegeben – meine Telefonnummer speichert, um mit mir in Verbindung zu bleiben. Meine Umfrage-Antworten werden nur gespeichert, wenn ich das unten gesondert erlaube. Widerruf jederzeit an <a class="link" href="mailto:kontakt@der-architekt-deines-lebens.de">kontakt@der-architekt-deines-lebens.de</a>.</span></label></div>
+        <!-- Häkchen 2 (freiwillig, nicht vorangekreuzt) – Text D von Clara, wörtlich -->
+        <div class="field full"><label class="cb"><input type="checkbox" id="k-consent-antworten"> <span>Ja, ich willige ausdrücklich ein, dass die weHerzIT GmbH zusätzlich meine Umfrage-Antworten – auch meine freien Texte und, falls ich welche gemacht habe, Angaben zu meinem Wohlbefinden oder meiner Gesundheit – zusammen mit meinen Kontaktdaten in Microsoft Dynamics 365 speichert. Zweck: mit mir passend in Verbindung bleiben und ein mögliches späteres Gespräch vorbereiten. Speicherdauer höchstens 6 Monate. Widerruf jederzeit an <a class="link" href="mailto:kontakt@der-architekt-deines-lebens.de">kontakt@der-architekt-deines-lebens.de</a>. Freiwillig: Ohne dieses Häkchen bleibst du trotzdem mit uns in Verbindung.</span></label>
+          <!-- Kurz-Hinweis unter den Häkchen – Text F von Clara, wörtlich -->
+          <p class="small" style="margin:0">Verantwortlich: weHerzIT GmbH, <a class="link" href="https://der-architekt-deines-lebens.de/rechtliches.html#impressum" target="_blank" rel="noopener">siehe Impressum</a>. Wir speichern deine Angaben in Microsoft Dynamics 365 (Microsoft als Auftragsverarbeiter). Newsletter nur nach Bestätigung per E-Mail und jederzeit abbestellbar. Umfrage-Antworten nur mit deiner gesonderten Einwilligung, höchstens 6 Monate. Deine Rechte (Auskunft, Löschung, Widerruf, Beschwerde bei einer Aufsichtsbehörde) und alles Weitere: <a class="link" href="https://der-architekt-deines-lebens.de/rechtliches.html#datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p></div>
+        <div class="full"><button class="btn" id="k-submit" type="submit">In Verbindung bleiben</button></div>
+        <p class="error full" id="k-err" hidden style="margin:0"></p>
+      </form>
+      <p class="ok" id="k-ok" hidden style="margin:0"></p>
+    </div>
+    <div id="later-box" hidden>
+      <p class="small" style="margin:6px 0 0">Oder doch lieber jetzt reden? → <button type="button" class="later-link" id="later-open">Termin für dein Erstgespräch wählen</button></p>
+      <div id="slot-later"></div>
+    </div>
+
+    <p id="admin-actions" hidden style="margin-top:28px;flex-wrap:wrap;justify-content:space-between;gap:10px"><button class="ghost" id="result-back" type="button">← Zurück zur letzten Frage</button> <button class="ghost" id="again" type="button" style="margin-left:auto">Umfrage noch einmal machen</button></p>
+    <footer>Bis bald – Lili &amp; Sorin<br><a class="link" href="../rechtliches.html#impressum">Impressum</a> · <a class="link" href="../rechtliches.html#datenschutz">Datenschutz</a></footer>
+  </section>
+
+  <!-- Termin-Block (Microsoft Bookings). Wird per Skript in slot-ja / slot-main / slot-later gesetzt. Ein CTA. Texte Marc 22:49, Hinweis Clara 23:07 -->
+  <div id="booking" class="booking" hidden>
+    <h2 id="bk-title">Buch dir direkt dein Erstgespräch</h2>
+    <p class="muted" id="bk-sub">Im Erstgespräch schauen wir ehrlich, wo du stehst – und du gehst mit einem ersten Schritt raus. 30 Minuten, über Teams.</p>
+    <!-- Ihr „Irgendwann“-Satz (Frage 10) direkt über dem Termin-Button; ohne Antwort: Ersatzsatz Marc -->
+    <p class="bk-irgendwann" id="bk-irgendwann"></p>
+    <div class="bk-row">
+      <div class="bk-person">
+        <img src="../Coaches/LiliUndSorin/Sorin_Lili%2002_small_transparent.png" alt="Lili und Sorin Ratiu, lachend in einer Umarmung" width="92" height="91" loading="lazy">
+        <p class="bk-quote">„Ich bin Sorin. Im Erstgespräch höre ich dir zu und schaue mit dir ehrlich auf deine Antworten – ob und wie es danach weitergeht, entscheidest du.“ <span class="small">– Sorin</span></p>
+      </div>
+      <div class="bk-action"><button class="btn btn-big" id="bk-open" type="button">Termin für dein Erstgespräch wählen</button></div>
+    </div>
+    <p class="small" id="bk-note" style="margin:12px 0 0">Du wählst direkt einen freien Termin. Die Bestätigung mit dem Teams-Link kommt per E-Mail. · Der Kalender von Microsoft Bookings wird erst geladen, wenn du auf „Termin für dein Erstgespräch wählen“ klickst. Dabei werden Daten (z. B. deine IP-Adresse und deine Buchungsangaben) an Microsoft übertragen, das für uns als Auftragsverarbeiter tätig ist. Mehr in unserer <a class="link" href="../rechtliches.html#datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>.</p>
+    <div class="bk-frame" id="bk-frame" hidden></div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase-config.js"></script>
+<script src="../Code/dynamics-crm.js"></script>
+<script src="../Code/send-overlay.js"></script>
+<script>
+(function(){
+  "use strict";
+  // ── Microsoft Bookings ──────────────────────────────────────────
+  // url:   Link der Buchungsseite (liefert Sorin). Leer = Platzhalter wird angezeigt.
+  // embed: true  = Kalender nach Klick in der Seite (iframe; laut Microsoft nur bei
+  //               einer freigegebenen/„shared“ Buchungsseite mit Einbettungscode möglich)
+  //        false = Klick öffnet die Buchungsseite in einem neuen Fenster.
+  var BOOKINGS={url:'', embed:true};
+
+  // Textversion der Einwilligungstexte (bei jeder Textänderung hochzählen) – wird mit Zeitpunkt am Lead gespeichert.
+  // v2 = Claras Texte A–F wörtlich (Auftrag Sorin 12.11.2026, 23:30)
+  var CONSENT_VERSION='2026-11-12-v2';
+  var UMFRAGE='Wo stehst du gerade – wirklich?';
+
+  var MAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var order=['1','2','3','4','5','6','7','8'], idx=0, total=order.length;
+  var about=document.getElementById('about'), intro=document.getElementById('intro'), form=document.getElementById('survey');
+  var endJa=document.getElementById('end-ja'), result=document.getElementById('result');
+  var next=document.getElementById('next'), back=document.getElementById('back');
+  var err=document.getElementById('err'), info=document.getElementById('info'), progress=document.getElementById('progress');
+  var contact=document.getElementById('contact');
+  for(var i=0;i<total;i++)progress.appendChild(document.createElement('span'));
+
+  function $(id){return document.getElementById(id);}
+  function sec(key){return form.querySelector('section[data-step="'+key+'"]');}
+  function val(name){var i=form.querySelector('input[name="'+name+'"]:checked');return i?i.value:null;}
+  function vals(name){return Array.prototype.map.call(form.querySelectorAll('input[name="'+name+'"]:checked'),function(i){return i.value;});}
+  function text(name){var el=form.querySelector('[name="'+name+'"]');return el?el.value.trim():'';}
+  function labelOf(input){return input.parentNode.textContent.trim();}
+  function labels(name){return Array.prototype.map.call(form.querySelectorAll('input[name="'+name+'"]:checked'),labelOf);}
+
+  // ── Steuerung der letzten Seite (Entscheidung Sorin 12.11.2026) ──
+  // 'termin' : Frage 15 „Ja, gern“ ODER Frage 14 „Mit jemandem, der mich von außen begleitet“
+  // 'bleib'  : Frage 15 „Vielleicht später“ (ohne Frage 14 = von außen)
+  // 'danke'  : Frage 15 „Nein, danke“ – hat Vorrang (kein Verkauf nach ausdrücklichem Nein)
+  function variant(){
+    var q15=val('q15'), q14=val('q14');
+    if(q15==='nein')return 'danke';
+    if(q15==='ja'||q14==='2')return 'termin';
+    return 'bleib';
+  }
+
+  // ── Termin-Block ────────────────────────────────────────────────
+  function resetBooking(){
+    var f=$('bk-frame'); f.textContent=''; f.hidden=true;
+    $('bk-open').hidden=false;
+  }
+  function placeBooking(slotId){
+    var b=$('booking'); resetBooking();
+    var q10=text('q10');
+    $('bk-irgendwann').textContent=q10?'„'+q10+'“ – das hast du für „irgendwann“ aufgeschrieben. Im Erstgespräch schauen wir, was davon schon jetzt einen Platz bekommen kann.':'Was du für „irgendwann“ aufhebst, darf einen Platz bekommen – bevor aus „irgendwann“ ein „zu spät“ wird.';
+    // Der Absatz „Im Erstgespräch …“ steht in Variante A schon über dem Block – dort nicht doppelt zeigen.
+    $('bk-sub').hidden=(slotId==='slot-ja'||slotId==='slot-main');
+    if(slotId){$(slotId).appendChild(b); b.hidden=false;}
+    else{b.hidden=true;}
+  }
+  $('bk-open').addEventListener('click',function(){
+    var f=$('bk-frame'); f.textContent='';
+    if(!BOOKINGS.url){
+      var ph=document.createElement('p'); ph.className='placeholder'; ph.style.margin='0';
+      ph.textContent='[Platzhalter: Link zu Microsoft Bookings folgt von Sorin – hier erscheint dann der Kalender bzw. die Buchungsseite.]';
+      f.appendChild(ph); f.hidden=false; return;
+    }
+    if(BOOKINGS.embed){
+      var fr=document.createElement('iframe');
+      fr.src=BOOKINGS.url; fr.title='Termin für dein Erstgespräch wählen (Microsoft Bookings)';
+      fr.setAttribute('loading','lazy'); fr.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+      var fb=document.createElement('p'); fb.className='small'; fb.style.margin='8px 0 0';
+      var a=document.createElement('a'); a.className='link'; a.href=BOOKINGS.url; a.target='_blank'; a.rel='noopener';
+      a.textContent='Kalender wird nicht angezeigt? Hier in einem neuen Fenster öffnen ↗';
+      fb.appendChild(a);
+      f.appendChild(fr); f.appendChild(fb); f.hidden=false;
+      $('bk-open').hidden=true;
+    }else{
+      window.open(BOOKINGS.url,'_blank','noopener');
+    }
+  });
+  $('later-open').addEventListener('click',function(){
+    placeBooking('slot-later');
+    this.parentNode.hidden=true;
+  });
+
+  function showPage(which){
+    about.hidden=which!=='about'; intro.hidden=which!=='intro'; form.hidden=which!=='quiz';
+    endJa.hidden=which!=='end-ja'; result.hidden=which!=='result';
+    window.scrollTo(0,0);
+  }
+  function render(){
+    var key=order[idx];
+    form.querySelectorAll('section').forEach(function(s){s.hidden=s.dataset.step!==key;});
+    err.hidden=true;
+    info.textContent='Abschnitt '+(idx+1)+' von '+total+' · '+sec(key).dataset.title;
+    next.textContent=idx===total-1?'Absenden':'Weiter';
+    Array.prototype.forEach.call(progress.children,function(bar,i){bar.className=i<idx?'done':i===idx?'now':'';});
+    window.scrollTo(0,0);
+  }
+  function valid(key){
+    var s=sec(key), ok=true;
+    s.querySelectorAll('.q[data-required]').forEach(function(q){
+      if(!s.querySelector('input[name="'+q.dataset.name+'"]:checked'))ok=false;
+    });
+    return ok;
+  }
+
+  // Alle Antworten als JSON-String. Wird NUR übertragen, wenn das jeweilige freiwillige Häkchen 2 gesetzt ist:
+  // „Ja“: consent-antworten · „Bleib in Verbindung“: k-consent-antworten UND (E-Mail ODER Telefon) – Entscheidung Sorin 12.11.2026, 23:18.
+  function surveyAnswersJSON(){
+    var answers={
+      q1:labels('q1').join(''), q2:labels('q2').join(' | '), q3:labels('q3').join(''), q4:labels('q4').join(''),
+      q5:labels('q5').join(' | '), q6:labels('q6').join(''), q7:labels('q7').join(''), q8:text('q8'),
+      q9:labels('q9').join(''), q10:text('q10'), q11:labels('q11').join(' | '), q11_anderes:text('q11_anderes'),
+      q12:labels('q12').join(' | '), q12_anderes:text('q12_anderes'), q13:val('q13')||'', q14:labels('q14').join(''),
+      q15:labels('q15').join('')
+    };
+    return JSON.stringify(answers);
+  }
+
+  // ── Grundriss: jede Antwort wird einem "Raum" zugeordnet ──────────
+  // 0 = Du wohnst hier · 1 = Kaum noch · 2 = Nur noch zuständig · null = ohne Angabe
+  function rooms(){
+    var q2=vals('q2'), q5=vals('q5');
+    function pick(v,map){return v===null?null:map[v];}
+    return [
+      {name:'Dein Morgen', s:pick(val('q1'),{'0':0,'3':1,'1':2,'2':2})},
+      {name:'Zeit nur für dich', s:pick(val('q7'),{'0':0,'1':1,'2':2,'3':2})},
+      {name:'Dein Zuhause', s:pick(val('q3'),{'2':0,'3':0,'1':1,'0':2})},
+      {name:'Dein Kopf am Abend', s:pick(val('q4'),{'0':0,'1':1,'2':2})},
+      {name:'Gesehen werden', s:pick(val('q6'),{'0':0,'1':1,'2':2})},
+      {name:'Deine Freude', s:q2.length===0?null:(q2.indexOf('6')>-1||q2.indexOf('7')>-1)?0:(q2.indexOf('4')>-1||q2.indexOf('5')>-1)?1:2},
+      {name:'Einfach du', s:q5.length===0?null:q5.indexOf('6')>-1?0:q5.length<=2?1:2},
+      {name:'Deine Wünsche', s:pick(val('q9'),{'4':0,'0':1,'1':1,'2':2,'3':2})}
+    ];
+  }
+
+  function renderResult(){
+    var map=$('map'), count=0, answered=0;
+    map.textContent='';
+    rooms().forEach(function(r){
+      var label,cls;
+      if(r.s===0){label='Du wohnst hier';cls='yes';answered++;}
+      else if(r.s===1){label='Kaum noch';cls='some';count++;answered++;}
+      else if(r.s===2){label='Nur noch zuständig';cls='no';count++;answered++;}
+      else{label='Ohne Angabe';cls='na';}
+      var cell=document.createElement('div');cell.className='cell';
+      var name=document.createElement('b');name.textContent=r.name;
+      var state=document.createElement('span');state.className='state '+cls;state.textContent=label;
+      cell.appendChild(name);cell.appendChild(state);map.appendChild(cell);
+    });
+    var verdict,txt,share=answered?count/answered:0;
+    if(share<=0.25){verdict='In deinem Leben wohnst du noch.';txt='Das ist seltener, als du vielleicht denkst. Die meisten Räume gehören auch dir – nicht nur den anderen. Und trotzdem hast du dir diese Fragen gestellt. Vielleicht lohnt sich die Frage, welcher Raum sich leiser anfühlt, als er auf dem Grundriss aussieht.';}
+    else if(share<=0.5){verdict='Du wohnst noch – aber in einigen Räumen wird es still.';txt='An vielen Stellen kommst du noch vor. An einigen bist du vor allem zuständig. Genau hier lässt sich etwas verändern, ohne dass vorher etwas einstürzen muss. Viele Frauen schauen erst sehr viel später so genau hin.';}
+    else{verdict='Du hältst dein Haus in Ordnung – für alle anderen.';txt='In den meisten Räumen bist du zuständig, aber kaum noch zu Hause. Das sieht von außen niemand, weil alles läuft. Es ist kein Charakterfehler – es ist das Ergebnis einer Rolle, die sehr lange sehr gut funktioniert hat. Für alle außer für dich. Dass du das jetzt schwarz auf weiß siehst, ist kein Grund zur Scham. Es ist der erste ehrliche Blick auf deinen Bauplan.';}
+    $('verdict').textContent=verdict;
+    $('verdict-text').textContent=txt;
+    var q13=val('q13');
+    $('scale-result').textContent=q13===null?'':'Wie sehr du gerade etwas ändern möchtest: '+q13+' von 5. Diese Zahl ist kein Urteil. Sie zeigt nur, wo du heute stehst – und sie darf sich ändern.';
+    var q10=text('q10'), q8=text('q8');
+    $('irgendwann-card').hidden=!q10; $('irgendwann-text').textContent=q10?'„'+q10+'“':'';
+    $('frueher-card').hidden=!q8; $('frueher-text').textContent=q8?'„'+q8+'“ – vielleicht ist es nicht weg, sondern wartet nur auf einen Platz.':'';
+
+    var v=variant();
+    $('keep-box').hidden=v!=='bleib';
+    $('later-box').hidden=v!=='bleib';
+    $('later-open').parentNode.hidden=false;
+    if(v==='termin'){
+      // Frage 14 „von außen begleitet“ (Frage 15 nicht „Ja“): nur Termin, groß – Text Marc (Variante A ohne Vorname)
+      $('end-title').textContent='Danke. Jetzt fehlt nur noch dein Termin.';
+      $('end-text').textContent='Du hast dir gerade ein paar Minuten nur für dich genommen. Im Erstgespräch schauen wir ehrlich, wo du stehst – und du gehst mit einem ersten Schritt raus. 30 Minuten, über Teams.';
+      placeBooking('slot-main');
+    }else if(v==='bleib'){
+      // Frage 15 „Vielleicht später“: „Bleib in Verbindung“ als Hauptangebot, darunter klein der Termin-Link
+      $('end-title').textContent='Danke für deine Ehrlichkeit.';
+      $('end-text').textContent='Auch dafür, dass „später“ eine Antwort sein darf.';
+      placeBooking(null);
+    }else{
+      // Frage 15 „Nein, danke“: Danke-Seite, kein Verkauf
+      $('end-title').textContent='Danke, dass du dir die Zeit genommen hast.';
+      $('end-text').textContent='Das war schon ein Moment nur für dich. Wenn sich etwas ändert: Die Tür bleibt offen.';
+      placeBooking(null);
+    }
+  }
+
+  function submitJa(){
+    var vorname=$('vorname').value.trim(), email=$('email').value.trim();
+    var consentKontakt=$('consent').checked, consentAntworten=$('consent-antworten').checked;
+    if(!vorname||!MAIL_RE.test(email)||!consentKontakt){
+      err.textContent='Bitte gib deinen Vornamen und eine gültige E-Mail-Adresse ein und bestätige die erste Einwilligung.';
+      err.hidden=false;return;
+    }
+    var jetzt=new Date().toISOString();
+    var extra={
+      umfrage:UMFRAGE, seite:location.pathname, variante:'termin',
+      nachricht:$('stand').value.trim(),
+      einwilligungKontaktZeitpunkt:jetzt, einwilligungKontaktTextversion:CONSENT_VERSION,
+      einwilligungAntworten:consentAntworten?'ja':'nein'
+    };
+    if(consentAntworten){
+      extra.antworten=surveyAnswersJSON();
+      extra.einwilligungAntwortenZeitpunkt=jetzt;
+      extra.einwilligungAntwortenTextversion=CONSENT_VERSION;
+    }
+    next.disabled=true; next.textContent='Wird gesendet …';
+    sendOverlay.show(consentAntworten?'Bitte warten. Deine Angaben und Antworten werden übermittelt':'Bitte warten. Deine Angaben werden übermittelt');
+    dynamicsCRM.submitLead({
+      firstname:vorname, email:email, mobilephone:$('tel').value.trim(),
+      interesseAnCoachingOptIn:true, einwilligungDatenverarbeitungOptIn:consentKontakt, extra:extra
+    }).then(function(res){
+      sendOverlay.hide(); next.disabled=false; next.textContent='Absenden';
+      if(!res||!res.success){err.textContent='Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.';err.hidden=false;return;}
+      $('ja-title').textContent='Danke, '+vorname+'. Jetzt fehlt nur noch dein Termin.';
+      $('ja-received').textContent=consentAntworten?'Deine Antworten sind angekommen.':'Deine Kontaktdaten sind angekommen.';
+      placeBooking('slot-ja');
+      showPage('end-ja');
+    });
+  }
+
+  next.addEventListener('click',function(){
+    var key=order[idx];
+    if(!valid(key)){err.textContent='Bitte beantworte die markierten Fragen auf dieser Seite, bevor du weitergehst.';err.hidden=false;return;}
+    if(idx<total-1){idx++;render();return;}
+    if(val('q15')==='ja'){submitJa();return;}
+    renderResult(); showPage('result');
+  });
+  back.addEventListener('click',function(){if(idx>0){idx--;render();}else showPage('intro');});
+  form.querySelectorAll('input[name="q15"]').forEach(function(r){
+    r.addEventListener('change',function(){contact.hidden=val('q15')!=='ja';});
+  });
+  $('to-intro').addEventListener('click',function(){showPage('intro');});
+  $('to-about').addEventListener('click',function(){showPage('about');});
+  $('start').addEventListener('click',function(){idx=0;showPage('quiz');render();});
+  // Admin-Abkürzung: springt direkt zu Frage 15 (Einladung).
+  $('jump-q15').addEventListener('click',function(){
+    idx=order.indexOf('8');showPage('quiz');render();
+  });
+
+  // Kontaktformular auf der Ergebnisseite (nur Variante „Vielleicht später“) → Lead in Dynamics
+  // Entscheidung Sorin 12.11.2026, 23:18: Antworten als JSON NUR wenn (E-Mail ODER Telefon) UND Häkchen 2.
+  // Ohne Häkchen 2: Lead/Newsletter ohne Antworten. Häkchen 2 ohne Kontakt: nichts übertragen.
+  $('keep-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var kErr=$('k-err'), btn=$('k-submit');
+    var vorname=$('k-vorname').value.trim(), email=$('k-email').value.trim(), tel=$('k-tel').value.trim();
+    var nl=$('k-newsletter').checked, kc=$('k-consent').checked, kca=$('k-consent-antworten').checked;
+    var mailOk=MAIL_RE.test(email), hatKontakt=mailOk||!!tel;
+    function fehler(t){kErr.textContent=t;kErr.hidden=false;}
+    if(email&&!mailOk){fehler('Bitte prüf deine E-Mail-Adresse.');return;}
+    if(!hatKontakt){fehler('Bitte gib eine E-Mail-Adresse oder eine Telefonnummer an – sonst können wir nichts speichern.');return;}
+    if(!vorname||!kc){fehler('Bitte gib deinen Vornamen ein und bestätige die erste Einwilligung.');return;}
+    if(nl&&!mailOk){fehler('Für die Impulse per E-Mail brauchen wir deine E-Mail-Adresse.');return;}
+    var mitAntworten=kca&&hatKontakt;
+    var jetzt=new Date().toISOString();
+    var extra={
+      umfrage:UMFRAGE, seite:location.pathname, variante:'bleib',
+      einwilligungKontaktZeitpunkt:jetzt, einwilligungKontaktTextversion:CONSENT_VERSION,
+      einwilligungAntworten:mitAntworten?'ja':'nein'
+    };
+    if(mitAntworten){
+      extra.antworten=surveyAnswersJSON();
+      extra.einwilligungAntwortenZeitpunkt=jetzt;
+      extra.einwilligungAntwortenTextversion=CONSENT_VERSION;
+    }
+    kErr.hidden=true; btn.disabled=true; btn.textContent='Wird gesendet …';
+    sendOverlay.show(mitAntworten?'Bitte warten. Deine Angaben und Antworten werden übermittelt':'Bitte warten. Deine Angaben werden übermittelt');
+    dynamicsCRM.submitLead({
+      firstname:vorname, email:mailOk?email:'', mobilephone:tel,
+      newsletterOptIn:nl, einwilligungDatenverarbeitungOptIn:kc, extra:extra
+    }).then(function(res){
+      btn.disabled=false; btn.textContent='In Verbindung bleiben';
+      if(!res||!res.success){sendOverlay.hide();fehler('Da ist etwas schiefgelaufen. Bitte versuch es gleich noch einmal.');return;}
+      $('keep-form').hidden=true;
+      $('k-ok').textContent='Danke, '+vorname+'! Deine Angaben sind bei uns angekommen.';
+      $('k-ok').hidden=false;
+      if(nl)sendOverlay.showDoi(email,{continueLabel:'Schließen'}); else sendOverlay.hide();
+    });
+  });
+
+  $('result-back').addEventListener('click',function(){idx=total-1;showPage('quiz');render();});
+  $('again').addEventListener('click',function(){
+    form.reset(); $('keep-form').reset(); $('keep-form').hidden=false; $('k-ok').hidden=true; contact.hidden=true;
+    placeBooking(null);
+    idx=0; showPage('intro');
+  });
+
+  // Die beiden Knöpfe unter dem Ergebnis sieht nur ein eingeloggter Admin (Supabase-Session).
+  try{
+    db.auth.getSession().then(function(r){
+      if(r&&r.data&&r.data.session){var a=$('admin-actions');a.hidden=false;a.style.display='flex';$('admin-jump').hidden=false;}
+    });
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
