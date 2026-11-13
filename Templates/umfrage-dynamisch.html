@@ -261,6 +261,31 @@
 
   .form-divider { border: none; border-top: 1px solid rgba(0,34,77,0.08); margin: 32px 0; }
 
+  /* ─── ABSCHNITTE (nur bei Umfragen mit "sections" in survey-result-configs.js) ─── */
+  #survey-form [hidden] { display: none !important; }
+  .steps-progress { display: flex; gap: 5px; margin: 0 0 18px; }
+  .steps-progress span { height: 4px; flex: 1; background: rgba(0,34,77,0.12); border-radius: 2px; }
+  .steps-progress .done { background: var(--orange); }
+  .steps-progress .now { background: var(--navy); }
+  .steps-info { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(0,34,77,0.55); margin: 0 0 26px; }
+  .step-text { font-size: 17px; line-height: 1.7; color: var(--navy); margin-bottom: 28px; }
+  .step-text p { margin-bottom: 16px; }
+  .step-text p:last-child { margin-bottom: 0; }
+  /* Rich-Text aus Dynamics bringt teils eigene (weiße) Farben mit – auf heller Fläche neutralisieren. */
+  .step-text *:not(a):not(a *) { color: var(--navy) !important; background: transparent !important; }
+  .step-text a, .step-text a * { color: var(--orange) !important; text-decoration: underline; font-weight: 600; }
+  #survey-intro.step-text { font-size: 17px; color: var(--navy); }
+  .steps-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; }
+  .steps-nav button {
+    font-family: 'DM Sans', sans-serif; font-size: 15px; cursor: pointer; border-radius: 2px; padding: 13px 24px;
+    transition: background .2s, border-color .2s;
+  }
+  .btn-step-back { background: transparent; border: 1px solid rgba(0,34,77,0.18); color: rgba(0,34,77,0.7); }
+  .btn-step-back:hover { border-color: var(--orange); }
+  .btn-step-next { background: var(--orange); color: var(--white); border: 0; font-weight: 500; margin-left: auto; }
+  .btn-step-next:hover { background: #bd551f; }
+  .steps-nav + .btn-submit { margin-top: 24px; }
+
   /* ─── CHECKBOX ─── */
   .form-checkbox {
     display: flex; align-items: flex-start; gap: 12px;
@@ -377,9 +402,16 @@
 
     <div id="form-state" style="display:none;">
       <form id="survey-form" novalidate>
+        <!-- Abschnitts-Modus (Code/survey-result-configs.js → sections): Fortschritt,
+             Abschnittszeile und die Beschreibung als erste Seite. Ohne Konfiguration
+             bleiben diese Elemente versteckt und alle Fragen stehen auf einer Seite. -->
+        <div class="steps-progress" id="steps-progress" hidden aria-hidden="true"></div>
+        <p class="steps-info" id="steps-info" hidden></p>
+        <div class="step-text" id="step-description" hidden></div>
         <p id="survey-intro"></p>
         <div id="questions-root"></div>
 
+        <div id="contact-block">
         <hr class="form-divider">
 
         <div class="form-group">
@@ -425,6 +457,12 @@
         <hr class="form-divider">
 
         <p class="privacy-note">Deine Angaben behandeln wir vertraulich und verwenden sie ausschließlich für das, wofür du dich gerade entschieden hast. Mit dem Absenden stimmst du unserer <a href="https://der-architekt-deines-lebens.de/rechtliches.html#datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</p>
+        </div>
+
+        <div class="steps-nav" id="steps-nav" hidden>
+          <button type="button" class="btn-step-back" id="steps-back">← Zurück</button>
+          <button type="button" class="btn-step-next" id="steps-next">Weiter</button>
+        </div>
 
         <button type="submit" class="btn-submit" id="btn-submit">
           <span class="spinner" id="btn-spinner"></span>
@@ -576,6 +614,12 @@
     renderer.renderQuestions(result.questions, updateContactRequiredUI);
     updateContactRequiredUI();
 
+    // Abschnitts-Modus: Beschreibung als erste Seite, Intro (falls gefüllt)
+    // als zweite, danach die Fragen gruppiert nach resultConfig.sections.
+    if (resultConfig && Array.isArray(resultConfig.sections) && resultConfig.sections.length) {
+      setupSteps(resultConfig.sections, result.survey);
+    }
+
     elLoading.classList.remove('visible');
     elFormState.style.display = '';
 
@@ -604,6 +648,115 @@
   }).catch(function (err) {
     console.error('Survey load error:', err);
     showError();
+  });
+
+  // ── Abschnitte (Schritt-für-Schritt wie Tools/wo-stehst-du-gerade.html) ──
+  // Aufbau: 1. Seite = Beschreibung der Umfrage (wht_description), 2. Seite =
+  // Intro (wht_intro, nur wenn in Dynamics gefüllt), danach ein Schritt pro
+  // konfiguriertem Abschnitt. Die Kontaktfelder und der Absenden-Knopf hängen
+  // am letzten Abschnitt. Fragen, die in keinem Abschnitt stehen, kommen
+  // automatisch mit in den letzten Abschnitt — so geht keine Frage verloren.
+  var steps = [];
+  var stepIdx = 0;
+  var elStepsProgress = document.getElementById('steps-progress');
+  var elStepsInfo     = document.getElementById('steps-info');
+  var elStepsNav      = document.getElementById('steps-nav');
+  var elStepsBack     = document.getElementById('steps-back');
+  var elStepsNext     = document.getElementById('steps-next');
+  var elContactBlock  = document.getElementById('contact-block');
+
+  function setupSteps(sections, survey) {
+    var root = document.getElementById('questions-root');
+    var byOrder = {};
+    loadedQuestions.forEach(function (q) { byOrder[Number(q.order)] = q; });
+    var used = {};
+    var groupOf = function (q) { return root.querySelector('[data-question-id="' + q.id + '"]'); };
+
+    var sectionSteps = [];
+    sections.forEach(function (s) {
+      var wrap = el('div', 'step-section');
+      var ids = [];
+      (s.questions || []).forEach(function (n) {
+        var q = byOrder[Number(n)];
+        if (!q || used[q.id]) return;
+        var g = groupOf(q);
+        if (!g) return;
+        wrap.appendChild(g); ids.push(q.id); used[q.id] = true;
+      });
+      if (!ids.length) return;
+      root.appendChild(wrap);
+      sectionSteps.push({ type: 'section', el: wrap, title: s.title || '', questionIds: ids });
+    });
+    var rest = loadedQuestions.filter(function (q) { return !used[q.id]; });
+    if (rest.length) {
+      var target = sectionSteps[sectionSteps.length - 1];
+      if (!target) {
+        target = { type: 'section', el: el('div', 'step-section'), title: '', questionIds: [] };
+        root.appendChild(target.el);
+        sectionSteps.push(target);
+      }
+      rest.forEach(function (q) { var g = groupOf(q); if (g) { target.el.appendChild(g); target.questionIds.push(q.id); } });
+    }
+
+    // Beschreibung aus dem Hero in die erste Seite verschieben.
+    var heroDesc = document.getElementById('survey-description');
+    var descStep = document.getElementById('step-description');
+    if (heroDesc.innerHTML.trim()) {
+      descStep.innerHTML = heroDesc.innerHTML;
+      heroDesc.innerHTML = '';
+      steps.push({ type: 'description', el: descStep });
+    }
+    var introEl = document.getElementById('survey-intro');
+    if (introEl.textContent.trim()) {
+      introEl.classList.add('step-text');
+      steps.push({ type: 'intro', el: introEl });
+    }
+    steps = steps.concat(sectionSteps);
+
+    elStepsProgress.textContent = '';
+    steps.forEach(function () { elStepsProgress.appendChild(document.createElement('span')); });
+    elStepsProgress.hidden = false;
+    elStepsNav.hidden = false;
+    showStep(0, false);
+  }
+
+  function showStep(i, scroll) {
+    stepIdx = i;
+    var step = steps[i];
+    var last = i === steps.length - 1;
+    steps.forEach(function (s, k) { s.el.hidden = k !== i; });
+    elContactBlock.hidden = !last;
+    btn.hidden = !last;
+    elStepsNext.hidden = last;
+    elStepsBack.hidden = i === 0;
+    elStepsNav.hidden = last && i === 0;
+    submitErr.classList.remove('visible');
+
+    Array.prototype.forEach.call(elStepsProgress.children, function (bar, k) {
+      bar.className = k < i ? 'done' : k === i ? 'now' : '';
+    });
+
+    var sectionSteps = steps.filter(function (s) { return s.type === 'section'; });
+    if (step.type === 'section') {
+      var n = sectionSteps.indexOf(step) + 1;
+      elStepsInfo.textContent = 'Abschnitt ' + n + ' von ' + sectionSteps.length + (step.title ? ' · ' + step.title : '');
+      elStepsInfo.hidden = false;
+    } else {
+      elStepsInfo.hidden = true;
+    }
+    var nextStep = steps[i + 1];
+    elStepsNext.textContent = (step.type !== 'section' && nextStep && nextStep.type === 'section') ? 'Los geht\'s' : 'Weiter';
+
+    if (scroll !== false) window.scrollTo(0, document.querySelector('.fb-form-section').offsetTop - 80);
+  }
+
+  elStepsNext.addEventListener('click', function () {
+    var step = steps[stepIdx];
+    if (step.type === 'section' && !renderer.validate(step.questionIds)) return;
+    if (stepIdx < steps.length - 1) showStep(stepIdx + 1);
+  });
+  elStepsBack.addEventListener('click', function () {
+    if (stepIdx > 0) showStep(stepIdx - 1);
   });
 
   // ── Kontaktfelder dynamisch pflicht machen ──────────────────────────

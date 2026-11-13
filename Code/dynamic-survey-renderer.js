@@ -197,12 +197,21 @@ class DynamicSurveyRenderer {
   // gewählt ist — unabhängig davon, ob die Frage selbst pflicht ist),
   // markiert Fehler visuell, fokussiert das erste ungültige Feld. Gibt true
   // zurück, wenn alles gültig ist.
-  validate() {
+  // onlyQuestionIds (optional): Array von Frage-IDs — dann werden nur diese
+  // Fragen geprüft (für Umfragen in Abschnitten: beim „Weiter“ nur den
+  // aktuellen Abschnitt prüfen, siehe Templates/umfrage-dynamisch.html).
+  validate(onlyQuestionIds) {
     var self = this;
     var valid = true;
     var firstInvalid = null;
+    var only = null;
+    if (Array.isArray(onlyQuestionIds)) {
+      only = {};
+      onlyQuestionIds.forEach(function (id) { only[id] = true; });
+    }
 
     this.questions.forEach((q) => {
+      if (only && !only[q.id]) return;
       var group = this.container.querySelector('[data-question-id="' + q.id + '"]');
 
       if (q.required) {

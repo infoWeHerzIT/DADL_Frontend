@@ -11,6 +11,18 @@
 // nicht über GUIDs – die sind in DEV und PROD verschieden.
 //
 // Felder:
+//   sections:         Zeigt die Umfrage Schritt für Schritt in Abschnitten
+//                     (wie Tools/wo-stehst-du-gerade.html) statt alle Fragen
+//                     auf einer Seite. Die erste Seite ist immer die
+//                     Beschreibung der Umfrage (wht_description), die zweite
+//                     das Intro (wht_intro) – nur wenn es in Dynamics gefüllt
+//                     ist. Danach ein Abschnitt pro Eintrag:
+//                       [{ title: 'Leichter Einstieg', questions: [1, 2] }, …]
+//                     questions = Reihenfolge-Nummern (wht_order) der Fragen.
+//                     Fragen, die in keinem Abschnitt stehen, kommen
+//                     automatisch in den letzten Abschnitt. Kontaktfelder und
+//                     Absenden-Knopf stehen immer im letzten Abschnitt.
+//                     Ohne "sections" bleibt alles auf einer Seite.
 //   hideResultsOptIn: true blendet die Checkbox „Ergebnisse dieser Umfrage
 //                     bekommen“ aus.
 //   submitLabel:      Text des Absenden-Knopfs.
@@ -32,6 +44,16 @@ window.SURVEY_RESULT_CONFIGS = {
   'wo-kommst-du-noch-vor': {
     hideResultsOptIn: true,
     submitLabel: 'Mein Ergebnis zeigen →',
+    sections: [
+      { title: 'Dein Kopf',            questions: [1, 2] },
+      { title: 'Dein „Irgendwann“',    questions: [3, 4] },
+      { title: 'Was du willst',        questions: [5, 6] },
+      { title: 'Deine Räume (1/2)',    questions: [7, 8, 9] },
+      { title: 'Deine Räume (2/2)',    questions: [10, 11, 12] },
+      { title: 'Deine Skala',          questions: [13, 14] },
+      { title: 'Wo du stehst',         questions: [15] },
+      { title: 'Einladung',            questions: [16, 17, 18] }
+    ],
     booking: {
       url: 'https://bookings.cloud.microsoft/book/Geaeaf2cdf7e54e6eba9ac4fcc962ebf2@weherzit.de/?ismsaljsauthenabled',
       intro: 'Das Gespräch dauert 30 Minuten und findet über Teams statt. Wir schauen mit deinem Ergebnis ehrlich, wo du stehst, und du gehst mit einem ersten Schritt raus. Ein Angebot gibt es dabei nicht.',
