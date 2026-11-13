@@ -73,9 +73,9 @@
     </a>
     <div class="nav-links">
       <a href="admin-feedback.html" class="nav-link">Feedback</a>
-      <a href="umfrage-auswertung.html" class="nav-link">Umfragen</a>
-      <a href="landingpages.html" class="nav-link">Landingpages</a>
-      <a href="tools.html" class="nav-link active">Tools</a>
+      <a href="admin-umfrage.html" class="nav-link">Umfragen</a>
+      <a href="admin-lp.html" class="nav-link">Landingpages</a>
+      <a href="admin-tools.html" class="nav-link active">Tools</a>
       <a href="admin-users.html" class="nav-link">Admins</a>
       <button id="btn-logout" class="nav-link" style="border-color:rgba(220,38,38,0.4);color:#f87171;">Ausloggen</button>
     </div>
@@ -116,7 +116,7 @@ function esc(s) {
 
 // Statische Liste — reine HTML-Dateien ohne eigenes Backend, meist unter
 // /Tools, es gibt also keine Quelle, aus der sich diese Liste automatisch
-// ableiten ließe (gleiches Muster wie LANDING_PAGES in landingpages.html).
+// ableiten ließe (gleiches Muster wie LANDING_PAGES in admin-lp.html).
 // "folder" ist optional und fällt sonst auf "Tools" zurück — nur nötig,
 // wenn ein Eintrag (wie das Buch) in einem anderen Ordner liegt. Bei einem
 // neuen Tool hier einen Eintrag ergänzen.
@@ -126,6 +126,12 @@ var TOOLS = [
     title: 'Selbsttest: Wo kommst du noch vor?',
     desc: '14 Fragen, 6 Lebensbereiche — zeigt, in welchen Räumen deines Lebens du noch selbst wohnst und wo du nur noch zuständig bist. Die Antworten bleiben im Browser; Kontaktdaten werden separat zur Vorbereitung des Erstgesprächs übermittelt.',
     pageKey: '/Tools/selbsttest-wo-kommst-du-noch-vor.html'
+  },
+  {
+    file: 'wo-stehst-du-gerade.html',
+    title: 'Umfrage: Wo stehst du gerade – wirklich?',
+    desc: '15 Fragen in 8 Abschnitten über den Alltag. Endet je nach Antwort auf Frage 14/15 mit Ergebnis und Grundriss, Terminbuchung oder „Bleib in Verbindung“. Kontaktdaten und Antworten gehen als Lead an Dynamics.',
+    pageKey: '/Tools/wo-stehst-du-gerade.html'
   },
   {
     file: 'wo-kommst-du-noch-vor.html',

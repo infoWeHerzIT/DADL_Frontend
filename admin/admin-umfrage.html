@@ -258,9 +258,9 @@
     </a>
     <div class="nav-links">
       <a href="admin-feedback.html" class="nav-link">Feedback</a>
-      <a href="umfrage-auswertung.html" class="nav-link active">Umfragen</a>
-      <a href="landingpages.html" class="nav-link">Landingpages</a>
-      <a href="tools.html" class="nav-link">Tools</a>
+      <a href="admin-umfrage.html" class="nav-link active">Umfragen</a>
+      <a href="admin-lp.html" class="nav-link">Landingpages</a>
+      <a href="admin-tools.html" class="nav-link">Tools</a>
       <a href="admin-users.html" class="nav-link">Admins</a>
       <button id="btn-logout" class="nav-link" style="border-color:rgba(220,38,38,0.4);color:#f87171;">Ausloggen</button>
     </div>
@@ -601,7 +601,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
         elList.innerHTML = surveys.map(function (s) {
           return (
             '<div class="survey-list-item">' +
-              '<a class="survey-list-item-main" href="umfrage-auswertung.html?id=' + encodeURIComponent(s.id) + '">' +
+              '<a class="survey-list-item-main" href="admin-umfrage.html?id=' + encodeURIComponent(s.id) + '">' +
                 '<span class="survey-list-item-title">' + esc(s.title || s.slug || s.id) + '</span>' +
                 '<span class="survey-list-item-arrow">Auswerten →</span>' +
               '</a>' +

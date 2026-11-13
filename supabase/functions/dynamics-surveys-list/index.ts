@@ -4,7 +4,7 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 // (wht_survey, read-only). Eigene, klar benannte Secrets — getrennt von den
 // DYNAMICS_*-Secrets der DEV-Function "dynamics-surveys-list-dev".
 //
-// Dient der Umfrage-Auswahl auf admin/umfrage-auswertung.html (wenn keine
+// Dient der Umfrage-Auswahl auf admin/admin-umfrage.html (wenn keine
 // oder eine ungültige "?id=" übergeben wurde) — analog zu
 // dynamics-events-list für die Event-Auswahl an anderer Stelle.
 const TENANT_ID     = Deno.env.get("DYNAMICS_PROD_TENANT_ID")!;
