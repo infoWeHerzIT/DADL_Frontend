@@ -11,6 +11,9 @@
 // nicht über GUIDs – die sind in DEV und PROD verschieden.
 //
 // Felder:
+//   headerImage:      Kopfbild ganz oben (seitenbreit, max. 350px hoch,
+//                     wird bei Bedarf beschnitten). Pfad relativ zu
+//                     Templates/ oder absolute URL. Ohne Angabe kein Bild.
 //   sections:         Zeigt die Umfrage Schritt für Schritt in Abschnitten
 //                     (wie Tools/wo-stehst-du-gerade.html) statt alle Fragen
 //                     auf einer Seite. Die erste Seite ist immer die
@@ -26,17 +29,45 @@
 //   hideResultsOptIn: true blendet die Checkbox „Ergebnisse dieser Umfrage
 //                     bekommen“ aus.
 //   submitLabel:      Text des Absenden-Knopfs.
-//   booking:          { url, intro, askQuestion, yesOption } – Terminbuchung.
+//   hiddenQuestions:  Reihenfolge-Nummern von Fragen, die es in Dynamics gibt,
+//                     die hier aber nicht gezeigt (und nicht geprüft) werden.
+//   contactStep:      { title, heading, text, required[], consent } – macht
+//                     die Kontaktdaten zu einer eigenen letzten Seite mit nur
+//                     Vorname, E-Mail, Telefon und Einwilligung (braucht
+//                     "sections"). required: 'name' | 'email' | 'phone'.
+//                     phoneHint: Erklärung unter dem Telefon-Feld.
+//                     consent: Text der Pflicht-Checkbox; der Link zur
+//                     Datenschutzerklärung wird automatisch angehängt.
+//                     consentHidden: true = Häkchen ist vorab gesetzt und
+//                     die Zeile wird nicht angezeigt.
+//   booking:          { url, intro, askQuestion, yesOption, heading,
+//                     centerButton, recommendation, buttonLabel, laterLabel,
+//                     laterText } – Terminbuchung. recommendation = Absatz
+//                     über dem Knopf, laterLabel = kleiner Link darunter
+//                     („Jetzt noch nicht“), laterText = Abschlusszeile danach.
 //                     Ist askQuestion gesetzt, wird die Buchung nur direkt
 //                     geöffnet, wenn bei dieser Frage die Option yesOption
 //                     gewählt wurde; sonst gibt es einen Knopf dafür.
+//                     heading: Überschrift über dem Buchungsblock (ohne
+//                     Angabe „Was du jetzt damit machen kannst“, '' = keine).
+//                     centerButton: true zentriert den Termin-Knopf.
+//   footerNote:       Kleine Fußzeile auf jeder Seite der Umfrage (alle
+//                     Schritte und das Ergebnis), z. B. Sicherheitshinweis.
 //   evaluate(ctx):    liefert das Ergebnis als reines Text-Objekt:
-//                     { eyebrow, title, paragraphs[], mapTitle, mapHint,
+//                     { eyebrow, greeting, title, paragraphs[], focusTitle,
+//                       focus[], quoteTitle, quote,
+//                       mapTitle, mapHint,
 //                       map[{name,label,tone:'yes'|'some'|'no'}],
 //                       cards[{title,text}], notes[{title,text}], closing }
+//                     focus = kurze Liste von Namen (z. B. Räume), die in
+//                     einer Zeile mit „·“ getrennt unter focusTitle steht.
 //   ctx.choice(n)     → Reihenfolge-Nr. (1, 2, …) der gewählten Option bei
 //                       Frage n, oder null.
+//   ctx.choices(n)    → alle gewählten Reihenfolge-Nrn. bei Frage n
+//                       (Mehrfachauswahl), oder [].
 //   ctx.text(n)       → Freitext-Antwort bei Frage n, oder ''.
+//   ctx.contact       → { vorname } aus den Kontaktfeldern.
+//   map[].tone        → 'yes' | 'some' | 'no' | 'na' (na = ohne Angabe)
 // ================================================================
 
 window.SURVEY_RESULT_CONFIGS = {
@@ -123,6 +154,107 @@ window.SURVEY_RESULT_CONFIGS = {
           { title: 'Wenn es mehr ist als Alltag.', text: 'Wenn dich seit Wochen nichts mehr trägt oder du daran denkst, dir etwas anzutun: Dann ist das kein Fall für einen Selbsttest. Sprich bitte mit deiner Hausärztin oder einer Psychotherapeutin. Die TelefonSeelsorge ist kostenfrei und rund um die Uhr erreichbar – in Deutschland unter 0800 111 0 111, 0800 111 0 222 oder 116 123, in Österreich unter 142. Bei akuter Gefahr wähle den Notruf 112.' }
         ],
         closing: 'Bis bald – Lili & Sorin'
+      };
+    }
+  },
+
+  // Dynamics-Fassung von Tools/wo-stehst-du-gerade.html (DEV-Umfrage
+  // 3f65a913-38df-f111-84ea-002248d89353, 16 Fragen). Abschnitte wie auf
+  // der statischen Seite; Auswertung = „Dein Grundriss“ aus derselben Seite.
+  'wo-stehst-du-gerade': {
+    hideResultsOptIn: true,
+    submitLabel: 'Mein Ergebnis ansehen',
+    // Frage 15 („Magst du in einem Erstgespräch …?“) gibt es in Dynamics noch,
+    // sie wird aber nicht mehr gezeigt: Die Einladung steht jetzt als
+    // Empfehlung auf der Ergebnisseite.
+    hiddenQuestions: [15],
+    sections: [
+      { title: 'Leichter Einstieg',       questions: [1, 2] },
+      { title: 'Spiegel des Alltags',     questions: [3, 4] },
+      { title: 'Rollen und Lasten',       questions: [5, 6] },
+      { title: 'Was fehlt',               questions: [7, 8] },
+      { title: 'Der berührende Moment',   questions: [9, 10] },
+      { title: 'Wende nach vorn',         questions: [11, 12] },
+      { title: 'Eigene Bereitschaft',     questions: [13, 14] },
+      { title: 'Wo du stehst',            questions: [16] }
+    ],
+    contactStep: {
+      title: 'Kontaktdaten',
+      heading: 'Fast geschafft.',
+      text: 'Damit Lili und Sorin sich dein Ergebnis vor eurem Gespräch in Ruhe ansehen können – und du es auch per E-Mail bekommst:',
+      required: ['name', 'email'],
+      phoneHint: 'Deine Telefonnummer inkl. Ländervorwahl (damit ich dir über WhatsApp bzgl. deiner Auswertung schreiben kann, falls E-Mail aus unerklärlichen Gründen nicht klappen sollte)',
+      consentHidden: true,
+      consent: 'Ich bin einverstanden, dass Lili & Sorin mich zu meinem Ergebnis und zum Erstgespräch per E-Mail oder Telefon kontaktieren. Das kann ich jederzeit widerrufen.'
+    },
+    booking: {
+      url: 'https://calendly.com/sorin-ratiu/der-architekt-deines-lebens',
+      heading: '',
+      intro: 'Genau dort setzen wir an. Im Gespräch mit Sorin schaut ihr euch deine Antworten gemeinsam an: was davon zuerst dran ist und wie du anfangen kannst, ohne alles umzuwerfen. 30 Minuten über Teams. Du gehst mit einem ersten Schritt raus. Über Preise sprechen wir in diesem Gespräch nicht.',
+      recommendation: 'Unsere Empfehlung: Such dir jetzt gleich deinen Termin aus – solange dein Ergebnis noch so frisch ist.',
+      buttonLabel: 'Meinen Termin wählen',
+      centerButton: true,
+      laterLabel: 'Jetzt noch nicht',
+      laterText: 'Bis bald – Lili & Sorin'
+    },
+    footerNote: 'Wenn es mehr ist als Alltag → TelefonSeelsorge 0800 111 0 111 · 0800 111 0 222 · 116 123 (DE) · 142 (AT) · Notruf 112',
+    evaluate: function (ctx) {
+      // Jede Antwort wird einem „Raum“ zugeordnet:
+      // yes = Du wohnst hier · some = Kaum noch · no = Nur noch zuständig · na = ohne Angabe
+      var pick = function (n, map) { var c = ctx.choice(n); return c && map[c] ? map[c] : 'na'; };
+      var q2 = ctx.choices(2), q5 = ctx.choices(5);
+      var has = function (arr, n) { return arr.indexOf(n) > -1; };
+      var rooms = [
+        { name: 'Dein Morgen',        tone: pick(1, { 1: 'yes', 4: 'some', 2: 'no', 3: 'no' }) },
+        { name: 'Zeit nur für dich',  tone: pick(7, { 1: 'yes', 2: 'some', 3: 'no', 4: 'no' }) },
+        { name: 'Dein Zuhause',       tone: pick(3, { 3: 'yes', 4: 'yes', 2: 'some', 1: 'no' }) },
+        { name: 'Dein Kopf am Abend', tone: pick(4, { 1: 'yes', 2: 'some', 3: 'no' }) },
+        { name: 'Gesehen werden',     tone: pick(6, { 1: 'yes', 2: 'some', 3: 'no' }) },
+        { name: 'Deine Freude',       tone: !q2.length ? 'na' : (has(q2, 7) || has(q2, 8)) ? 'yes' : (has(q2, 5) || has(q2, 6)) ? 'some' : 'no' },
+        { name: 'Einfach du',         tone: !q5.length ? 'na' : has(q5, 7) ? 'yes' : q5.length <= 2 ? 'some' : 'no' },
+        { name: 'Deine Wünsche',      tone: pick(9, { 5: 'yes', 1: 'some', 2: 'some', 3: 'no', 4: 'no' }) }
+      ];
+      var labels = { yes: 'Du wohnst hier', some: 'Kaum noch', no: 'Nur noch zuständig', na: 'Ohne Angabe' };
+      var count = 0, answered = 0;
+      var map = rooms.map(function (r) {
+        if (r.tone !== 'na') { answered++; if (r.tone !== 'yes') count++; }
+        return { name: r.name, label: labels[r.tone], tone: r.tone };
+      });
+
+      // Kurzfassung (13.11.2026): Urteil + zwei Sätze, dann die drei Räume
+      // mit den deutlichsten Antworten. Kein Grundriss, keine Karten – der
+      // Sicherheitshinweis steht als footerNote auf jeder Seite.
+      var share = answered ? count / answered : 0, title, text;
+      if (share <= 0.25) {
+        title = 'In deinem Leben wohnst du noch.';
+        text = 'Die meisten Räume gehören auch dir – nicht nur den anderen. Und trotzdem hast du dir diese Fragen gestellt.';
+      } else if (share <= 0.5) {
+        title = 'Du wohnst noch – aber in einigen Räumen wird es still.';
+        text = 'An vielen Stellen kommst du noch vor. An einigen bist du vor allem zuständig. Genau hier lässt sich etwas verändern, ohne dass vorher etwas einstürzen muss.';
+      } else {
+        title = 'Du hältst dein Haus in Ordnung – für alle anderen.';
+        text = 'In vielen Räumen bist du zuständig, aber kaum noch zu Hause. Von außen sieht das niemand, weil alles läuft.';
+      }
+
+      // Deutlichste Antworten zuerst: „Nur noch zuständig“ vor „Kaum noch“,
+      // bei Gleichstand in der Reihenfolge der Räume. Höchstens drei.
+      var focus = map.filter(function (m) { return m.tone === 'no'; })
+        .concat(map.filter(function (m) { return m.tone === 'some'; }))
+        .slice(0, 3)
+        .map(function (m) { return m.name; });
+
+      var vorname = (ctx.contact && ctx.contact.vorname) || '';
+      return {
+        eyebrow: 'Ergebnis und Empfehlung',
+        greeting: vorname ? vorname + ', hier ist dein Ergebnis.' : 'Hier ist dein Ergebnis.',
+        title: title,
+        paragraphs: [text],
+        focusTitle: 'Wo du am wenigsten vorkommst:',
+        focus: focus,
+        // Freitext „Schreib in zwei, drei Sätzen, wo du gerade stehst“ –
+        // in Dynamics Frage 16 (in der Textvorlage als Frage 15 gezählt).
+        quoteTitle: 'Und das hier hast du dir selbst geschrieben:',
+        quote: ctx.text(16).trim()
       };
     }
   }

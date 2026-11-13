@@ -66,6 +66,16 @@ const GUID_RE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0
 // Lookups wht_eventid — liefert die rohe Event-GUID ohne $expand.
 const SURVEY_SELECT = "wht_surveyid,wht_title,wht_intro,wht_description,wht_slug,_wht_eventid_value,statecode";
 
+// wht_description2 = zweite Beschreibungsseite (Rich-Text wie wht_description).
+// Das Feld ist neuer als die übrigen — existiert es in dieser Dynamics-
+// Umgebung (noch) nicht, antwortet Dataverse auf das $select mit 400. Dann
+// wird ohne das Feld noch einmal gelesen, damit die Umfrage trotzdem lädt.
+async function fetchSurvey(buildUrl: (select: string) => string, headers: HeadersInit): Promise<Response> {
+  const res = await fetch(buildUrl(SURVEY_SELECT + ",wht_description2"), { headers });
+  if (res.status !== 400) return res;
+  return await fetch(buildUrl(SURVEY_SELECT), { headers });
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "GET" && req.method !== "POST") return jsonResponse({ error: "Method not allowed" }, 405);
@@ -90,8 +100,7 @@ serve(async (req) => {
     // schon bei wht_paymentlinks -> wht_paymentlinkses).
     let survey: Record<string, unknown> | undefined;
     if (idParam) {
-      const surveyUrl = `${RESOURCE}/api/data/v9.2/wht_surveies(${idParam})?$select=${SURVEY_SELECT}`;
-      const surveyRes = await fetch(surveyUrl, { headers });
+      const surveyRes = await fetchSurvey((select) => `${RESOURCE}/api/data/v9.2/wht_surveies(${idParam})?$select=${select}`, headers);
       if (surveyRes.status === 404) return jsonResponse(null, 404);
       if (!surveyRes.ok) {
         console.error("Dataverse error (survey by id):", surveyRes.status, await surveyRes.text());
@@ -103,8 +112,7 @@ serve(async (req) => {
       survey = Number(surveyRow.statecode) === 0 ? surveyRow : undefined;
     } else {
       const slugEscaped = slug.replace(/'/g, "''");
-      const surveyUrl = `${RESOURCE}/api/data/v9.2/wht_surveies?$select=${SURVEY_SELECT}&$filter=wht_slug eq '${slugEscaped}' and statecode eq 0`;
-      const surveyRes = await fetch(surveyUrl, { headers });
+      const surveyRes = await fetchSurvey((select) => `${RESOURCE}/api/data/v9.2/wht_surveies?$select=${select}&$filter=wht_slug eq '${slugEscaped}' and statecode eq 0`, headers);
       if (!surveyRes.ok) {
         console.error("Dataverse error (survey by slug):", surveyRes.status, await surveyRes.text());
         return jsonResponse({ error: "CRM-Anfrage fehlgeschlagen" }, 502);
@@ -193,6 +201,7 @@ serve(async (req) => {
           title: survey.wht_title ?? "",
           intro: survey.wht_intro ?? "",
           description: survey.wht_description ?? "",
+          description2: survey.wht_description2 ?? "",
           slug: survey.wht_slug ?? "",
           eventId: survey["_wht_eventid_value"] || null,
         },

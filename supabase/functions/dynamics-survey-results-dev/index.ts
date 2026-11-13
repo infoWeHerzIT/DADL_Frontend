@@ -85,8 +85,11 @@ serve(async (req) => {
 
     // ── Survey selbst (Titel/Intro) — Auswertung soll auch für
     // deaktivierte Umfragen möglich sein, deshalb kein statecode-Filter. ──
-    const surveyUrl = `${RESOURCE}/api/data/v9.2/wht_surveies(${surveyId})?$select=wht_surveyid,wht_title,wht_intro,wht_description,wht_slug,_wht_eventid_value`;
-    const surveyRes = await fetch(surveyUrl, { headers });
+    const surveySelect = "wht_surveyid,wht_title,wht_intro,wht_description,wht_slug,_wht_eventid_value";
+    // wht_description2 (zweite Beschreibungsseite) ist ein neueres Feld — fehlt
+    // es in dieser Umgebung noch, antwortet Dataverse mit 400; dann ohne lesen.
+    let surveyRes = await fetch(`${RESOURCE}/api/data/v9.2/wht_surveies(${surveyId})?$select=${surveySelect},wht_description2`, { headers });
+    if (surveyRes.status === 400) surveyRes = await fetch(`${RESOURCE}/api/data/v9.2/wht_surveies(${surveyId})?$select=${surveySelect}`, { headers });
     if (surveyRes.status === 404) return jsonResponse(null, 404);
     if (!surveyRes.ok) {
       console.error("Dataverse error (survey):", surveyRes.status, await surveyRes.text());
@@ -233,6 +236,7 @@ serve(async (req) => {
           title: survey.wht_title ?? "",
           intro: survey.wht_intro ?? "",
           description: survey.wht_description ?? "",
+          description2: survey.wht_description2 ?? "",
           slug: survey.wht_slug ?? "",
           eventId: survey._wht_eventid_value ?? null,
         },

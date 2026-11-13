@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../supabase-config.js"></script>
 <script src="../Code/dynamics-crm.js"></script>
+<script src="../Code/survey-header-image.js"></script>
 <script src="../Code/send-overlay.js"></script>
 <script src="../Code/dynamic-survey-renderer.js"></script>
 <script src="../Code/survey-result-configs.js"></script>
@@ -57,48 +58,36 @@
   }
   .nav-logo svg { width: 26px; height: 26px; flex: none; color: var(--orange); }
 
-  /* ─── HERO ─── */
-  .fb-hero {
-    background: var(--navy);
-    padding: 130px 5% 70px;
-    position: relative; overflow: hidden;
-  }
-  .fb-hero-bg {
-    position: absolute; inset: 0; pointer-events: none;
-    background-image: repeating-linear-gradient(90deg, rgba(217,104,44,0.04) 0px, rgba(217,104,44,0.04) 1px, transparent 1px, transparent 80px);
-  }
-  .hero-accent-bar {
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 5px; background: var(--orange);
-  }
-  .fb-hero-inner {
-    max-width: 900px; margin: 0 auto;
-    position: relative; z-index: 2; text-align: center;
-  }
-  .fb-hero h1 {
+  /* ─── HERO: nur das Kopfbild (headerImage in survey-result-configs.js) ───
+     Seitenbreit, maximal 350px hoch. Ohne Bild bleibt nur der Abstand unter
+     der fixen Navigation (64px, gleiche Farbe wie die Navigation). */
+  .fb-hero { background: var(--white); padding: 64px 5% 0; }
+  /* Bild: zentriert, max. 800px breit und max. 350px hoch (Zuschnitt 16:7, siehe survey-header-image.js) */
+  .fb-hero img { display: block; width: 100%; max-width: 800px; max-height: 350px; margin: 28px auto 0; object-fit: cover; border-radius: 6px; }
+  .fb-hero img[hidden] { display: none; }
+  /* Admin-Leiste unter dem Kopfbild (nur mit Supabase-Session sichtbar) */
+  .hero-admin { max-width: 800px; margin: 10px auto 0; }
+  .hero-admin[hidden] { display: none !important; }
+  /* Bilder je Abschnitt / je Frage (800×300) und ihre Admin-Leisten */
+  .slot-image { display: block; width: 100%; max-width: 800px; margin: 0 auto 22px; border-radius: 6px; }
+  .slot-image[hidden] { display: none !important; }
+  .slot-admin { margin: 0 0 22px; }
+
+  /* Titel + Beschreibungen stehen jetzt im Inhaltsbereich über dem Formular */
+  .survey-title {
     font-family: 'Archivo', system-ui, sans-serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 800; color: var(--white);
-    line-height: 1.15; margin-bottom: 16px;
+    font-size: clamp(26px, 4.5vw, 40px);
+    font-weight: 800; color: var(--navy);
+    line-height: 1.15; margin: 0 0 22px;
   }
-  .fb-hero p {
-    font-size: 16px; font-weight: 300;
-    color: rgba(255,250,241,0.65); line-height: 1.7;
-  }
-  #survey-description { font-weight: 300; color: var(--white); line-height: 1.7; text-align: justify; }
-  #survey-description:empty { display: none; }
-  #survey-description *:not(a):not(a *) { color: var(--white) !important; }
-  #survey-description a, #survey-description a * {
-    color: var(--orange) !important;
-    background-color: var(--white) !important;
-    text-decoration: underline !important;
-    font-weight: bold !important;
-    font-style: normal !important;
-  }
-  #survey-description a { padding: 1px 5px; border-radius: 2px; }
-  #survey-description a:hover, #survey-description a:hover * {
-    font-style: italic !important;
-  }
+  .survey-title[hidden] { display: none; }
+  /* Beschreibung (wht_description) und zweite Beschreibung (wht_description2) –
+     nur im Einseiten-Modus hier sichtbar; mit Abschnitten wandern sie auf Seite 1/2. */
+  .survey-desc { font-size: 17px; line-height: 1.7; color: var(--navy); margin-bottom: 24px; }
+  .survey-desc:empty { display: none; }
+  .survey-desc p { margin-bottom: 14px; }
+  .survey-desc *:not(a):not(a *) { color: var(--navy) !important; background: transparent !important; }
+  .survey-desc a, .survey-desc a * { color: var(--orange) !important; text-decoration: underline; font-weight: 600; }
 
   #survey-intro {
     font-size: 15px; color: rgba(0,34,77,0.65);
@@ -110,17 +99,20 @@
   .event-eyebrow {
     display: none;
     align-items: center; justify-content: center; gap: 8px;
-    background: rgba(255,250,241,0.08);
-    border: 1px solid rgba(255,250,241,0.16);
+    background: rgba(0,34,77,0.05);
+    border: 1px solid rgba(0,34,77,0.14);
     padding: 7px 14px; border-radius: 100px;
-    font-size: 13px; letter-spacing: .03em; color: rgba(255,250,241,0.85);
-    margin: 0 auto 22px; width: fit-content;
+    font-size: 13px; letter-spacing: .03em; color: rgba(0,34,77,0.8);
+    margin: 0 0 18px; width: fit-content;
   }
   .event-eyebrow.visible { display: inline-flex; }
 
   /* ─── "Auf PROD veröffentlichen" (nur im DEV-Modus sichtbar) ─── */
-  .push-prod-row { display: none; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; margin: 0 auto 22px; }
+  /* Sitzt rechts in der fixen Navigation; Status-Text links vom Knopf. */
+  .push-prod-row { display: none; align-items: center; justify-content: flex-end; gap: 14px; flex-wrap: wrap; margin-left: 16px; }
   .push-prod-row.visible { display: flex; }
+  .push-prod-status { text-align: right; }
+  @media (max-width: 600px) { .push-prod-status { display: none; } .btn-push-prod { padding: 9px 12px; font-size: 12.5px; } }
   .btn-push-prod {
     background: var(--orange); border: none; border-radius: 2px; color: var(--white);
     font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 600;
@@ -137,7 +129,7 @@
     background: var(--white);
     padding: 72px 5% 100px;
   }
-  .fb-form-inner { max-width: 620px; margin: 0 auto; }
+  .fb-form-inner { max-width: 800px; margin: 0 auto; }
 
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 22px; }
   .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 30px; }
@@ -241,10 +233,27 @@
   .sr-section-title { font-size: clamp(22px, 4.5vw, 28px); line-height: 1.2; margin: 36px 0 8px; }
   #survey-result p { font-size: 17px; line-height: 1.7; margin-bottom: 16px; }
   .sr-hint { color: rgba(0,34,77,0.55); }
+  .sr-greeting { font-weight: 700; margin-bottom: 10px !important; }
+  .sr-focus { margin: 24px 0 !important; color: var(--navy); }
+  .sr-quote { margin: 0 0 24px; padding: 14px 18px; border-left: 3px solid var(--orange); background: #fff; border-radius: 0 8px 8px 0; font-style: italic; font-size: 17px; line-height: 1.7; white-space: pre-line; }
+  .sr-later { background: none; border: 0; padding: 6px 10px; font: 400 14px 'DM Sans', sans-serif; color: rgba(0,34,77,0.55); text-decoration: underline; cursor: pointer; }
+  .sr-later:hover { color: var(--navy); }
+  /* Kontaktdaten als eigene Seite (config.contactStep): nur Vorname, E-Mail, Telefon, Einwilligung */
+  .contact-compact .contact-legacy, .contact-compact .form-divider { display: none !important; }
+  .contact-compact .form-row { display: block; }
+  .contact-step-heading { font-size: clamp(24px, 5vw, 32px); line-height: 1.2; margin-bottom: 12px; }
+  .contact-step-text { font-size: 17px; line-height: 1.7; margin-bottom: 24px; }
+  .contact-compact .form-checkbox { margin-top: 8px; }
+  .contact-compact .form-checkbox a { color: var(--orange); }
+  #err-c-consent { margin: 6px 0 0 28px; }
+  .contact-field-hint { display: block; margin-top: 6px; font-size: 13px; line-height: 1.5; color: rgba(0,34,77,0.55); }
+  .contact-field-hint[hidden] { display: none; }
+  .sr-center { text-align: center; }
+  .survey-footnote { margin: 40px 0 0; padding-top: 14px; border-top: 1px solid rgba(0,34,77,0.1); font-size: 12px !important; line-height: 1.6; color: rgba(0,34,77,0.55); text-align: center; }
   .sr-map { display: grid; grid-template-columns: 1fr; gap: 1px; margin: 12px 0 28px; border: 1px solid rgba(0,34,77,0.12); background: rgba(0,34,77,0.12); border-radius: 8px; overflow: hidden; }
   .sr-cell { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; background: #fff; padding: 13px 15px; }
   .sr-state { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-align: right; }
-  .sr-yes { color: #4c7a5e; } .sr-some { color: var(--orange); } .sr-no { color: #8f3925; }
+  .sr-yes { color: #4c7a5e; } .sr-some { color: var(--orange); } .sr-no { color: #8f3925; } .sr-na { color: rgba(0,34,77,0.45); }
   .sr-card { padding: 22px; background: #fff; border: 1px solid rgba(0,34,77,0.1); border-radius: 8px; margin: 18px 0; }
   .sr-card h3 { font-size: 19px; margin-bottom: 8px; }
   .sr-card p:last-child { margin-bottom: 0 !important; }
@@ -267,6 +276,10 @@
   .steps-progress span { height: 4px; flex: 1; background: rgba(0,34,77,0.12); border-radius: 2px; }
   .steps-progress .done { background: var(--orange); }
   .steps-progress .now { background: var(--navy); }
+  /* Admins dürfen über den Balken springen: größere Klickfläche, gleiche Optik */
+  .steps-progress.admin-nav { margin-bottom: 8px; }
+  .steps-progress.admin-nav span { box-sizing: border-box; height: 24px; padding: 10px 0; background-clip: content-box; cursor: pointer; }
+  .steps-progress.admin-nav span:hover { padding: 8px 0; }
   .steps-info { font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(0,34,77,0.55); margin: 0 0 26px; }
   .step-text { font-size: 17px; line-height: 1.7; color: var(--navy); margin-bottom: 28px; }
   .step-text p { margin-bottom: 16px; }
@@ -274,9 +287,8 @@
   /* Rich-Text aus Dynamics bringt teils eigene (weiße) Farben mit – auf heller Fläche neutralisieren. */
   .step-text *:not(a):not(a *) { color: var(--navy) !important; background: transparent !important; }
   .step-text a, .step-text a * { color: var(--orange) !important; text-decoration: underline; font-weight: 600; }
-  #survey-intro.step-text { font-size: 17px; color: var(--navy); }
   .steps-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; }
-  .steps-nav button {
+  .steps-nav button, #sr-admin-back, #steps-admin-jump {
     font-family: 'DM Sans', sans-serif; font-size: 15px; cursor: pointer; border-radius: 2px; padding: 13px 24px;
     transition: background .2s, border-color .2s;
   }
@@ -349,7 +361,6 @@
   @media (max-width: 600px) {
     .form-row { grid-template-columns: 1fr; }
     .fb-form-section { padding: 48px 5% 72px; }
-    .fb-hero { padding: 110px 5% 48px; }
   }
 </style>
 </head>
@@ -361,28 +372,30 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
       Der Architekt deines Lebens
     </a>
+    <!-- "Auf PROD veröffentlichen" – nur im DEV-Modus sichtbar (siehe Script unten) -->
+    <div class="push-prod-row" id="push-prod-row">
+      <span class="push-prod-status" id="push-prod-status"></span>
+      <button type="button" class="btn-push-prod" id="btn-push-prod">🚀 Auf PROD veröffentlichen</button>
+    </div>
   </div>
 </nav>
 
 <div class="fb-hero">
-  <div class="fb-hero-bg"></div>
-  <div class="hero-accent-bar"></div>
-  <div class="fb-hero-inner">
-    <div class="event-eyebrow" id="event-eyebrow">
-      <span id="event-eyebrow-text"></span>
-    </div>
-    <div class="push-prod-row" id="push-prod-row">
-      <button type="button" class="btn-push-prod" id="btn-push-prod">🚀 Auf PROD veröffentlichen</button>
-      <span class="push-prod-status" id="push-prod-status"></span>
-    </div>
-    <span class="section-label">Umfrage</span>
-    <h1 id="survey-title">Einen Moment, wir holen sie …</h1>
-    <div id="survey-description"></div>
-  </div>
+  <img id="survey-image" alt="" hidden>
+  <!-- Nur für eingeloggte Admins (Supabase-Session): Kopfbild direkt hier pflegen
+       (Bedienelemente kommen aus Code/survey-header-image.js) -->
+  <div class="hero-admin" id="hero-admin" hidden></div>
 </div>
 
 <section class="fb-form-section">
   <div class="fb-form-inner">
+
+    <div class="event-eyebrow" id="event-eyebrow">
+      <span id="event-eyebrow-text"></span>
+    </div>
+    <h1 class="survey-title" id="survey-title">Einen Moment, wir holen sie …</h1>
+    <div class="survey-desc" id="survey-description"></div>
+    <div class="survey-desc" id="survey-description2"></div>
 
     <div class="fb-loading visible" id="fb-loading">
       <p>Wir mischen die Fragen gerade frisch für dich. 😉</p>
@@ -408,13 +421,18 @@
         <div class="steps-progress" id="steps-progress" hidden aria-hidden="true"></div>
         <p class="steps-info" id="steps-info" hidden></p>
         <div class="step-text" id="step-description" hidden></div>
+        <div class="step-text" id="step-description2" hidden></div>
         <p id="survey-intro"></p>
         <div id="questions-root"></div>
 
         <div id="contact-block">
+        <div id="contact-step-intro" hidden>
+          <h2 class="contact-step-heading" id="contact-step-heading"></h2>
+          <p class="contact-step-text" id="contact-step-text"></p>
+        </div>
         <hr class="form-divider">
 
-        <div class="form-group">
+        <div class="form-group contact-legacy">
           <label class="question-label">Wie heißt du und wie erreiche ich dich am besten? <span class="question-meta" style="display:inline;font-size:13px;font-weight:400;color:rgba(0,34,77,0.45);">(optional)</span></label>
         </div>
 
@@ -424,7 +442,7 @@
             <input class="form-input" type="text" id="c-vorname" autocomplete="given-name">
             <span class="field-error" id="err-c-vorname">Bitte gib deinen Vornamen an.</span>
           </div>
-          <div class="form-group">
+          <div class="form-group contact-legacy">
             <label class="form-label" for="c-nachname">Nachname <span class="req" id="c-nachname-req" style="display:none;">*</span></label>
             <input class="form-input" type="text" id="c-nachname" autocomplete="family-name">
             <span class="field-error" id="err-c-nachname">Bitte gib deinen Nachnamen an.</span>
@@ -439,12 +457,19 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="c-phone">Telefon <span class="req" id="c-phone-req" style="display:none;">*</span></label>
-            <input class="form-input" type="tel" id="c-phone" autocomplete="tel">
+            <input class="form-input" type="tel" id="c-phone" autocomplete="tel" aria-describedby="c-phone-hint">
+            <span class="contact-field-hint" id="c-phone-hint" hidden></span>
             <span class="field-error" id="err-c-phone">Bitte gib deine Telefonnummer an.</span>
           </div>
         </div>
 
-        <label class="form-checkbox">
+        <label class="form-checkbox" id="contact-consent-row" hidden>
+          <input type="checkbox" id="c-consent">
+          <span id="c-consent-text"></span>
+        </label>
+        <span class="field-error" id="err-c-consent">Bitte bestätige deine Einwilligung, damit wir dich kontaktieren dürfen.</span>
+
+        <label class="form-checkbox contact-legacy">
           <input type="checkbox" id="c-newsletter">
           <span>Ja, schick mir gerne ab und zu Impulse per E-Mail (Newsletter) – kurze Gedanken zu Stress, Grenzen und dem eigenen Weg. Jederzeit mit einem Klick abbestellbar.</span>
         </label>
@@ -456,13 +481,17 @@
 
         <hr class="form-divider">
 
-        <p class="privacy-note">Deine Angaben behandeln wir vertraulich und verwenden sie ausschließlich für das, wofür du dich gerade entschieden hast. Mit dem Absenden stimmst du unserer <a href="https://der-architekt-deines-lebens.de/rechtliches.html#datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</p>
+        <p class="privacy-note contact-legacy">Deine Angaben behandeln wir vertraulich und verwenden sie ausschließlich für das, wofür du dich gerade entschieden hast. Mit dem Absenden stimmst du unserer <a href="https://der-architekt-deines-lebens.de/rechtliches.html#datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</p>
         </div>
 
         <div class="steps-nav" id="steps-nav" hidden>
           <button type="button" class="btn-step-back" id="steps-back">← Zurück</button>
           <button type="button" class="btn-step-next" id="steps-next">Weiter</button>
         </div>
+
+        <!-- Nur für eingeloggte Admins (Supabase-Session), nur auf der ersten
+             Seite: direkt zum letzten Abschnitt springen. -->
+        <p id="steps-admin-jump-row" hidden style="margin-top:14px;"><button type="button" class="btn-step-back" id="steps-admin-jump"></button></p>
 
         <button type="submit" class="btn-submit" id="btn-submit">
           <span class="spinner" id="btn-spinner"></span>
@@ -474,11 +503,16 @@
     </div>
 
     <div id="survey-result" style="display:none;">
+      <!-- Nur für eingeloggte Admins (Supabase-Session): zurück zu den Fragen,
+           um die Auswertung mit anderen Antworten zu prüfen. -->
+      <p id="sr-admin-back-row" hidden><button type="button" class="btn-step-back" id="sr-admin-back">← Zurück zu den Fragen (nur Admin)</button></p>
       <div id="sr-body"></div>
       <div id="sr-booking-wrap" style="display:none;">
-        <h2 class="sr-section-title">Was du jetzt damit machen kannst</h2>
+        <h2 class="sr-section-title" id="sr-booking-heading">Was du jetzt damit machen kannst</h2>
         <p id="sr-booking-intro"></p>
+        <p id="sr-booking-reco" hidden></p>
         <p id="sr-booking-btn-row"><button type="button" class="sr-btn" id="sr-booking-btn">Termin für mein Erstgespräch wählen</button></p>
+        <p id="sr-booking-later-row" class="sr-center" hidden><button type="button" class="sr-later" id="sr-booking-later"></button></p>
         <div id="sr-booking" style="display:none;">
           <div class="sr-booking"><iframe id="sr-booking-frame" title="Termin für dein Erstgespräch bei Microsoft Bookings wählen" loading="lazy"></iframe></div>
           <p class="sr-small">Beim Laden der Terminbuchung wird eine Verbindung zu Microsoft Bookings hergestellt; es gelten die Datenschutzhinweise von Microsoft. Falls die Terminbuchung nicht angezeigt wird, <a id="sr-booking-link" target="_blank" rel="noopener">öffne sie direkt bei Microsoft Bookings</a>.</p>
@@ -486,6 +520,8 @@
       </div>
       <p class="sr-closing" id="sr-closing"></p>
     </div>
+
+    <p class="survey-footnote" id="survey-footnote" hidden></p>
 
   </div>
 </section>
@@ -533,9 +569,17 @@
   // 502 usw. — NICHT "nicht gefunden", das läuft über showUnavailable()).
   // Freundliche, professionelle Meldung + automatischer Retry per Reload
   // nach 5 Sekunden, mit sichtbarem Countdown.
-  function showError() {
+  function showError(err) {
     elLoading.classList.remove('visible');
     elError.classList.add('visible');
+    // Im DEV-Modus die eigentliche Fehlermeldung mit anzeigen – spart den
+    // Blick in die Browser-Konsole beim Testen.
+    if (err && dynamicsCRM.environment === 'dev') {
+      var detail = document.createElement('p');
+      detail.className = 'fb-error-retry';
+      detail.textContent = 'Fehler (nur DEV sichtbar): ' + (err.message || err);
+      elError.appendChild(detail);
+    }
     var secondsLeft = 5;
     var countdownEl = document.getElementById('fb-error-countdown');
     var timer = setInterval(function () {
@@ -595,11 +639,113 @@
     var descEl = document.getElementById('survey-description');
     descEl.innerHTML = result.survey.description || '';
     fixDescriptionLinkTargets(descEl);
+    var desc2El = document.getElementById('survey-description2');
+    desc2El.innerHTML = result.survey.description2 || '';
+    fixDescriptionLinkTargets(desc2El);
     document.getElementById('survey-intro').textContent = result.survey.intro || '';
 
     loadedQuestions = result.questions;
     var configs = window.SURVEY_RESULT_CONFIGS || {};
     resultConfig = (result.survey.slug && configs[result.survey.slug]) || null;
+    // Fragen, die es in Dynamics noch gibt, die diese Umfrage aber nicht
+    // mehr zeigt (config.hiddenQuestions = Reihenfolge-Nummern).
+    if (resultConfig && Array.isArray(resultConfig.hiddenQuestions) && resultConfig.hiddenQuestions.length) {
+      result.questions = result.questions.filter(function (q) {
+        return resultConfig.hiddenQuestions.indexOf(Number(q.order)) === -1;
+      });
+      loadedQuestions = result.questions;
+    }
+
+    // Kopfbild (seitenbreit, max. 350px hoch). Reihenfolge: im Admin hoch-
+    // geladenes Bild (Supabase survey_settings, Bucket survey-images/<slug>/)
+    // > headerImage aus der Konfiguration > Bild-URL aus Dynamics (falls es
+    // die einmal gibt).
+    var fallbackImage = (resultConfig && resultConfig.headerImage) || result.survey.imageUrl || '';
+    function applyHeaderImage(url) {
+      var src = url || fallbackImage;
+      var imgEl = document.getElementById('survey-image');
+      imgEl.alt = result.survey.title || '';
+      imgEl.hidden = !src;
+      imgEl.src = src || '';
+    }
+    applyHeaderImage('');
+
+    // ── Bilder der Umfrage: Kopfbild, je Abschnitt, je Frage ────────────
+    // (Code/survey-header-image.js; Daten in survey_settings, Dateien im
+    // Bucket survey-images/<slug>/). Alles hier ist Beiwerk: ein Fehler
+    // darf die Umfrage selbst nie blockieren.
+    var imageSetting = null;
+    function slotImage(parent, slot, beforeEl) {
+      var img = parent.querySelector('img.slot-image[data-slot="' + slot + '"]');
+      if (!img) {
+        img = document.createElement('img');
+        img.className = 'slot-image'; img.alt = ''; img.dataset.slot = slot;
+        parent.insertBefore(img, beforeEl || parent.firstChild);
+      }
+      return img;
+    }
+    function applySlotImages() {
+      var S = SurveyHeaderImage;
+      applyHeaderImage((S.getSlot(imageSetting, 'header') || {}).url);
+      sectionStepList.forEach(function (step, k) {
+        var cur = S.getSlot(imageSetting, 'section:' + (k + 1));
+        var img = slotImage(step.el, 'section:' + (k + 1), step.el.firstChild);
+        img.hidden = !cur; img.src = cur ? cur.url : '';
+      });
+      loadedQuestions.forEach(function (q) {
+        var slot = 'question:' + Number(q.order);
+        var group = document.querySelector('#questions-root [data-question-id="' + q.id + '"]');
+        if (!group) return;
+        var cur = S.getSlot(imageSetting, slot);
+        var img = slotImage(group.parentNode, slot, group);
+        img.hidden = !cur; img.src = cur ? cur.url : '';
+      });
+    }
+    // Eingeloggte Admins: Bedienelemente direkt an jedem Bild-Platz.
+    function mountSlotAdmin() {
+      var slug = result.survey.slug;
+      function mount(root, slot, title, names) {
+        root.classList.add('slot-admin');
+        SurveyHeaderImage.mountSlotControls(root, {
+          slug: slug, slot: slot, title: title, names: names || {},
+          getSetting: function () { return imageSetting; },
+          onChange: function (s) { imageSetting = s; applySlotImages(); }
+        });
+      }
+      var heroBar = document.getElementById('hero-admin');
+      heroBar.hidden = false;
+      mount(heroBar, 'header', 'Kopfbild · 800×350', { upload: 'Kopfbild hochladen', replace: 'Neues Foto hochladen' });
+      sectionStepList.forEach(function (step, k) {
+        var slot = 'section:' + (k + 1);
+        var img = slotImage(step.el, slot, step.el.firstChild);
+        var ctl = document.createElement('div');
+        step.el.insertBefore(ctl, img.nextSibling);
+        mount(ctl, slot, 'Bild Abschnitt ' + (k + 1) + (step.title ? ' · ' + step.title : '') + ' · 800×300');
+      });
+      loadedQuestions.forEach(function (q) {
+        var slot = 'question:' + Number(q.order);
+        var group = document.querySelector('#questions-root [data-question-id="' + q.id + '"]');
+        if (!group) return;
+        slotImage(group.parentNode, slot, group);
+        var ctl = document.createElement('div');
+        group.parentNode.insertBefore(ctl, group);
+        mount(ctl, slot, 'Bild über Frage ' + Number(q.order) + ' · 800×300');
+      });
+    }
+    if (result.survey.slug) try {
+      var imagesLoaded = SurveyHeaderImage.load(result.survey.slug)
+        .then(function (data) { imageSetting = data; })
+        .catch(function (err) { console.warn('survey_settings:', err); });
+      // Bilder erst setzen, wenn die Fragen/Abschnitte aufgebaut sind (läuft
+      // weiter unten synchron) – die Promise löst ohnehin erst danach auf.
+      imagesLoaded.then(function () { try { applySlotImages(); } catch (e) { console.warn(e); } });
+      Promise.all([imagesLoaded, db.auth.getSession()]).then(function (res) {
+        var r = res[1];
+        if (!(r && r.data && r.data.session)) return;
+        try { mountSlotAdmin(); } catch (e) { console.warn('Bild-Bedienelemente:', e); }
+      });
+    } catch (e) { console.warn('Bild-Funktionen nicht verfügbar:', e); }
+
     if (resultConfig) {
       if (resultConfig.hideResultsOptIn) {
         document.getElementById('c-results-optin').checked = false;
@@ -608,6 +754,11 @@
       if (resultConfig.submitLabel) {
         submitLabel = resultConfig.submitLabel;
         document.getElementById('btn-label').textContent = submitLabel;
+      }
+      if (resultConfig.footerNote) {
+        var footnote = document.getElementById('survey-footnote');
+        footnote.textContent = resultConfig.footerNote;
+        footnote.hidden = false;
       }
     }
 
@@ -647,16 +798,19 @@
     }
   }).catch(function (err) {
     console.error('Survey load error:', err);
-    showError();
+    showError(err);
   });
 
   // ── Abschnitte (Schritt-für-Schritt wie Tools/wo-stehst-du-gerade.html) ──
   // Aufbau: 1. Seite = Beschreibung der Umfrage (wht_description), 2. Seite =
-  // Intro (wht_intro, nur wenn in Dynamics gefüllt), danach ein Schritt pro
-  // konfiguriertem Abschnitt. Die Kontaktfelder und der Absenden-Knopf hängen
-  // am letzten Abschnitt. Fragen, die in keinem Abschnitt stehen, kommen
-  // automatisch mit in den letzten Abschnitt — so geht keine Frage verloren.
+  // zweite Beschreibung (wht_description2, nur wenn in Dynamics gefüllt),
+  // danach ein Schritt pro konfiguriertem Abschnitt; das Intro (wht_intro)
+  // steht über den Fragen des ersten Abschnitts. Die Kontaktfelder und der
+  // Absenden-Knopf hängen am letzten Abschnitt. Fragen, die in keinem
+  // Abschnitt stehen, kommen automatisch mit in den letzten Abschnitt — so
+  // geht keine Frage verloren.
   var steps = [];
+  var sectionStepList = []; // nur die Abschnitts-Schritte (für Bilder je Abschnitt)
   var stepIdx = 0;
   var elStepsProgress = document.getElementById('steps-progress');
   var elStepsInfo     = document.getElementById('steps-info');
@@ -664,6 +818,11 @@
   var elStepsBack     = document.getElementById('steps-back');
   var elStepsNext     = document.getElementById('steps-next');
   var elContactBlock  = document.getElementById('contact-block');
+  var elStepsJumpRow  = document.getElementById('steps-admin-jump-row');
+  var elStepsJump     = document.getElementById('steps-admin-jump');
+  var stepsJumpAllowed = false;
+  var stepsJumped = false; // Admin hat Abschnitte übersprungen → beim Absenden nur die letzte Seite prüfen
+  elStepsJump.addEventListener('click', function () { stepsJumped = true; showStep(steps.length - 1); });
 
   function setupSteps(sections, survey) {
     var root = document.getElementById('questions-root');
@@ -698,26 +857,78 @@
       rest.forEach(function (q) { var g = groupOf(q); if (g) { target.el.appendChild(g); target.questionIds.push(q.id); } });
     }
 
-    // Beschreibung aus dem Hero in die erste Seite verschieben.
-    var heroDesc = document.getElementById('survey-description');
-    var descStep = document.getElementById('step-description');
-    if (heroDesc.innerHTML.trim()) {
-      descStep.innerHTML = heroDesc.innerHTML;
-      heroDesc.innerHTML = '';
-      steps.push({ type: 'description', el: descStep });
-    }
+    // Beide Beschreibungen aus dem Hero in die ersten Seiten verschieben.
+    [['survey-description', 'step-description'], ['survey-description2', 'step-description2']].forEach(function (pair) {
+      var heroEl = document.getElementById(pair[0]);
+      var stepEl = document.getElementById(pair[1]);
+      if (!heroEl.innerHTML.trim()) return;
+      stepEl.innerHTML = heroEl.innerHTML;
+      heroEl.innerHTML = '';
+      steps.push({ type: 'description', el: stepEl });
+    });
+    // Intro über die Fragen des ersten Abschnitts.
     var introEl = document.getElementById('survey-intro');
-    if (introEl.textContent.trim()) {
-      introEl.classList.add('step-text');
-      steps.push({ type: 'intro', el: introEl });
+    if (introEl.textContent.trim() && sectionSteps.length) {
+      sectionSteps[0].el.insertBefore(introEl, sectionSteps[0].el.firstChild);
     }
     steps = steps.concat(sectionSteps);
+    sectionStepList = sectionSteps;
+
+    // Kontaktdaten als eigene, letzte Seite (statt unter dem letzten Abschnitt).
+    var cs = resultConfig && resultConfig.contactStep;
+    if (cs) {
+      elContactBlock.classList.add('contact-compact');
+      document.getElementById('contact-step-heading').textContent = cs.heading || '';
+      document.getElementById('contact-step-text').textContent = cs.text || '';
+      document.getElementById('contact-step-intro').hidden = !(cs.heading || cs.text);
+      var phoneHint = document.getElementById('c-phone-hint');
+      phoneHint.textContent = cs.phoneHint || '';
+      phoneHint.hidden = !cs.phoneHint;
+      if (cs.consent) {
+        var consentText = document.getElementById('c-consent-text');
+        consentText.textContent = cs.consent + ' Es gilt unsere ';
+        var dsLink = el('a', null, 'Datenschutzerklärung');
+        dsLink.href = 'https://der-architekt-deines-lebens.de/rechtliches.html#datenschutz';
+        dsLink.target = '_blank'; dsLink.rel = 'noopener';
+        consentText.appendChild(dsLink);
+        consentText.appendChild(document.createTextNode('.'));
+        // consentHidden: Häkchen ist gesetzt und die Zeile wird nicht gezeigt.
+        document.getElementById('c-consent').checked = !!cs.consentHidden;
+        document.getElementById('contact-consent-row').hidden = !!cs.consentHidden;
+      }
+      steps.push({ type: 'contact', el: elContactBlock, title: cs.title || '' });
+      updateContactRequiredUI();
+    }
 
     elStepsProgress.textContent = '';
     steps.forEach(function () { elStepsProgress.appendChild(document.createElement('span')); });
     elStepsProgress.hidden = false;
     elStepsNav.hidden = false;
     showStep(0, false);
+
+    // Admin-Abkürzung zum letzten Abschnitt (gleiche Session-Prüfung wie
+    // bei den Bild-Bedienelementen).
+    try {
+      db.auth.getSession().then(function (r) {
+        if (!(r && r.data && r.data.session) || steps.length < 2) return;
+        var lastStep = steps[steps.length - 1];
+        var firstQ = loadedQuestions.filter(function (q) { return q.id === (lastStep.questionIds || [])[0]; })[0];
+        elStepsJump.textContent = (firstQ ? 'Direkt zu Frage ' + Number(firstQ.order) : 'Direkt zur letzten Seite') + ' (nur Admin) →';
+        stepsJumpAllowed = true;
+        // Fortschrittsbalken wird für Admins zur Navigation.
+        elStepsProgress.classList.add('admin-nav');
+        Array.prototype.forEach.call(elStepsProgress.children, function (bar, k) {
+          var st = steps[k];
+          bar.title = (st.type === 'section' ? (st.title || 'Abschnitt') : 'Einleitung') + ' (nur Admin)';
+          bar.addEventListener('click', function () {
+            if (k === stepIdx) return;
+            if (k > stepIdx) stepsJumped = true; // übersprungene Seiten nicht mehr als Pflicht prüfen
+            showStep(k);
+          });
+        });
+        elStepsJumpRow.hidden = stepIdx !== 0;
+      }).catch(function () {});
+    } catch (e) { /* ohne Supabase kein Admin-Knopf */ }
   }
 
   function showStep(i, scroll) {
@@ -725,11 +936,14 @@
     var step = steps[i];
     var last = i === steps.length - 1;
     steps.forEach(function (s, k) { s.el.hidden = k !== i; });
+    // Der Titel steht nur auf der ersten Seite (über dem Fortschrittsbalken).
+    document.getElementById('survey-title').hidden = i !== 0;
     elContactBlock.hidden = !last;
     btn.hidden = !last;
     elStepsNext.hidden = last;
     elStepsBack.hidden = i === 0;
     elStepsNav.hidden = last && i === 0;
+    elStepsJumpRow.hidden = !(stepsJumpAllowed && i === 0);
     submitErr.classList.remove('visible');
 
     Array.prototype.forEach.call(elStepsProgress.children, function (bar, k) {
@@ -741,13 +955,18 @@
       var n = sectionSteps.indexOf(step) + 1;
       elStepsInfo.textContent = 'Abschnitt ' + n + ' von ' + sectionSteps.length + (step.title ? ' · ' + step.title : '');
       elStepsInfo.hidden = false;
+    } else if (step.type === 'contact' && step.title) {
+      elStepsInfo.textContent = step.title;
+      elStepsInfo.hidden = false;
     } else {
       elStepsInfo.hidden = true;
     }
     var nextStep = steps[i + 1];
     elStepsNext.textContent = (step.type !== 'section' && nextStep && nextStep.type === 'section') ? 'Los geht\'s' : 'Weiter';
 
-    if (scroll !== false) window.scrollTo(0, document.querySelector('.fb-form-section').offsetTop - 80);
+    // Bei jedem Seitenwechsel sofort ganz nach oben springen (ohne Animation),
+    // damit die neue Seite mit Bild und Titel oben beginnt.
+    if (scroll !== false) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }
 
   elStepsNext.addEventListener('click', function () {
@@ -775,11 +994,13 @@
     var req = renderer.getRequiredContactFields();
     var newsletterChecked = document.getElementById('c-newsletter').checked;
     var resultsOptInChecked = document.getElementById('c-results-optin').checked;
+    var fixed = (resultConfig && resultConfig.contactStep && resultConfig.contactStep.required) || [];
+    var must = function (key) { return fixed.indexOf(key) > -1; };
     return {
-      name:    req.name || resultsOptInChecked,
-      surname: req.surname,
-      email:   req.email || newsletterChecked || resultsOptInChecked,
-      phone:   req.phone
+      name:    req.name || resultsOptInChecked || must('name'),
+      surname: req.surname || must('surname'),
+      email:   req.email || newsletterChecked || resultsOptInChecked || must('email'),
+      phone:   req.phone || must('phone')
     };
   }
 
@@ -824,6 +1045,12 @@
   CONTACT_FIELD_IDS.forEach(function (id) {
     document.getElementById(id).addEventListener('input', function () { setFieldError(id, false); });
   });
+  document.getElementById('c-consent').addEventListener('change', function () {
+    document.getElementById('err-c-consent').classList.remove('visible');
+  });
+  function consentRequired() {
+    return !!(resultConfig && resultConfig.contactStep && resultConfig.contactStep.consent);
+  }
 
   // ── Submit handling ──
   var form      = document.getElementById('survey-form');
@@ -842,13 +1069,15 @@
   // ── Ergebnis-Ansicht ──
   // Antworten über die Reihenfolge (wht_order) von Frage und Option
   // auflösen, damit die Auswertung in DEV und PROD gleich funktioniert.
-  function buildResultContext(answers) {
+  function buildResultContext(answers, contact) {
     var byQuestionId = {};
     answers.forEach(function (a) { byQuestionId[a.questionId] = a; });
     function questionAt(n) {
       return loadedQuestions.find(function (q) { return Number(q.order) === Number(n); });
     }
     return {
+      // Kontaktdaten aus dem Formular (aktuell nur der Vorname für die Anrede).
+      contact: contact || {},
       choice: function (n) {
         var q = questionAt(n);
         var a = q && byQuestionId[q.id];
@@ -856,6 +1085,17 @@
         var sorted = (q.options || []).slice().sort(function (x, y) { return (Number(x.order) || 0) - (Number(y.order) || 0); });
         var idx = sorted.findIndex(function (o) { return o.id === a.options[0].id; });
         return idx >= 0 ? idx + 1 : null;
+      },
+      // Alle gewählten Optionen (Mehrfachauswahl) als Reihenfolge-Nummern.
+      choices: function (n) {
+        var q = questionAt(n);
+        var a = q && byQuestionId[q.id];
+        if (!a || !a.options || !a.options.length) return [];
+        var sorted = (q.options || []).slice().sort(function (x, y) { return (Number(x.order) || 0) - (Number(y.order) || 0); });
+        return a.options.map(function (sel) {
+          var idx = sorted.findIndex(function (o) { return o.id === sel.id; });
+          return idx + 1;
+        }).filter(function (n) { return n > 0; });
       },
       text: function (n) {
         var q = questionAt(n);
@@ -872,8 +1112,8 @@
     return node;
   }
 
-  function showResult(answers) {
-    var ctx = buildResultContext(answers);
+  function showResult(answers, contact) {
+    var ctx = buildResultContext(answers, contact);
     var res = {};
     try { res = resultConfig.evaluate ? (resultConfig.evaluate(ctx) || {}) : {}; }
     catch (err) { console.error('Survey evaluate error:', err); }
@@ -881,8 +1121,19 @@
     var body = document.getElementById('sr-body');
     body.textContent = '';
     if (res.eyebrow) body.appendChild(el('p', 'sr-eyebrow', res.eyebrow));
+    if (res.greeting) body.appendChild(el('p', 'sr-greeting', res.greeting));
     if (res.title) body.appendChild(el('h2', 'sr-title', res.title));
     (res.paragraphs || []).forEach(function (t) { body.appendChild(el('p', null, t)); });
+    if (res.focus && res.focus.length) {
+      var focusLine = el('p', 'sr-focus');
+      if (res.focusTitle) { focusLine.appendChild(el('strong', null, res.focusTitle)); focusLine.appendChild(document.createTextNode(' ')); }
+      focusLine.appendChild(document.createTextNode(res.focus.join(' · ')));
+      body.appendChild(focusLine);
+    }
+    if (res.quote) {
+      if (res.quoteTitle) body.appendChild(el('p', null, res.quoteTitle));
+      body.appendChild(el('blockquote', 'sr-quote', '„' + res.quote + '“'));
+    }
     if (res.map && res.map.length) {
       if (res.mapTitle) body.appendChild(el('h2', 'sr-section-title', res.mapTitle));
       if (res.mapHint) body.appendChild(el('p', 'sr-hint', res.mapHint));
@@ -915,23 +1166,68 @@
     if (booking && booking.url) {
       document.getElementById('sr-booking-wrap').style.display = '';
       document.getElementById('sr-booking-intro').textContent = booking.intro || '';
+      var heading = document.getElementById('sr-booking-heading');
+      if (typeof booking.heading === 'string') { heading.textContent = booking.heading; heading.hidden = !booking.heading; }
+      document.getElementById('sr-booking-btn-row').classList.toggle('sr-center', !!booking.centerButton);
+      // Bei jedem Anzeigen frisch aufbauen (Admin kann zurück und erneut absenden).
+      document.getElementById('sr-booking-intro').hidden = false;
+      document.getElementById('sr-booking').style.display = 'none';
+      document.getElementById('sr-booking-btn-row').style.display = '';
+      document.getElementById('sr-booking-btn').textContent = booking.buttonLabel || 'Termin für mein Erstgespräch wählen';
+      var reco = document.getElementById('sr-booking-reco');
+      reco.textContent = booking.recommendation || '';
+      reco.hidden = !booking.recommendation;
+      document.getElementById('sr-booking-later').textContent = booking.laterLabel || '';
+      document.getElementById('sr-booking-later-row').hidden = !booking.laterLabel;
       document.getElementById('sr-booking-link').href = booking.url;
       var wantsNow = booking.askQuestion ? ctx.choice(booking.askQuestion) === booking.yesOption : false;
       if (wantsNow) openBooking();
     }
 
     elFormState.style.display = 'none';
+    document.getElementById('survey-title').hidden = false;
     document.getElementById('survey-result').style.display = '';
     sendOverlay.hide && sendOverlay.hide();
     window.scrollTo(0, document.querySelector('.fb-form-section').offsetTop - 80);
+
+    // Zurück-Knopf nur mit Supabase-Session (gleiche Prüfung wie bei den
+    // Bild-Bedienelementen).
+    var backRow = document.getElementById('sr-admin-back-row');
+    backRow.hidden = true;
+    try {
+      db.auth.getSession().then(function (r) {
+        backRow.hidden = !(r && r.data && r.data.session);
+      }).catch(function () {});
+    } catch (e) { /* ohne Supabase kein Admin-Knopf */ }
   }
+
+  // Admin: vom Ergebnis zurück ins Formular (Antworten bleiben stehen).
+  document.getElementById('sr-admin-back').addEventListener('click', function () {
+    document.getElementById('survey-result').style.display = 'none';
+    document.getElementById('sr-booking').style.display = 'none';
+    document.getElementById('sr-booking-btn-row').style.display = '';
+    setLoading(false);
+    // Im Abschnitts-Modus steht man wieder auf der letzten Seite – dort ohne Titel.
+    if (resultConfig && Array.isArray(resultConfig.sections) && resultConfig.sections.length) {
+      document.getElementById('survey-title').hidden = true;
+    }
+    elFormState.style.display = '';
+    window.scrollTo(0, document.querySelector('.fb-form-section').offsetTop - 80);
+  });
 
   function openBooking() {
     var frame = document.getElementById('sr-booking-frame');
     if (!frame.src) frame.src = resultConfig.booking.url;
     document.getElementById('sr-booking').style.display = '';
     document.getElementById('sr-booking-btn-row').style.display = 'none';
+    document.getElementById('sr-booking-later-row').hidden = true;
   }
+  // „Jetzt noch nicht“: Einladung ausblenden, Ergebnis bleibt stehen.
+  document.getElementById('sr-booking-later').addEventListener('click', function () {
+    ['sr-booking-intro', 'sr-booking-reco', 'sr-booking-later-row'].forEach(function (id) { document.getElementById(id).hidden = true; });
+    document.getElementById('sr-booking-btn-row').style.display = 'none';
+    document.getElementById('sr-closing').textContent = (resultConfig.booking && resultConfig.booking.laterText) || '';
+  });
   document.getElementById('sr-booking-btn').addEventListener('click', function () {
     openBooking();
     document.getElementById('sr-booking').scrollIntoView({ behavior: 'smooth' });
@@ -941,7 +1237,22 @@
     e.preventDefault();
     submitErr.classList.remove('visible');
 
-    if (!renderer.validate()) return;
+    if (steps.length && stepsJumped) {
+      // Admin hat Abschnitte übersprungen: nur die sichtbare letzte Seite prüfen.
+      if (!renderer.validate(steps[steps.length - 1].questionIds || [])) return;
+    } else if (!renderer.validate()) {
+      // Im Abschnitts-Modus kann die fehlende Antwort auf einer anderen
+      // (ausgeblendeten) Seite liegen – dorthin wechseln, sonst passiert
+      // beim Klick sichtbar nichts.
+      for (var s = 0; s < steps.length; s++) {
+        var bad = steps[s].el.querySelector('.error');
+        if (!bad) continue;
+        if (s !== stepIdx) showStep(s, false);
+        bad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        break;
+      }
+      return;
+    }
 
     var answers = renderer.getAnswers();
 
@@ -953,8 +1264,14 @@
     var requiredContact = getEffectiveRequiredContactFields();
     var anyContactRequired = requiredContact.name || requiredContact.surname || requiredContact.email || requiredContact.phone;
 
+    if (anyContactRequired && !validateContactFields(vornameVal, nachnameVal, emailVal, phoneVal)) return;
+    if (consentRequired() && !document.getElementById('c-consent').checked) {
+      document.getElementById('err-c-consent').classList.add('visible');
+      document.getElementById('contact-consent-row').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     if (anyContactRequired) {
-      if (!validateContactFields(vornameVal, nachnameVal, emailVal, phoneVal)) return;
+      // Kontaktdaten sind da – kein Platzhaltername nötig.
     } else if (!vornameVal && !nachnameVal) {
       // Wenn weder Vorname noch Nachname angegeben wurde: Platzhalter
       // verwenden, damit die Antwort trotzdem eindeutig zuordenbar bleibt
@@ -978,6 +1295,7 @@
           vorname: vornameVal, nachname: nachnameVal, email: emailVal, telefon: phoneVal,
           newsletter_opt_in: document.getElementById('c-newsletter').checked,
           results_opt_in: document.getElementById('c-results-optin').checked,
+          contact_opt_in: consentRequired() ? document.getElementById('c-consent').checked : null,
           answers: answers
         }
       });
@@ -1015,7 +1333,7 @@
       // Umfragen mit Auswertung bleiben auf der Seite und zeigen das
       // Ergebnis (+ ggf. Terminbuchung) statt der Danke-Seite.
       var next = resultConfig
-        ? function () { showResult(answers); }
+        ? function () { showResult(answers, { vorname: document.getElementById('c-vorname').value.trim() }); }
         : function () { window.location.href = thanksUrl; };
       // Bei Newsletter- oder Ergebnis-Opt-in erst auf die Double-Opt-In-Mail
       // hinweisen, weiter dann per "Weiter".

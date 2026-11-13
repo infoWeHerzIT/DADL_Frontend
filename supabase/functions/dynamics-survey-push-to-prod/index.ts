@@ -74,6 +74,18 @@ function extractId(res: Response): string | null {
 
 const GUID_RE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
+// Schreibt die Umfrage-Kopffelder nach PROD. wht_description2 (zweite
+// Beschreibungsseite) wird mitgeschickt, wenn DEV das Feld geliefert hat;
+// kennt PROD das Feld noch nicht (400), noch einmal ohne — mit Warnung.
+async function writeProdSurvey(url: string, method: string, fields: Record<string, unknown>, description2: unknown, headers: HeadersInit, warnings: string[]): Promise<Response> {
+  if (description2 !== undefined) {
+    const res = await fetch(url, { method, headers, body: JSON.stringify({ ...fields, wht_description2: description2 ?? "" }) });
+    if (res.status !== 400) return res;
+    warnings.push("Feld wht_description2 existiert in PROD noch nicht — die zweite Beschreibung wurde nicht übertragen.");
+  }
+  return await fetch(url, { method, headers, body: JSON.stringify(fields) });
+}
+
 type DevOption = {
   wht_surveyquestionoptionid: string;
   wht_labeltext: string;
@@ -107,8 +119,12 @@ serve(async (req) => {
     const devHeaders = dataverseHeaders(devToken);
 
     // ── 1. Umfrage + Fragen + Optionen aus DEV lesen ──────────────────
+    const warnings: string[] = [];
     const surveySelect = "wht_surveyid,wht_title,wht_intro,wht_description,wht_slug,_wht_eventid_value,statecode";
-    const surveyRes = await fetch(`${DEV_RESOURCE}/api/data/v9.2/wht_surveies(${surveyId})?$select=${surveySelect}`, { headers: devHeaders });
+    // wht_description2 (zweite Beschreibungsseite) ist ein neueres Feld — fehlt
+    // es in DEV noch, antwortet Dataverse mit 400; dann ohne das Feld lesen.
+    let surveyRes = await fetch(`${DEV_RESOURCE}/api/data/v9.2/wht_surveies(${surveyId})?$select=${surveySelect},wht_description2`, { headers: devHeaders });
+    if (surveyRes.status === 400) surveyRes = await fetch(`${DEV_RESOURCE}/api/data/v9.2/wht_surveies(${surveyId})?$select=${surveySelect}`, { headers: devHeaders });
     if (surveyRes.status === 404) return jsonResponse({ error: "Umfrage in DEV nicht gefunden" }, 404);
     if (!surveyRes.ok) return jsonResponse({ step: "dev-survey", status: surveyRes.status, error: await surveyRes.text() }, 502);
     const devSurvey = await surveyRes.json();
@@ -176,15 +192,11 @@ serve(async (req) => {
     if (existingMatch) {
       prodSurveyId = String(existingMatch.wht_surveyid);
       surveyAction = "updated";
-      const patchRes = await fetch(`${PROD_RESOURCE}/api/data/v9.2/wht_surveies(${prodSurveyId})`, {
-        method: "PATCH",
-        headers: prodHeaders,
-        body: JSON.stringify({
-          wht_title: devSurvey.wht_title ?? "",
-          wht_intro: devSurvey.wht_intro ?? "",
-          wht_description: devSurvey.wht_description ?? "",
-        }),
-      });
+      const patchRes = await writeProdSurvey(`${PROD_RESOURCE}/api/data/v9.2/wht_surveies(${prodSurveyId})`, "PATCH", {
+        wht_title: devSurvey.wht_title ?? "",
+        wht_intro: devSurvey.wht_intro ?? "",
+        wht_description: devSurvey.wht_description ?? "",
+      }, devSurvey.wht_description2, prodHeaders, warnings);
       if (!patchRes.ok) return jsonResponse({ step: "prod-survey-update", status: patchRes.status, error: await patchRes.text() }, 502);
     } else {
       surveyAction = "created";
@@ -218,11 +230,7 @@ serve(async (req) => {
         }
       }
 
-      const createRes = await fetch(`${PROD_RESOURCE}/api/data/v9.2/wht_surveies`, {
-        method: "POST",
-        headers: prodHeaders,
-        body: JSON.stringify(createFields),
-      });
+      const createRes = await writeProdSurvey(`${PROD_RESOURCE}/api/data/v9.2/wht_surveies`, "POST", createFields, devSurvey.wht_description2, prodHeaders, warnings);
       if (!createRes.ok) return jsonResponse({ step: "prod-survey-create", status: createRes.status, error: await createRes.text() }, 502);
       const newId = extractId(createRes);
       if (!newId) return jsonResponse({ step: "prod-survey-create", error: "Keine Survey-ID im OData-EntityId-Header" }, 502);
@@ -334,9 +342,9 @@ serve(async (req) => {
         questionsUpdated,
         optionsCreated,
         optionsUpdated,
-        warnings: extraProdQuestionOrders.length > 0
+        warnings: warnings.concat(extraProdQuestionOrders.length > 0
           ? [`PROD hat ${extraProdQuestionOrders.length} zusätzliche Frage(n) (Position ${extraProdQuestionOrders.join(", ")}), die es in DEV nicht mehr gibt — wurden NICHT gelöscht.`]
-          : [],
+          : []),
       },
       200
     );

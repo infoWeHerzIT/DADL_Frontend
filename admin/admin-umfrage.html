@@ -36,18 +36,18 @@
   .event-eyebrow.visible { display: inline-flex; }
   .admin-header h1 { font-family:'Archivo',system-ui,sans-serif; font-weight:800; font-size:clamp(24px,3.2vw,38px); color:var(--white); line-height:1.15; margin-bottom:12px; }
   .admin-header p { font-size:15px; color:rgba(255,250,241,0.55); max-width:680px; line-height:1.7; margin-bottom:18px; }
-  #survey-description:empty { display:none; margin:0; }
-  #survey-description { color:var(--white); max-width:920px; line-height:1.7; margin-bottom:18px; text-align:justify; }
-  #survey-description *:not(a):not(a *) { color:var(--white) !important; }
-  #survey-description a, #survey-description a * {
+  .survey-desc:empty { display:none; margin:0; }
+  .survey-desc { color:var(--white); max-width:920px; line-height:1.7; margin-bottom:18px; text-align:justify; }
+  .survey-desc *:not(a):not(a *) { color:var(--white) !important; }
+  .survey-desc a, .survey-desc a * {
     color:var(--orange) !important;
     background-color:var(--white) !important;
     text-decoration:underline !important;
     font-weight:bold !important;
     font-style:normal !important;
   }
-  #survey-description a { padding:1px 5px; border-radius:2px; }
-  #survey-description a:hover, #survey-description a:hover * {
+  .survey-desc a { padding:1px 5px; border-radius:2px; }
+  .survey-desc a:hover, .survey-desc a:hover * {
     font-style:italic !important;
   }
 
@@ -62,6 +62,21 @@
   .section-toggle:hover { border-color:var(--orange); }
   .section-toggle::after { content:'＋'; color:var(--orange); font-size:20px; line-height:1; }
   .section-toggle[aria-expanded="true"]::after { content:'−'; }
+  /* Kopfbild der Umfrage (Supabase Storage, Bucket survey-images, Ordner = Slug) */
+  .header-image-box { margin-top:20px; padding:16px 18px; border:1px solid rgba(255,250,241,0.16); border-radius:8px; background:rgba(255,250,241,0.05); max-width:920px; }
+  .header-image-box h3 { font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,250,241,0.7); margin:0 0 12px; }
+  .slot-group { font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,250,241,0.5); margin:16px 0 6px; }
+  .slot-row { display:flex; align-items:center; gap:14px; padding:8px 0; border-top:1px solid rgba(255,250,241,0.1); }
+  .slot-thumb { flex:0 0 120px; height:60px; border-radius:4px; background:rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .slot-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .slot-thumb span { font-size:11px; color:rgba(255,250,241,0.4); }
+  .slot-main { flex:1; min-width:0; display:flex; flex-direction:column; gap:6px; }
+  .slot-name { font-size:13.5px; color:var(--white); line-height:1.35; }
+  .slot-name small { color:rgba(255,250,241,0.5); }
+  .slot-main .shi-ctl { padding:0; background:transparent; justify-content:flex-start; }
+  @media (max-width:600px) { .slot-row { flex-direction:column; align-items:stretch; } .slot-thumb { flex-basis:auto; height:80px; } }
+  .header-image-hint { font-size:12px; color:rgba(255,250,241,0.45); margin:10px 0 0; line-height:1.5; }
+  .header-image-hint code { font-family:ui-monospace,Consolas,monospace; color:rgba(255,250,241,0.7); }
   .survey-description-component { margin-top:16px; }
   .survey-description-component > summary { color:rgba(255,250,241,0.85); cursor:pointer; font-size:13px; }
   .survey-description-component > summary:hover { color:var(--white); }
@@ -247,6 +262,8 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="../supabase-config.js"></script>
 <script src="../Code/dynamics-crm.js"></script>
+<script src="../Code/survey-header-image.js"></script>
+<script src="../Code/survey-result-configs.js"></script>
 </head>
 <body>
 
@@ -289,9 +306,20 @@
       <span id="event-eyebrow-text"></span>
     </div>
     <h1 id="survey-title">Wird geladen …</h1>
+    <!-- Kopfbild: wird oben auf der Umfrageseite (Templates/umfrage-dynamisch.html)
+         seitenbreit, max. 350px hoch angezeigt. Datei liegt in Supabase Storage,
+         Bucket "survey-images", Ordner = Umfrage-Slug; die URL steht in survey_settings. -->
+    <!-- Bilder der Umfrage: Kopfbild, je Abschnitt (aus survey-result-configs.js),
+         je Frage. Zeilen werden per Script aufgebaut (initSurveyImages). -->
+    <div class="header-image-box" id="header-image-box" style="display:none;">
+      <h3>Bilder der Umfrage</h3>
+      <p class="header-image-hint" style="margin:0 0 12px;">Nach der Auswahl öffnet sich der Ausschnitt-Editor: Foto verschieben und zoomen, bis der Rahmen passt. Das Original bleibt gespeichert, der Ausschnitt lässt sich jederzeit ändern. JPG, PNG oder WebP, max. 5 MB. Ablage: <code>survey-images/<span id="header-image-folder">…</span>/</code></p>
+      <div id="slot-list"></div>
+    </div>
     <details class="survey-description-component" id="survey-description-component" style="display:none;">
       <summary>Umfragebeschreibung anzeigen</summary>
-      <div id="survey-description"></div>
+      <div class="survey-desc" id="survey-description"></div>
+      <div class="survey-desc" id="survey-description2" style="margin-top:16px;"></div>
     </details>
   </div>
 </div>
@@ -615,6 +643,74 @@ document.getElementById('questions-root').addEventListener('click', function (e)
 
   if (!surveyId) { showError(); return; }
 
+  // ── Bilder der Umfrage (Code/survey-header-image.js) ──────────────
+  // Eine Zeile je Bild-Platz: Kopfbild (800×350), je Abschnitt aus
+  // survey-result-configs.js (800×300) und je Frage (800×300). Dateien im
+  // Bucket survey-images/<slug>/, Einstellungen in survey_settings. Die
+  // Umfrageseite zeigt die Bilder an und bietet eingeloggten Admins dort
+  // dieselben Bedienelemente direkt am Bild.
+  function initSurveyImages(slug, questions) {
+    if (!slug) return;
+    var box  = document.getElementById('header-image-box');
+    var list = document.getElementById('slot-list');
+    var setting = null;
+    document.getElementById('header-image-folder').textContent = slug;
+    box.style.display = 'block';
+
+    var cfg = (window.SURVEY_RESULT_CONFIGS || {})[slug] || null;
+    var sections = (cfg && Array.isArray(cfg.sections)) ? cfg.sections : [];
+
+    var slots = [{ slot: 'header', name: 'Kopfbild', detail: 'oben auf Seite 1 · 800×350', names: { upload: 'Kopfbild hochladen', replace: 'Neues Foto hochladen' } }];
+    sections.forEach(function (s, k) {
+      slots.push({ slot: 'section:' + (k + 1), group: 'Abschnitte', name: 'Abschnitt ' + (k + 1) + (s.title ? ' · ' + s.title : ''), detail: 'oben auf der Abschnitts-Seite · 800×300' });
+    });
+    (questions || []).forEach(function (q) {
+      slots.push({ slot: 'question:' + Number(q.order), group: 'Fragen', name: 'Frage ' + Number(q.order) + ': ' + (q.label || ''), detail: 'direkt über der Frage · 800×300' });
+    });
+
+    var thumbs = {};
+    var controls = [];
+    function renderThumbs() {
+      slots.forEach(function (s) {
+        var cur = SurveyHeaderImage.getSlot(setting, s.slot);
+        var t = thumbs[s.slot];
+        t.img.hidden = !cur; t.img.src = cur ? cur.url : '';
+        t.empty.hidden = !!cur;
+      });
+    }
+
+    list.innerHTML = '';
+    var lastGroup = null;
+    slots.forEach(function (s) {
+      if (s.group && s.group !== lastGroup) {
+        var g = document.createElement('div'); g.className = 'slot-group'; g.textContent = s.group; list.appendChild(g);
+        lastGroup = s.group;
+      }
+      var row = document.createElement('div'); row.className = 'slot-row';
+      var thumb = document.createElement('div'); thumb.className = 'slot-thumb';
+      var img = document.createElement('img'); img.alt = ''; img.hidden = true;
+      var empty = document.createElement('span'); empty.textContent = 'kein Bild';
+      thumb.appendChild(img); thumb.appendChild(empty);
+      var main = document.createElement('div'); main.className = 'slot-main';
+      var name = document.createElement('div'); name.className = 'slot-name';
+      name.textContent = s.name + ' ';
+      var small = document.createElement('small'); small.textContent = '(' + s.detail + ')'; name.appendChild(small);
+      var ctl = document.createElement('div');
+      main.appendChild(name); main.appendChild(ctl);
+      row.appendChild(thumb); row.appendChild(main); list.appendChild(row);
+      thumbs[s.slot] = { img: img, empty: empty };
+      controls.push(SurveyHeaderImage.mountSlotControls(ctl, {
+        slug: slug, slot: s.slot, names: s.names || {},
+        getSetting: function () { return setting; },
+        onChange: function (data) { setting = data; renderThumbs(); controls.forEach(function (c) { c.render(); }); }
+      }));
+    });
+
+    SurveyHeaderImage.load(slug)
+      .then(function (data) { setting = data; renderThumbs(); controls.forEach(function (c) { c.render(); }); })
+      .catch(function (err) { console.error(err); });
+  }
+
   dynamicsCRM.getSurveyResults(surveyId).then(function (result) {
     if (!result || !result.survey) { showError(); return; }
 
@@ -624,7 +720,12 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     var descEl = document.getElementById('survey-description');
     descEl.innerHTML = result.survey.description || '';
     fixDescriptionLinkTargets(descEl);
-    if (descEl.textContent.trim() || descEl.querySelector('img, video, iframe, table')) {
+    // Zweite Beschreibungsseite (wht_description2) — gleiche Darstellung, darunter.
+    var desc2El = document.getElementById('survey-description2');
+    desc2El.innerHTML = result.survey.description2 || '';
+    fixDescriptionLinkTargets(desc2El);
+    var hasContent = function (el) { return el.textContent.trim() || el.querySelector('img, video, iframe, table'); };
+    if (hasContent(descEl) || hasContent(desc2El)) {
       document.getElementById('survey-description-component').style.display = 'block';
     }
     document.getElementById('survey-intro').textContent = result.survey.intro || '';
@@ -653,6 +754,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     var questions = result.questions || [];
     exportQuestions = questions;
     exportSlug = result.survey.slug || result.survey.title || 'umfrage';
+    initSurveyImages(result.survey.slug || '', questions);
     if (questions.length === 0) {
       elRoot.innerHTML = '<div class="state-box">Diese Umfrage hat noch keine Fragen.</div>';
       return;
@@ -805,6 +907,77 @@ document.getElementById('questions-root').addEventListener('click', function (e)
     });
   }
 
+  // „Ergebnis und Empfehlung“ für die Ergebnis-E-Mail: dieselbe Auswertung
+  // wie auf der Ergebnisseite der Umfrage (evaluate() aus
+  // Code/survey-result-configs.js), hier aus den gespeicherten Antworten
+  // berechnet. Umfragen ohne Auswertung liefern ''.
+  function buildResultEmailHtml(response) {
+    var cfg = (window.SURVEY_RESULT_CONFIGS || {})[exportSlug] || null;
+    if (!cfg || typeof cfg.evaluate !== 'function') return '';
+
+    var byQuestionId = {};
+    (response.answers || []).forEach(function (a) { byQuestionId[a.questionId] = a; });
+    function questionAt(n) {
+      return exportQuestions.find(function (q) { return Number(q.order) === Number(n); });
+    }
+    // Die Antworten liegen hier nur als Text vor (bei Mehrfachauswahl mit
+    // ", " verbunden, und Optionstexte enthalten selbst Kommas) – deshalb
+    // die Optionen über ihren Text wiederfinden, längste zuerst.
+    function picked(n) {
+      var q = questionAt(n);
+      var a = q && byQuestionId[q.id];
+      if (!a || !q.options || !q.options.length) return [];
+      var sorted = q.options.slice().sort(function (x, y) { return (Number(x.order) || 0) - (Number(y.order) || 0); });
+      var value = String(a.value || '').trim();
+      var exact = sorted.findIndex(function (o) { return String(o.label || '').trim() === value; });
+      if (exact > -1) return [exact + 1];
+      var rest = value, hits = [];
+      sorted.slice().sort(function (x, y) { return String(y.label || '').length - String(x.label || '').length; }).forEach(function (o) {
+        var label = String(o.label || '').trim();
+        var i = label ? rest.indexOf(label) : -1;
+        if (i === -1) return;
+        rest = rest.slice(0, i) + rest.slice(i + label.length);
+        hits.push(sorted.indexOf(o) + 1);
+      });
+      return hits.sort(function (x, y) { return x - y; });
+    }
+    var leadName = String((response.lead && response.lead.name) || '').trim();
+    var vorname = leadName && leadName.indexOf('@') === -1 ? leadName.split(/\s+/)[0] : '';
+    var ctx = {
+      contact: { vorname: vorname },
+      choice: function (n) { var p = picked(n); return p.length ? p[0] : null; },
+      choices: picked,
+      text: function (n) { var q = questionAt(n); var a = q && byQuestionId[q.id]; return a ? String(a.value || '') : ''; }
+    };
+
+    var res;
+    try { res = cfg.evaluate(ctx) || {}; }
+    catch (err) { console.error('Survey evaluate error (E-Mail):', err); return ''; }
+
+    var p = 'font:16px/1.6 Arial,Helvetica,sans-serif;color:#09204A;margin:0 0 14px;';
+    var out = [];
+    if (res.eyebrow) out.push('<p style="font:700 12px Arial,Helvetica,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#D9682C;margin:0 0 12px;">' + esc(res.eyebrow) + '</p>');
+    if (res.greeting) out.push('<p style="' + p + 'font-weight:700;">' + esc(res.greeting) + '</p>');
+    if (res.title) out.push('<h2 style="font:700 22px/1.25 Arial,Helvetica,sans-serif;color:#09204A;margin:0 0 12px;">' + esc(res.title) + '</h2>');
+    (res.paragraphs || []).forEach(function (t) { out.push('<p style="' + p + '">' + esc(t) + '</p>'); });
+    if (res.focus && res.focus.length) {
+      out.push('<p style="' + p + '">' + (res.focusTitle ? '<strong>' + esc(res.focusTitle) + '</strong> ' : '') + res.focus.map(esc).join(' · ') + '</p>');
+    }
+    if (res.quote) {
+      if (res.quoteTitle) out.push('<p style="' + p + '">' + esc(res.quoteTitle) + '</p>');
+      out.push('<p style="' + p + 'font-style:italic;padding:10px 0 10px 16px;border-left:3px solid #D9682C;white-space:pre-wrap;">„' + esc(res.quote) + '“</p>');
+    }
+    var booking = cfg.booking;
+    if (booking && booking.url) {
+      if (booking.intro) out.push('<p style="' + p + '">' + esc(booking.intro) + '</p>');
+      if (booking.recommendation) out.push('<p style="' + p + '">' + esc(booking.recommendation) + '</p>');
+      out.push('<p style="margin:20px 0;text-align:center;"><a href="' + esc(booking.url) + '" style="display:inline-block;background:#D9682C;color:#ffffff;text-decoration:none;font:700 16px Arial,Helvetica,sans-serif;padding:14px 26px;border-radius:8px;">' + esc(booking.buttonLabel || 'Termin für mein Erstgespräch wählen') + '</a></p>');
+    }
+    if (cfg.footerNote) out.push('<p style="font:12px/1.5 Arial,Helvetica,sans-serif;color:#6b7a90;margin:0 0 14px;">' + esc(cfg.footerNote) + '</p>');
+    if (!out.length) return '';
+    return '<div style="margin:0 0 28px;padding:0 0 20px;border-bottom:1px solid #ccc;">' + out.join('') + '</div>';
+  }
+
   function buildResponsePreviewHtml(response) {
     var answersByQuestion = {};
     (response.answers || []).forEach(function (answer) {
@@ -892,7 +1065,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
         .replace(/\{\{VORSCHAUTEXT\}\}/g, esc('Deine ausgefüllte Umfrage: ' + surveyTitle))
         .replace(/\{\{UEBERSCHRIFT\}\}/g, 'Dein Umfrageergebnis')
         .replace(/\{\{TEXT\}\}/g, 'Danke, dass du dir die Zeit für den Check genommen hast – das ist schon ein erster ehrlicher Schritt. <br>Deine Ergebnisse findest du unten. <br>Schau sie dir in Ruhe an, nimm dir mit, was für dich stimmt. <br>Wir freuen uns, wenn wir im Austausch bleiben. <br><br>Herzlich, <br>Lili und Sorin')
-        .replace(/\{\{EINLADUNG\}\}/g, '<div style="font:14px Arial,sans-serif;color:#172b45;">' + buildResponsePreviewHtml(response) + '</div>')
+        .replace(/\{\{EINLADUNG\}\}/g, function () { return buildResultEmailHtml(response) + '<div style="font:14px Arial,sans-serif;color:#172b45;">' + buildResponsePreviewHtml(response) + '</div>'; })
         .replace(/\{\{GRUSS\}\}/g, 'Liebe Grüße<br>Lili und Sorin')
         .replace(/<img src="\[PLATZHALTER: Logo-URL\]"[^>]*>/, '<span style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#09204A;">Der Architekt Deines Lebens</span>')
         .replace(/Du möchtest keine Post mehr\? <a href="\[ABMELDELINK\]"[^>]*>Hier abmelden<\/a>/, '');
