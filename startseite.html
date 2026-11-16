@@ -616,6 +616,48 @@
   .social-item:hover{transform:translateY(-2px);}
   .social-item img{width:100%;height:100%;object-fit:cover;}
 
+  /* ---------- podcast ---------- */
+  .podcast-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+    margin-top:36px;
+  }
+  @media (min-width:900px){ .podcast-grid{grid-template-columns:repeat(2,1fr);} }
+  .podcast-card{
+    background:var(--cream);
+    border:1px solid var(--line-light);
+    border-radius:6px;
+    padding:22px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+    align-items:center;
+  }
+  @media (min-width:520px){ .podcast-card{grid-template-columns:168px 1fr;} }
+  .podcast-cover{
+    display:block;
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    aspect-ratio:1/1;
+    max-width:260px;
+    transition:transform .15s ease;
+  }
+  .podcast-cover:hover{transform:translateY(-2px);}
+  .podcast-cover img{width:100%;height:100%;object-fit:cover;}
+  .podcast-lang{
+    font-size:.7rem;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--orange-500);
+  }
+  .podcast-card h3{font-size:1.3rem;margin-top:8px;}
+  .podcast-card p{font-size:.94rem;color:var(--ink-soft);margin-top:10px;}
+  .podcast-card .btn{margin-top:16px;padding:11px 20px;font-size:.88rem;}
+  .podcast-card .btn svg{width:18px;height:18px;flex:none;}
+
   /* ---------- final cta ---------- */
   .final-cta{
     text-align:center;
@@ -738,6 +780,7 @@
       <a href="#methode">Methode</a>
       <a href="#angebote">Angebote</a>
       <a href="#stimmen">Stimmen</a>
+      <a href="#podcast">Podcast</a>
       <a href="kalender.html">Kalender</a>
       <a href="#kontakt">Kontakt</a>
     </nav>
@@ -753,6 +796,7 @@
     <a href="#methode">Methode</a>
     <a href="#angebote">Angebote</a>
     <a href="#stimmen">Stimmen</a>
+    <a href="#podcast">Podcast</a>
     <a href="kalender.html">Kalender</a>
     <a href="#kontakt">Kontakt</a>
   </div>
@@ -986,6 +1030,46 @@
     </div>
   </section>
 
+  <!-- PODCAST -->
+  <!-- TODO: Spotify-Suchlinks durch die direkten Show-Links (open.spotify.com/show/…) ersetzen -->
+  <section class="on-paper2" id="podcast">
+    <div class="container">
+      <span class="eyebrow">Podcast</span>
+      <h2 style="font-size:clamp(1.8rem,3.6vw,2.4rem);margin-top:16px;max-width:24ch;">Lili &amp; Sorin zum Mitnehmen – auf Deutsch und auf Rumänisch</h2>
+      <p style="margin-top:14px;max-width:60ch;color:var(--ink-soft);">Für den Weg zur Arbeit, den Spaziergang oder die zehn Minuten, die nur dir gehören.</p>
+      <div class="podcast-grid">
+        <article class="podcast-card">
+          <a class="podcast-cover" href="https://open.spotify.com/search/Der%20Architekt%20Deines%20Lebens/shows" target="_blank" rel="noopener" aria-label="Podcast „Der Architekt Deines Lebens“ auf Spotify öffnen">
+            <img src="assets/podcast/cover-de.jpg" alt="Podcast-Cover: Der Architekt Deines Lebens mit Lili &amp; Sorin" width="800" height="800" loading="lazy">
+          </a>
+          <div>
+            <span class="podcast-lang">Auf Deutsch</span>
+            <h3>Der Architekt Deines Lebens</h3>
+            <p>Ehrliche Gespräche darüber, wie du vom Funktionieren zurück ins Leben findest – mit Impulsen, die du gleich ausprobieren kannst.</p>
+            <a class="btn btn-primary" href="https://open.spotify.com/search/Der%20Architekt%20Deines%20Lebens/shows" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 9.6c3.2-.9 6.6-.6 9.3.9M8.2 12.6c2.5-.7 5.2-.4 7.3.8M8.9 15.4c1.8-.5 3.7-.3 5.2.6"/></svg>
+              Auf Spotify anhören
+            </a>
+          </div>
+        </article>
+        <article class="podcast-card" lang="ro">
+          <a class="podcast-cover" href="https://open.spotify.com/search/Arhitectul%20vie%C8%9Bii%20tale/shows" target="_blank" rel="noopener" aria-label="Deschide podcastul „Arhitectul vieții tale” pe Spotify">
+            <img src="assets/podcast/cover-ro.jpg" alt="Coperta podcastului: Arhitectul vieții tale cu Lili &amp; Sorin" width="800" height="800" loading="lazy">
+          </a>
+          <div>
+            <span class="podcast-lang">În limba română</span>
+            <h3>Arhitectul vieții tale</h3>
+            <p>Conversații sincere despre cum treci de la a funcționa la a trăi cu adevărat – cu idei pe care le poți pune în practică imediat.</p>
+            <a class="btn btn-primary" href="https://open.spotify.com/search/Arhitectul%20vie%C8%9Bii%20tale/shows" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M7.5 9.6c3.2-.9 6.6-.6 9.3.9M8.2 12.6c2.5-.7 5.2-.4 7.3.8M8.9 15.4c1.8-.5 3.7-.3 5.2.6"/></svg>
+              Ascultă pe Spotify
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- SOCIAL -->
   <section>
     <div class="container">
@@ -1053,6 +1137,7 @@
           <li><a href="#methode">Methode</a></li>
           <li><a href="#angebote">Angebote</a></li>
           <li><a href="#stimmen">Stimmen</a></li>
+          <li><a href="#podcast">Podcast</a></li>
         </ul>
       </div>
       <div>
