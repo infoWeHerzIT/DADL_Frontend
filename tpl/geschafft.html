@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Geschafft – Der Architekt deines Lebens</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+  :root {
+    --cream: #fffaf1;
+    --ink: #1d1a13;
+    --ink-soft: #5c5645;
+    --navy: #00224d;
+    --orange: #d9682c;
+    --orange-600: #bd551f;
+    --orange-100: #f3dcc4;
+    --line-light: #cdbe9c;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Work Sans", system-ui, -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Kopfzeile (wie fast_fertig.html) ---------- */
+  .site-header { background: var(--navy); }
+  .site-header .wrap { padding-top: 16px; padding-bottom: 16px; }
+  .site-logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--cream); text-decoration: none;
+    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 1.05rem; letter-spacing: .01em;
+  }
+  .site-logo svg { width: 26px; height: 26px; flex: none; color: var(--orange); }
+
+  /* ---------- Inhalt ---------- */
+  main { flex: 1; padding: 56px 0; border-top: 3px solid var(--orange); display: flex; align-items: center; }
+  .layout { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center; }
+  .photo {
+    width: 100%; max-width: 420px; margin: 0 auto;
+    aspect-ratio: 4 / 5;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 10px 36px rgba(0, 34, 77, .18);
+  }
+  .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 30%; display: block; }
+
+  .content { text-align: center; }
+  .eyebrow {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+    line-height: 1.15;
+    color: var(--navy);
+    margin-top: 10px;
+    text-wrap: balance;
+  }
+  .content p { margin-top: 18px; text-wrap: pretty; }
+
+  .inside {
+    list-style: none;
+    margin: 22px auto 0;
+    max-width: 460px;
+    text-align: left;
+    background: var(--cream);
+    border: 1px solid var(--line-light);
+    border-radius: 6px;
+    padding: 6px 20px;
+  }
+  .inside li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; }
+  .inside li + li { border-top: 1px solid var(--line-light); }
+  .inside .num {
+    flex: none; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--orange); color: var(--cream);
+    font-weight: 700; font-size: .9rem;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+
+  .download-btn {
+    display: inline-block;
+    margin-top: 26px;
+    padding: 14px 28px;
+    background: var(--orange);
+    color: var(--cream);
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-size: .92rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background .15s, transform .15s;
+  }
+  .download-btn:hover { background: var(--orange-600); transform: translateY(-2px); }
+  .download-btn:focus-visible { outline: 3px solid var(--navy); outline-offset: 3px; }
+
+  .sign {
+    font-family: "Fraunces", Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-top: 22px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 24px 0 28px; text-align: center; color: var(--ink-soft); font-size: 13px; border-top: 1px solid var(--line-light); }
+  footer a { color: var(--orange-600); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (min-width: 860px) {
+    .layout { grid-template-columns: 5fr 6fr; gap: 56px; }
+    .photo { max-width: none; }
+  }
+  @media (max-width: 600px) {
+    main { padding: 36px 0 40px; }
+    .site-logo { font-size: .95rem; }
+    .photo { max-width: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../startseite.html" class="site-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
+      Der Architekt deines Lebens
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap layout">
+    <div class="photo">
+      <img src="../Coaches/LiliUndSorin/20260531_131413_1.jpg" alt="Lili und Sorin Ratiu" width="2026" height="2106">
+    </div>
+
+    <div class="content">
+      <div class="eyebrow" id="eyebrow">Geschafft!</div>
+      <h1>Der 5-Minuten-Grenzen-Check ist schon unterwegs zu dir!</h1>
+
+      <p>Schön, dass du da bist. Du hast dich bei uns angemeldet und bekommst als Dankeschön unseren <strong>5-Minuten-Grenzen-Check</strong> – einen ehrlichen Selbsttest, der dir zeigt, wie durchlässig deine Grenzen gerade wirklich sind.</p>
+
+      <ul class="inside" aria-label="Das erwartet dich im Check">
+        <li><div class="num">1</div><div><strong>12 ehrliche Aussagen</strong> zum Ankreuzen – spontan, nicht wie du gern wärst</div></li>
+        <li><div class="num">2</div><div><strong>Eine 3-stufige Auswertung</strong>, die zeigt, wo du gerade wirklich stehst</div></li>
+        <li><div class="num">3</div><div><strong>6 sofort einsetzbare Sätze</strong> für Familie, Job und Freunde</div></li>
+      </ul>
+
+      <p>Ab jetzt bekommst du von uns <strong>Impulse rund um Grenzen, Klarheit und ein Leben, das sich nach dir anfühlt</strong> – und erfährst als Erste, was es bei uns Neues gibt.</p>
+
+      <a class="download-btn" id="download-btn" href="#" target="_blank" rel="noopener">Grenzen-Check herunterladen</a>
+
+      <div class="sign">Lili &amp; Sorin</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Der Architekt deines Lebens — Lili &amp; Sorin
+    <div style="margin-top:8px;"><a href="../rechtliches.html#impressum">Impressum</a> · <a href="../rechtliches.html#datenschutz">Datenschutz</a></div>
+  </div>
+</footer>
+
+<script>
+// Optionaler URL-Parameter:  ?vorname=Laura  →  „Geschafft, Laura!"
+(function () {
+  // Gleicher PDF-Link wie in lp/5-Minuten-Grenzen-Check.html
+  var PDF_DOWNLOAD_URL = "https://weherzit-my.sharepoint.com/:b:/g/personal/sorin_ratiu_weherzit_de1/IQCXdcMigEd_S4Il00wcM8QfAVajEOCGraVif_Y1hzvKyiQ?e=aJCPVn";
+
+  // "download=1" anhängen — sonst zeigt SharePoint nur seine Vorschauseite
+  // statt die Datei direkt herunterzuladen.
+  document.getElementById('download-btn').href =
+    PDF_DOWNLOAD_URL + (PDF_DOWNLOAD_URL.indexOf('?') === -1 ? '?' : '&') + 'download=1';
+
+  var params  = new URLSearchParams(window.location.search);
+  var vorname = (params.get('vorname') || params.get('firstname') || '').trim();
+  if (vorname && vorname.toLowerCase() !== 'anonymous') {
+    document.getElementById('eyebrow').textContent = 'Geschafft, ' + vorname + '!';
+  }
+})();
+</script>
+</body>
+</html>
