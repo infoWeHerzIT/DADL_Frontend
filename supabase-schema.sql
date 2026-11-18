@@ -6,7 +6,7 @@
 -- ── 1. EVENTS ────────────────────────────────────────────────────
 -- UNUSED seit der Dynamics-Migration: kalender.html, register.html,
 -- event-webinar.html, event-workshop.html, 10Workshops_Serie.html und
--- Templates/feedback.html lesen Events inzwischen alle aus Dynamics
+-- tpl/feedback.html lesen Events inzwischen alle aus Dynamics
 -- (wht_event über dynamicsCRM.listEvents()). admin-events.html/
 -- admin-event-detail.html (die einzigen Schreiber) wurden entfernt.
 -- Tabelle bewusst NICHT gelöscht (Altdaten als Archiv), aber von keiner
@@ -40,7 +40,7 @@ alter table events add column if not exists status integer not null default 0; -
 -- UNUSED seit der Dynamics-Migration: register.html und
 -- 10Workshops_Serie.html schreiben Kontaktdaten inzwischen ausschließlich
 -- als Dynamics-Lead (wht_lead), nicht mehr hierher. Nur noch von
--- Templates/feedback.html gelesen (presetParticipantId-Pfad ist seit dem
+-- tpl/feedback.html gelesen (presetParticipantId-Pfad ist seit dem
 -- Löschen von admin-event-detail.html unerreichbar, da das der einzige
 -- Erzeuger solcher Links war). Tabelle bewusst NICHT gelöscht (Altdaten).
 -- Einmalige Kontaktdaten je Person. Unique Key = Handynummer.
@@ -75,7 +75,7 @@ create table if not exists event_participations (
 );
 
 -- ── 4. FEEDBACK ──────────────────────────────────────────────────
--- event_id enthält seit der Dynamics-Migration von Templates/feedback.html
+-- event_id enthält seit der Dynamics-Migration von tpl/feedback.html
 -- eine Dynamics-Event-GUID (wht_eventid), keine Supabase-events.id mehr —
 -- der frühere "references events(id)"-Foreign-Key wurde deshalb entfernt
 -- (sonst schlägt jeder Insert mit einem Foreign-Key-Fehler fehl).
@@ -118,7 +118,7 @@ create table if not exists audience_survey (
 );
 
 -- ── 5b. SURVEY EVENT LINKS ────────────────────────────────────────
--- Ordnet einer Umfrage-Seite (page_key = URL-Pfad, z. B. "/Templates/umfrage_zg0826.html")
+-- Ordnet einer Umfrage-Seite (page_key = URL-Pfad, z. B. "/tpl/umfrage_zg0826.html")
 -- optional ein Dynamics-Event zu (event_id = wht_event-GUID aus Dynamics,
 -- nicht die Supabase-events-Tabelle). Serverseitig statt localStorage, damit
 -- ALLE Besucher dieselbe vom Admin gewählte Zuordnung sehen, nicht nur der

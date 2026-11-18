@@ -824,7 +824,7 @@
 
     // Honeypot: Bots füllen dieses Feld aus, echte Nutzer nicht
     if (document.getElementById('hp-website').value) {
-      window.location.href = 'Templates/danke-optin.html?' + new URLSearchParams({ vorname: document.getElementById('vorname').value.trim() || 'Besucher' }).toString();
+      window.location.href = 'tpl/danke-optin.html?' + new URLSearchParams({ vorname: document.getElementById('vorname').value.trim() || 'Besucher' }).toString();
       return;
     }
 
@@ -892,7 +892,7 @@
       }
     }
     if (isTestTicket) thankyouParams.set('is_test', '1');
-    var thankyouUrl = 'Templates/danke-optin.html?' + thankyouParams.toString();
+    var thankyouUrl = 'tpl/danke-optin.html?' + thankyouParams.toString();
 
     // Bei Newsletter-Opt-in erst auf die Double-Opt-In-Mail hinweisen,
     // Weiterleitung zur Danke-Seite dann per "Weiter".

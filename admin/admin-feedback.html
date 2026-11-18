@@ -271,7 +271,7 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
 });
 
 // ── Feedback-Link erstellen ──────────────────────────────────────
-// Erzeugt einen Link auf Templates/feedback.html mit vorbelegter
+// Erzeugt einen Link auf tpl/feedback.html mit vorbelegter
 // "?event_id=<Dynamics-GUID>" — die Seite blendet den Event-Dropdown dann
 // aus und zeigt das Event nur noch als fixes Badge (siehe presetEventId in
 // feedback.html). Absoluter Link (location.origin), damit er sich per
@@ -319,7 +319,7 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
       elSendBtn.disabled = true;
       return;
     }
-    var url = window.location.origin + '/Templates/feedback.html?event_id=' + encodeURIComponent(id);
+    var url = window.location.origin + '/tpl/feedback.html?event_id=' + encodeURIComponent(id);
     elUrl.value = url;
     elCopy.disabled = false;
     elCopy.classList.remove('copied');
@@ -388,7 +388,7 @@ document.getElementById('btn-logout').addEventListener('click', async () => {
   }
 
   // Personalisierter Feedback-Link für einen Lead: hängt "&lead_id=<GUID>"
-  // an den generischen Event-Link an, damit Templates/feedback.html Name/
+  // an den generischen Event-Link an, damit tpl/feedback.html Name/
   // E-Mail/Telefon dieser Person automatisch aus Dynamics vorausfüllt
   // (siehe dynamicsCRM.getLeadById in feedback.html).
   function personalizedUrl(l) {

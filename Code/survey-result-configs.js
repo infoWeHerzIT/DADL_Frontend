@@ -1,5 +1,5 @@
 // ================================================================
-// Auswertungen für Templates/umfrage-dynamisch.html
+// Auswertungen für tpl/umfrage-dynamisch.html
 // ----------------------------------------------------------------
 // Pro Umfrage-Slug (wht_survey.wht_slug) optional eine Konfiguration.
 // Umfragen OHNE Eintrag hier verhalten sich wie bisher (Danke-Seite).
@@ -13,7 +13,7 @@
 // Felder:
 //   headerImage:      Kopfbild ganz oben (seitenbreit, max. 350px hoch,
 //                     wird bei Bedarf beschnitten). Pfad relativ zu
-//                     Templates/ oder absolute URL. Ohne Angabe kein Bild.
+//                     tpl/ oder absolute URL. Ohne Angabe kein Bild.
 //   sections:         Zeigt die Umfrage Schritt für Schritt in Abschnitten
 //                     (wie Tools/wo-stehst-du-gerade.html) statt alle Fragen
 //                     auf einer Seite. Die erste Seite ist immer die

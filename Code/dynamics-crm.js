@@ -182,7 +182,7 @@ class DynamicsCRM {
   }
 
   // Liest einen einzelnen Lead (wht_lead) anhand seiner GUID (read-only) —
-  // supabase/functions/dynamics-lead-get[-dev]. Dient Templates/feedback.html:
+  // supabase/functions/dynamics-lead-get[-dev]. Dient tpl/feedback.html:
   // personalisierte Feedback-Links ("?event_id=<GUID>&lead_id=<GUID>") tragen
   // Name/E-Mail/Telefon automatisch ein, analog zum alten (seit der
   // Dynamics-Migration toten) presetParticipantId-Pfad, aber aus Dynamics

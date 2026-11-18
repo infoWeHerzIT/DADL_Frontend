@@ -5,7 +5,7 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 // DYNAMICS_*-Secrets der DEV-Function "dynamics-lead-get-dev".
 // Read-only — keine Schreibzugriffe.
 //
-// Dient Templates/feedback.html: personalisierte Feedback-Links
+// Dient tpl/feedback.html: personalisierte Feedback-Links
 // ("?event_id=<GUID>&lead_id=<GUID>") tragen Name/E-Mail/Telefon der
 // Person automatisch ein, ohne diese Daten im Klartext in der URL zu
 // verschicken. Analog zu dynamics-leads-by-event, aber Einzel-Retrieve

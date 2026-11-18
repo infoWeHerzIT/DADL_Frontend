@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Fast fertig – Der Architekt deines Lebens</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<style>
+  :root {
+    --paper: #f6f0e3;
+    --cream: #fffaf1;
+    --ink: #1d1a13;
+    --ink-soft: #5c5645;
+    --navy: #00224d;
+    --orange: #d9682c;
+    --orange-600: #bd551f;
+    --line-light: #cdbe9c;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Work Sans", system-ui, -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---------- Kopfzeile (wie startseite.html) ---------- */
+  .site-header { background: var(--navy); }
+  .site-header .wrap { padding-top: 16px; padding-bottom: 16px; text-align: left; }
+  .site-logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--cream); text-decoration: none;
+    font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 1.05rem; letter-spacing: .01em;
+  }
+  .site-logo svg { width: 26px; height: 26px; flex: none; color: var(--orange); }
+
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Inhalt ---------- */
+  main { flex: 1; padding: 64px 0 56px; text-align: center; border-top: 3px solid var(--orange); }
+  .eyebrow {
+    font-weight: 600;
+    font-size: .95rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(1.8rem, 4.6vw, 2.6rem);
+    line-height: 1.12;
+    color: var(--navy);
+    margin-top: 12px;
+    text-wrap: balance;
+  }
+  .steps { margin-top: 36px; }
+  .step { margin-top: 26px; }
+  .step h2 {
+    font-family: "Work Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .step p { max-width: 62ch; margin: 0 auto; color: var(--ink); text-wrap: pretty; }
+  .step a { color: var(--orange-600); text-decoration: none; font-weight: 600; }
+  .step a:hover { text-decoration: underline; }
+
+  .closing { margin-top: 44px; }
+  .closing img { width: 84px; height: 84px; margin: 0 auto; display: block; }
+  .closing .sign {
+    font-family: "Fraunces", Georgia, serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-top: 12px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 24px 0 28px; text-align: center; color: var(--ink-soft); font-size: 13px; border-top: 1px solid var(--line-light); }
+  footer a { color: var(--orange-600); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    main { padding: 44px 0 40px; }
+    .site-logo { font-size: .95rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="../startseite.html" class="site-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 20h18M5 20V9l7-5 7 5v11M9 20v-6h6v6"/></svg>
+      Der Architekt deines Lebens
+    </a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="eyebrow" id="eyebrow">Fast fertig …</div>
+    <h1>Bitte bestätige deine E-Mail-Adresse!</h1>
+
+    <div class="steps">
+      <div class="step">
+        <h2>Schritt 1:</h2>
+        <p>Geh in dein E-Mail-Postfach und bestätige deine E-Mail-Adresse über die Bestätigungs-E-Mail, die wir dir gerade geschickt haben. Falls sie nicht da ist, schau bitte auch im Spam-Ordner nach. Wenn sie auch dort nicht ist, schreib uns einfach an <a href="mailto:kontakt@der-architekt-deines-lebens.de">kontakt@der-architekt-deines-lebens.de</a></p>
+      </div>
+
+      <div class="step">
+        <h2>Schritt 2:</h2>
+        <p>Direkt nach der Bestätigung bekommst du eine zweite E-Mail mit dem Link zu deinem Download<span id="freebie-name"></span>. Klick auf den Link und lade dir alles direkt herunter.</p>
+      </div>
+
+      <div class="step">
+        <h2>Schritt 3:</h2>
+        <p>Füge uns zu deinem Adressbuch hinzu, damit unsere Mails nicht im Spam landen.</p>
+      </div>
+    </div>
+
+    <div class="closing">
+      <img src="../assets/brand/kompass-dadl.png" width="240" height="240" alt="Kompass-Logo Der Architekt deines Lebens">
+      <div class="sign">Lili &amp; Sorin</div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Der Architekt deines Lebens — Lili &amp; Sorin
+    <div style="margin-top:8px;"><a href="../rechtliches.html#impressum">Impressum</a> · <a href="../rechtliches.html#datenschutz">Datenschutz</a></div>
+  </div>
+</footer>
+
+<script>
+// Optionale URL-Parameter:
+//   ?vorname=Laura                      → „Fast fertig, Laura …"
+//   ?freebie=5-Minuten-Grenzen-Check    → nennt den Download in Schritt 2 beim Namen
+(function () {
+  var params  = new URLSearchParams(window.location.search);
+  var vorname = (params.get('vorname') || params.get('firstname') || '').trim();
+  var freebie = (params.get('freebie') || '').trim();
+
+  if (vorname && vorname.toLowerCase() !== 'anonymous') {
+    document.getElementById('eyebrow').textContent = 'Fast fertig, ' + vorname + ' …';
+  }
+  if (freebie) {
+    document.getElementById('freebie-name').textContent = ': „' + freebie + '“';
+  }
+})();
+</script>
+</body>
+</html>

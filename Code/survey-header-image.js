@@ -1,5 +1,5 @@
 // ================================================================
-// Bilder einer Umfrage (Templates/umfrage-dynamisch.html)
+// Bilder einer Umfrage (tpl/umfrage-dynamisch.html)
 // ----------------------------------------------------------------
 // Jede Umfrage kann mehrere Bilder haben, angesprochen über einen "Slot":
 //   "header"      – Kopfbild oben (800×350, 16:7)
@@ -26,7 +26,7 @@
 // dann an der gespeicherten Position.
 //
 // Voraussetzung: supabase-config.js vorher eingebunden (globales "db").
-// Genutzt von admin/admin-umfrage.html und Templates/umfrage-dynamisch.html.
+// Genutzt von admin/admin-umfrage.html und tpl/umfrage-dynamisch.html.
 //
 //   SurveyHeaderImage.load(slug)                               → Promise<setting|null>
 //   SurveyHeaderImage.getSlot(setting, slot)                   → { url, path, original_path, crop } | null

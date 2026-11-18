@@ -9,7 +9,7 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 // E-Mail-Adresse exakt (case-insensitiv) mit der übergebenen übereinstimmt.
 //
 // POST statt GET, weil zustandsändernd (Konvention in diesem Projekt).
-// Wird von Templates/verify-email.html automatisch beim Laden aufgerufen
+// Wird von tpl/verify-email.html automatisch beim Laden aufgerufen
 // (sobald email+token in der URL stehen).
 const TENANT_ID     = Deno.env.get("DYNAMICS_PROD_TENANT_ID")!;
 const CLIENT_ID     = Deno.env.get("DYNAMICS_PROD_CLIENT_ID")!;

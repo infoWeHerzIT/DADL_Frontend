@@ -199,7 +199,7 @@ class DynamicSurveyRenderer {
   // zurück, wenn alles gültig ist.
   // onlyQuestionIds (optional): Array von Frage-IDs — dann werden nur diese
   // Fragen geprüft (für Umfragen in Abschnitten: beim „Weiter“ nur den
-  // aktuellen Abschnitt prüfen, siehe Templates/umfrage-dynamisch.html).
+  // aktuellen Abschnitt prüfen, siehe tpl/umfrage-dynamisch.html).
   validate(onlyQuestionIds) {
     var self = this;
     var valid = true;

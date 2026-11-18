@@ -306,7 +306,7 @@
       <span id="event-eyebrow-text"></span>
     </div>
     <h1 id="survey-title">Wird geladen …</h1>
-    <!-- Kopfbild: wird oben auf der Umfrageseite (Templates/umfrage-dynamisch.html)
+    <!-- Kopfbild: wird oben auf der Umfrageseite (tpl/umfrage-dynamisch.html)
          seitenbreit, max. 350px hoch angezeigt. Datei liegt in Supabase Storage,
          Bucket "survey-images", Ordner = Umfrage-Slug; die URL steht in survey_settings. -->
     <!-- Bilder der Umfrage: Kopfbild, je Abschnitt (aus survey-result-configs.js),
@@ -633,7 +633,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
                 '<span class="survey-list-item-title">' + esc(s.title || s.slug || s.id) + '</span>' +
                 '<span class="survey-list-item-arrow">Auswerten →</span>' +
               '</a>' +
-              '<a class="survey-list-item-start" href="../Templates/umfrage-dynamisch.html?id=' + encodeURIComponent(s.id) + '" target="_blank" rel="noopener noreferrer" title="Umfrage starten">▶ Starten</a>' +
+              '<a class="survey-list-item-start" href="../tpl/umfrage-dynamisch.html?id=' + encodeURIComponent(s.id) + '" target="_blank" rel="noopener noreferrer" title="Umfrage starten">▶ Starten</a>' +
             '</div>'
           );
         }).join('');
@@ -1039,7 +1039,7 @@ document.getElementById('questions-root').addEventListener('click', function (e)
 
   function loadNewsletterTemplate() {
     if (!newsletterTemplatePromise) {
-      newsletterTemplatePromise = fetch('../Templates/Newsletter-Vorlage.html').then(function (response) {
+      newsletterTemplatePromise = fetch('../tpl/Newsletter-Vorlage.html').then(function (response) {
         if (!response.ok) throw new Error('Newsletter-Vorlage konnte nicht geladen werden.');
         return response.text();
       }).catch(function (err) {
