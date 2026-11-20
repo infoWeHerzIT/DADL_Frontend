@@ -8,22 +8,22 @@
 <style>
   :root { --orange:#d9682c; --navy:#00224d; --white:#fffaf1; --green:#4c7a5e; --red:#dc2626; }
   *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'DM Sans',sans-serif; font-size:16px; background:#f6f0e3; color:var(--navy); padding-bottom:80px; }
+  body { font-family:'Source Sans 3', Arimo, Arial, Helvetica, sans-serif; font-size:16px; background:#f6f0e3; color:var(--navy); padding-bottom:80px; }
 
   nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:16px 5%; background:rgba(0,34,77,0.97); backdrop-filter:blur(8px); }
   .nav-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; width:100%; }
-  .nav-logo { font-family:"Fraunces",serif; color:var(--white); font-size:1.05rem; font-weight:600; letter-spacing:.01em; text-decoration:none; display:flex; align-items:center; gap:10px; white-space:nowrap; }
+  .nav-logo { font-family:"Archivo", Arial, Helvetica, sans-serif; color:var(--white); font-size:1.05rem; font-weight:600; letter-spacing:.01em; text-decoration:none; display:flex; align-items:center; gap:10px; white-space:nowrap; }
   .nav-logo svg { width:26px; height:26px; flex:none; color:var(--orange); }
-  .nav-admin-badge { font-family:'Orbitron',monospace; font-size:9px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; background:rgba(217,104,44,0.2); border:1px solid rgba(217,104,44,0.4); color:var(--orange); padding:3px 8px; border-radius:2px; }
+  .nav-admin-badge { font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:9px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; background:rgba(217,104,44,0.2); border:1px solid rgba(217,104,44,0.4); color:var(--orange); padding:3px 8px; border-radius:2px; }
   .nav-links { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-  .nav-link { color:rgba(255,250,241,0.6); font-size:13px; text-decoration:none; border:1px solid rgba(255,250,241,0.15); padding:7px 14px; border-radius:2px; background:transparent; cursor:pointer; transition:background .2s,color .2s; font-family:'DM Sans',sans-serif; }
+  .nav-link { color:rgba(255,250,241,0.6); font-size:13px; text-decoration:none; border:1px solid rgba(255,250,241,0.15); padding:7px 14px; border-radius:2px; background:transparent; cursor:pointer; transition:background .2s,color .2s; font-family:'Source Sans 3', Arimo, Arial, Helvetica, sans-serif; }
   .nav-link:hover { background:rgba(255,250,241,0.08); color:var(--white); }
 
   .admin-header { background:var(--navy); padding:100px 0 50px; position:relative; overflow:hidden; }
   .admin-header::before { content:''; position:absolute; inset:0; background-image:repeating-linear-gradient(90deg,rgba(217,104,44,0.04) 0px,rgba(217,104,44,0.04) 1px,transparent 1px,transparent 80px); pointer-events:none; }
   .admin-header::after { content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--orange); }
   .admin-header-inner { max-width:1000px; margin:0 auto; padding:0 32px; position:relative; z-index:1; }
-  .admin-page-label { font-family:'Orbitron',monospace; font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; display:block; }
+  .admin-page-label { font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--orange); margin-bottom:14px; display:block; }
   .event-eyebrow {
     display: none;
     align-items: center; gap: 8px;
@@ -53,18 +53,18 @@
 
   .stat-row { display:flex; gap:28px; flex-wrap:wrap; }
   .stat { }
-  .stat-num { font-family:'Fredoka',sans-serif; font-size:28px; font-weight:700; color:var(--white); line-height:1; }
+  .stat-num { font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:28px; font-weight:700; color:var(--white); line-height:1; }
   .stat-label { font-size:12px; color:rgba(255,250,241,0.5); margin-top:4px; }
   .admin-header-controls { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px 24px; margin-bottom:24px; }
 
   .admin-main { max-width:1000px; margin:0 auto; padding:36px 32px 0; }
-  .section-toggle { display:inline-flex; align-items:center; justify-content:space-between; gap:16px; width:100%; margin-bottom:16px; padding:14px 18px; border:1px solid rgba(0,34,77,0.14); border-radius:6px; background:var(--white); color:var(--navy); font:600 16px 'DM Sans',sans-serif; text-align:left; cursor:pointer; }
+  .section-toggle { display:inline-flex; align-items:center; justify-content:space-between; gap:16px; width:100%; margin-bottom:16px; padding:14px 18px; border:1px solid rgba(0,34,77,0.14); border-radius:6px; background:var(--white); color:var(--navy); font:600 16px 'Source Sans 3', Arimo, Arial, Helvetica, sans-serif; text-align:left; cursor:pointer; }
   .section-toggle:hover { border-color:var(--orange); }
   .section-toggle::after { content:'＋'; color:var(--orange); font-size:20px; line-height:1; }
   .section-toggle[aria-expanded="true"]::after { content:'−'; }
   /* Kopfbild der Umfrage (Supabase Storage, Bucket survey-images, Ordner = Slug) */
   .header-image-box { margin-top:20px; padding:16px 18px; border:1px solid rgba(255,250,241,0.16); border-radius:8px; background:rgba(255,250,241,0.05); max-width:920px; }
-  .header-image-box h3 { font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,250,241,0.7); margin:0 0 12px; }
+  .header-image-box h3 { font-family:'Source Sans 3', Arimo, Arial, Helvetica, sans-serif; font-size:13px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,250,241,0.7); margin:0 0 12px; }
   .slot-group { font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:rgba(255,250,241,0.5); margin:16px 0 6px; }
   .slot-row { display:flex; align-items:center; gap:14px; padding:8px 0; border-top:1px solid rgba(255,250,241,0.1); }
   .slot-thumb { flex:0 0 120px; height:60px; border-radius:4px; background:rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center; overflow:hidden; }
@@ -86,7 +86,7 @@
   #survey-intro { font-size:15px; color:rgba(0,34,77,0.65); line-height:1.7; margin-bottom:24px; }
   #survey-intro:empty { display:none; margin:0; }
 
-  .list-title { font-family:'Fredoka',sans-serif; font-size:16px; margin-bottom:12px; }
+  .list-title { font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:16px; margin-bottom:12px; }
   .survey-list { background:var(--white); border:1px solid rgba(0,34,77,0.1); border-radius:8px; overflow:hidden; margin-bottom:24px; }
   .survey-list-item {
     display:flex; align-items:center; justify-content:space-between; gap:16px;
@@ -112,7 +112,7 @@
   .responses-toggle-row { display:flex; justify-content:flex-start; flex-wrap:wrap; gap:12px; }
   .btn-load-responses {
     background:transparent; border:1px solid rgba(255,250,241,0.3); border-radius:2px;
-    color:var(--white); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500;
+    color:var(--white); font-family:'Source Sans 3', Arimo, Arial, Helvetica, sans-serif; font-size:14px; font-weight:500;
     padding:12px 24px; cursor:pointer; transition:border-color .2s, background .2s;
   }
   .btn-load-responses:hover { border-color:var(--orange); background:rgba(255,250,241,0.08); }
@@ -139,9 +139,9 @@
   .resp-answer-info { font-size:13px; color:rgba(0,34,77,0.55); line-height:1.5; margin-top:4px; padding-left:10px; border-left:2px solid rgba(217,104,44,0.35); font-style:italic; }
   .resp-answer-info-label { font-weight:600; font-style:normal; color:rgba(0,34,77,0.7); }
   .resp-empty { padding:24px 20px; color:rgba(0,34,77,0.4); font-size:14px; text-align:center; }
-  .resp-print-button { flex-shrink:0; border:1px solid rgba(217,104,44,0.4); border-radius:2px; padding:7px 10px; background:transparent; color:var(--orange); font:600 12px 'DM Sans',sans-serif; cursor:pointer; }
+  .resp-print-button { flex-shrink:0; border:1px solid rgba(217,104,44,0.4); border-radius:2px; padding:7px 10px; background:transparent; color:var(--orange); font:600 12px 'Source Sans 3', Arimo, Arial, Helvetica, sans-serif; cursor:pointer; }
   .resp-print-button:hover { background:rgba(217,104,44,0.08); border-color:var(--orange); }
-  .resp-crm-email-button { flex-shrink:0; border:1px solid rgba(0,34,77,0.25); border-radius:2px; padding:7px 10px; background:transparent; color:var(--navy); font:600 12px 'DM Sans',sans-serif; cursor:pointer; }
+  .resp-crm-email-button { flex-shrink:0; border:1px solid rgba(0,34,77,0.25); border-radius:2px; padding:7px 10px; background:transparent; color:var(--navy); font:600 12px 'Source Sans 3', Arimo, Arial, Helvetica, sans-serif; cursor:pointer; }
   .resp-crm-email-button:hover { background:rgba(0,34,77,0.06); border-color:var(--navy); }
   .resp-crm-email-button:disabled { opacity:.6; cursor:not-allowed; }
 
@@ -151,7 +151,7 @@
   .q-prompt-toggle { color:var(--navy); cursor:pointer; font-size:14px; font-weight:600; }
   .q-prompt-toggle .q-label { display:inline; }
   .q-prompt-content { padding-top:8px; }
-  .q-label { font-family:'Fredoka',sans-serif; font-size:17px; font-weight:600; line-height:1.4; }
+  .q-label { font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:17px; font-weight:600; line-height:1.4; }
   .q-meta { font-size:12px; color:rgba(0,34,77,0.4); white-space:nowrap; margin-top:3px; }
   .q-req { color:var(--orange); font-size:12px; font-weight:700; margin-left:4px; }
   .q-hint { font-size:13px; color:rgba(0,34,77,0.45); line-height:1.6; margin-top:6px; }
@@ -213,7 +213,7 @@
 
   /* ── Wortwolke ── */
   .word-cloud { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px 16px; padding:12px 4px; }
-  .cloud-word { font-family:'Fredoka',sans-serif; font-weight:600; color:var(--navy); line-height:1; white-space:nowrap; }
+  .cloud-word { font-family:'Archivo', Arial, Helvetica, sans-serif; font-weight:600; color:var(--navy); line-height:1; white-space:nowrap; }
   .cloud-word:nth-child(3n+1) { color:var(--orange); }
   .cloud-word:nth-child(5n+2) { color:#0078b4; }
 

@@ -12,8 +12,7 @@
       color-scheme: light;
       --navy: #00224d;
       --orange: #d9682c;
-      --paper: #fffaf1;
-      --muted: #596779;
+      --navy: #596779;
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -26,7 +25,8 @@
         radial-gradient(ellipse at 50% -15%, rgba(217, 104, 44, .12), transparent 54%),
         var(--paper);
       color: var(--navy);
-      font-family: "DM Sans", sans-serif;
+      /* Schriften laut _DADL/_Gemeinsam/Branding.md */
+      font-family: "Source Sans 3", Arimo, Arial, Helvetica, sans-serif;
     }
 
     main {
@@ -54,8 +54,9 @@
     h1 {
       margin: 0;
       font-size: clamp(1.5rem, 6vw, 2.25rem);
-      font-weight: 500;
-      letter-spacing: -.035em;
+      font-family: "Archivo", Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      letter-spacing: -.02em;
       line-height: 1.08;
       text-wrap: balance;
     }
@@ -63,7 +64,7 @@
     .intro p {
       max-width: 590px;
       margin: 12px auto 0;
-      color: var(--muted);
+      color: var(--navy);
       font-size: clamp(1rem, 2vw, 1.125rem);
       line-height: 1;    
     }
@@ -80,13 +81,13 @@
     .booking iframe {
       display: block;
       width: 100%;
-      height: 720px;
+      height: 820px;
       border: 0;
     }
 
     .privacy-note {
       margin: 14px 0 0;
-      color: var(--muted);
+      color: var(--navy);
       font-size: .8rem;
       line-height: 1.5;
       text-align: center;

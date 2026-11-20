@@ -145,7 +145,7 @@
   // ── Styles (Editor + Bedienelemente) ────────────────────────────
   var CSS = [
     '.shi-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,13,31,.82);display:flex;align-items:center;justify-content:center;padding:16px}',
-    '.shi-panel{background:#fffaf1;color:#00224d;border-radius:10px;width:min(960px,100%);max-height:100%;overflow:auto;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.4);font-family:"DM Sans","Source Sans 3",Arial,sans-serif}',
+    '.shi-panel{background:#fffaf1;color:#00224d;border-radius:10px;width:min(960px,100%);max-height:100%;overflow:auto;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.4);font-family:"Source Sans 3", Arimo, Arial, Helvetica, sans-serif}',
     '.shi-panel h3{margin:0 0 6px;font-family:Archivo,system-ui,sans-serif;font-size:20px;font-weight:800}',
     '.shi-hint{margin:0 0 14px;font-size:14px;color:rgba(0,34,77,.65);line-height:1.5}',
     '.shi-frame{position:relative;width:100%;overflow:hidden;background:#09204A;border-radius:6px;cursor:grab;touch-action:none;user-select:none;outline:2px solid rgba(217,104,44,.8);outline-offset:-2px}',
@@ -162,7 +162,7 @@
     '.shi-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}',
     '.shi-error{color:#c53030;font-size:14px;margin:10px 0 0;min-height:1em}',
     // Bedienelemente je Slot (dunkle Leiste, passt auf helle und dunkle Flächen)
-    '.shi-ctl{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px 12px;padding:8px 12px;background:#001a3b;border-radius:6px;font-family:"DM Sans","Source Sans 3",Arial,sans-serif}',
+    '.shi-ctl{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px 12px;padding:8px 12px;background:#001a3b;border-radius:6px;font-family:"Source Sans 3", Arimo, Arial, Helvetica, sans-serif}',
     '.shi-ctl-title{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,250,241,.55);margin-right:auto}',
     '.shi-ctl-btn{display:inline-flex;align-items:center;background:transparent;border:1px solid rgba(255,250,241,.35);border-radius:2px;color:#fffaf1;font:inherit;font-size:13px;font-weight:500;padding:7px 12px;cursor:pointer;line-height:1.2}',
     '.shi-ctl-btn:hover{border-color:#d9682c}',
