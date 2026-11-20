@@ -106,7 +106,7 @@
         '<label class="lpo-cb"><input type="checkbox" name="newsletter"> <span>Ja, schick mir ab und zu Impulse per E-Mail (Newsletter). Jederzeit mit einem Klick abbestellbar.</span></label>' +
         notifyCb +
         '<p style="margin:22px 0 0"><button class="lpo-btn" type="submit">Leseprobe schicken</button></p>' +
-        '<p class="lpo-fine">Deine Angaben verwende ich nur, um dir dein Ergebnis zu schicken und dich bei Interesse zu einem Erstgespräch einzuladen — <a href="' + DATENSCHUTZ_URL + '">Datenschutzerklärung</a>.</p>' +
+        '<p class="lpo-fine">Deine Angaben verwende ich nur, um dir dein Ergebnis zu schicken und dich bei Interesse zu einem Klarheitsgespräch einzuladen — <a href="' + DATENSCHUTZ_URL + '">Datenschutzerklärung</a>.</p>' +
         '<p class="lpo-note" hidden></p>' +
       '</form>' +
       '<div class="lpo-ty" hidden>' +

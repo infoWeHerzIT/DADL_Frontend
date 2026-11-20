@@ -511,10 +511,10 @@
         <h2 class="sr-section-title" id="sr-booking-heading">Was du jetzt damit machen kannst</h2>
         <p id="sr-booking-intro"></p>
         <p id="sr-booking-reco" hidden></p>
-        <p id="sr-booking-btn-row"><button type="button" class="sr-btn" id="sr-booking-btn">Termin für mein Erstgespräch wählen</button></p>
+        <p id="sr-booking-btn-row"><button type="button" class="sr-btn" id="sr-booking-btn">Termin für mein Klarheitsgespräch wählen</button></p>
         <p id="sr-booking-later-row" class="sr-center" hidden><button type="button" class="sr-later" id="sr-booking-later"></button></p>
         <div id="sr-booking" style="display:none;">
-          <div class="sr-booking"><iframe id="sr-booking-frame" title="Termin für dein Erstgespräch bei Microsoft Bookings wählen" loading="lazy"></iframe></div>
+          <div class="sr-booking"><iframe id="sr-booking-frame" title="Termin für dein Klarheitsgespräch bei Microsoft Bookings wählen" loading="lazy"></iframe></div>
           <p class="sr-small">Beim Laden der Terminbuchung wird eine Verbindung zu Microsoft Bookings hergestellt; es gelten die Datenschutzhinweise von Microsoft. Falls die Terminbuchung nicht angezeigt wird, <a id="sr-booking-link" target="_blank" rel="noopener">öffne sie direkt bei Microsoft Bookings</a>.</p>
         </div>
       </div>
@@ -1173,7 +1173,7 @@
       document.getElementById('sr-booking-intro').hidden = false;
       document.getElementById('sr-booking').style.display = 'none';
       document.getElementById('sr-booking-btn-row').style.display = '';
-      document.getElementById('sr-booking-btn').textContent = booking.buttonLabel || 'Termin für mein Erstgespräch wählen';
+      document.getElementById('sr-booking-btn').textContent = booking.buttonLabel || 'Termin für mein Klarheitsgespräch wählen';
       var reco = document.getElementById('sr-booking-reco');
       reco.textContent = booking.recommendation || '';
       reco.hidden = !booking.recommendation;

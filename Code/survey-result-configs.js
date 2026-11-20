@@ -164,7 +164,7 @@ window.SURVEY_RESULT_CONFIGS = {
   'wo-stehst-du-gerade': {
     hideResultsOptIn: true,
     submitLabel: 'Mein Ergebnis ansehen',
-    // Frage 15 („Magst du in einem Erstgespräch …?“) gibt es in Dynamics noch,
+    // Frage 15 („Magst du in einem Klarheitsgespräch …?“) gibt es in Dynamics noch,
     // sie wird aber nicht mehr gezeigt: Die Einladung steht jetzt als
     // Empfehlung auf der Ergebnisseite.
     hiddenQuestions: [15],
@@ -185,7 +185,7 @@ window.SURVEY_RESULT_CONFIGS = {
       required: ['name', 'email'],
       phoneHint: 'Deine Telefonnummer inkl. Ländervorwahl (damit ich dir über WhatsApp bzgl. deiner Auswertung schreiben kann, falls E-Mail aus unerklärlichen Gründen nicht klappen sollte)',
       consentHidden: true,
-      consent: 'Ich bin einverstanden, dass Lili & Sorin mich zu meinem Ergebnis und zum Erstgespräch per E-Mail oder Telefon kontaktieren. Das kann ich jederzeit widerrufen.'
+      consent: 'Ich bin einverstanden, dass Lili & Sorin mich zu meinem Ergebnis und zum Klarheitsgespräch per E-Mail oder Telefon kontaktieren. Das kann ich jederzeit widerrufen.'
     },
     booking: {
       url: 'https://calendly.com/sorin-ratiu/der-architekt-deines-lebens',
